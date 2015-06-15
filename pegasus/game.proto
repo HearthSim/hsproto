@@ -155,27 +155,27 @@ message NAckOption {
 	required int32 id = 1;
 }
 
-message EntityChoice {
+message EntityChoices {
 	enum PacketID {
 		ID = 17;
 	}
 
 	required int32 id = 1;
 	required int32 choice_type = 2;
-	required bool cancelable = 3;
 	required int32 count_min = 4;
 	required int32 count_max = 5;
 	repeated int32 entities = 6 [packed = true];
 	optional int32 source = 7;
+	required int32 player_id = 8;
 }
 
-message ForcedEntityChoice {
+message EntitiesChosen {
 	enum PacketID {
 		ID = 13;
 	}
 
-	required int32 id = 1;
-	repeated int32 entities = 2 [packed = true];
+	required ChooseEntities choose_entities = 3;
+	required int32 player_id = 4;
 }
 
 message PowerHistoryCreateGame {
@@ -336,7 +336,6 @@ message SpectatorNotify {
 
 	required int32 player_id = 1;
 	optional ChooseOption choose_option = 2;
-	optional ChooseEntities choose_entities = 3;
 	repeated SpectatorChange spectator_change = 4;
 	optional string spectator_password_update = 5;
 	optional SpectatorRemoved spectator_removed = 6;
