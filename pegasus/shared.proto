@@ -7,9 +7,9 @@ message CardDef {
 
 message DeckCardData {
 	required CardDef def = 1;
-	required int32 handle = 2;
+	required int32 handle = 2 [default = 0];
 	optional int32 qty = 3;
-	required int32 prev = 5;
+	required int32 prev = 5 [default = 0];
 }
 
 message BoosterInfo {
@@ -222,6 +222,7 @@ message DeckInfo {
 	required bool card_back_override = 8;
 	required bool hero_override = 9;
 	optional int64 last_modified = 10;
+	optional int32 season_id = 11;
 }
 
 message AdventureProgress {
@@ -254,6 +255,69 @@ message AccountLicenseInfo {
 	required int64 license = 1;
 	required uint64 flags = 2;
 	required int64 cas_id = 3;
+}
+
+message LocalizedStringValue {
+	required int32 locale = 1;
+	required string value = 2;
+}
+
+message LocalizedString {
+	required string key = 1;
+	optional string deprecated_value = 2;
+	optional int32 deprecated_locale = 3;
+	repeated LocalizedStringValue values = 4;
+}
+
+message GameSetupRule {
+	required int32 id = 1;
+	required RuleType rule_type = 2;
+	required int64 data1 = 3;
+	required int64 data2 = 4;
+	required int64 data3 = 5;
+}
+
+message Vector2 {
+	required float x = 1 [default = 0];
+	required float y = 2 [default = 0];
+}
+
+message ScenarioDbRecord {
+	required int32 id = 1;
+	optional string note_desc = 2;
+	required int32 num_players = 3;
+	required int64 player1_hero_card_id = 4;
+	required int64 player2_hero_card_id = 5;
+	required bool is_expert = 6;
+	required int32 adventure_id = 7;
+	optional int32 adventure_mode_id = 8;
+	required int32 wing_id = 9;
+	required int32 sort_order = 10;
+	optional int64 client_player2_hero_card_id = 11;
+	optional string tavern_brawl_texture = 12;
+	optional string tavern_brawl_texture_phone = 13;
+	optional Vector2 tavern_brawl_texture_phone_offset = 14;
+	repeated LocalizedString strings = 100;
+	repeated GameSetupRule rules = 101;
+}
+
+message TavernBrawlSpec {
+	optional uint64 end_seconds_from_now = 1;
+	required int32 scenario_id = 2;
+	required uint32 scenario_record_byte_size = 3;
+	required bytes scenario_record_hash = 4;
+	required int32 reward_type = 5;
+	required int64 reward_data1 = 6;
+	required int64 reward_data2 = 7;
+	required int32 season_id = 11;
+	required TavernBrawlPlayerRecord my_record = 105;
+}
+
+message TavernBrawlPlayerRecord {
+	required int32 reward_progress = 1;
+	optional int32 games_played = 2;
+	required int32 games_won = 3;
+	optional int32 win_streak = 4;
 }
 
 enum GameType {
@@ -316,6 +380,10 @@ enum BattlePayProvider {
 	BP_PROVIDER_APPLE = 2;
 	BP_PROVIDER_GOOGLE_PLAY = 3;
 	BP_PROVIDER_AMAZON = 4;
+}
+
+enum AssetType {
+	ASSET_TYPE_SCENARIO = 1;
 }
 
 enum DatabaseAction {

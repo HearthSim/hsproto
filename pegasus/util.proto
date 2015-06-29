@@ -204,80 +204,10 @@ message HeroXPInfo {
 	optional NextHeroLevelReward next_reward = 5;
 }
 
-message LocalizedStringValue {
-	required int32 locale = 1;
-	required string value = 2;
-}
-
-message LocalizedString {
-	required string key = 1;
-	optional string deprecated_value = 2;
-	optional int32 deprecated_locale = 3;
-	repeated LocalizedStringValue values = 4;
-	extend .PegasusUtil.ScenarioDbRecord {
-		repeated LocalizedString strings = 100;
-	}
-}
-
-message GameSetupRule {
-	required int32 id = 1;
-	required PegasusShared.RuleType rule_type = 2;
-	required int64 data1 = 3;
-	required int64 data2 = 4;
-	required int64 data3 = 5;
-	extend .PegasusUtil.ScenarioDbRecord {
-		repeated GameSetupRule rules = 101;
-	}
-}
-
-message ScenarioDbRecord {
-	required int32 id = 1;
-	optional string note_desc = 2;
-	required int32 num_players = 3;
-	required int64 player1_hero_card_id = 4;
-	required int64 player2_hero_card_id = 5;
-	required bool is_expert = 6;
-	required int32 adventure_id = 7;
-	optional int32 adventure_mode_id = 8;
-	required int32 wing_id = 9;
-	required int32 sort_order = 10;
-	optional int64 client_player2_hero_card_id = 11;
-	optional string main_texture = 12;
-	optional string main_texture_phone = 13;
-	optional Vector2 main_texture_phone_offset = 14;
-	extend .PegasusUtil.AssetResponse {
-		optional ScenarioDbRecord scenario_asset = 100;
-	}
-	extensions 100 to 10000;
-}
-
-message Vector2 {
-	required float x = 1 [default = 0];
-	required float y = 2 [default = 0];
-}
-
-message TavernBrawlSpec {
-	optional uint64 end_seconds_from_now = 1;
-	required int32 scenario_id = 2;
-	required uint32 scenario_record_byte_size = 3;
-	required bytes scenario_record_hash = 4;
-	required int32 reward_type = 5;
-	required int64 reward_data1 = 6;
-	required int64 reward_data2 = 7;
-	optional int32 season_id = 11;
-	optional ScenarioDbRecord scenario = 99;
-	extensions 100 to 10000;
-}
-
-message AssetRequestKey {
-	required AssetType type = 1;
-	optional int32 asset_id = 2;
-}
-
 message AssetResponse {
 	required AssetRequestKey requested_key = 1;
 	required PegasusShared.DatabaseResult error_code = 2;
-	extensions 100 to 10000;
+	optional PegasusShared.ScenarioDbRecord scenario_asset = 100;
 }
 
 message DeckSetData {
@@ -782,6 +712,11 @@ message SetFavoriteHero {
 	}
 
 	required PegasusShared.FavoriteHero favorite_hero = 1;
+}
+
+message AssetRequestKey {
+	required PegasusShared.AssetType type = 1;
+	optional int32 asset_id = 2;
 }
 
 message GetAssetRequest {
@@ -1507,23 +1442,20 @@ message TavernBrawlInfo {
 		ID = 316;
 	}
 
-	optional TavernBrawlSpec current_tavern_brawl = 1;
+	optional PegasusShared.TavernBrawlSpec current_tavern_brawl = 1;
 	optional uint64 next_start_seconds_from_now = 2;
 }
 
-message TavernBrawlPlayerRecord {
+message TavernBrawlPlayerRecordResponse {
 	enum PacketID {
 		ID = 317;
 	}
 
-	required int32 reward_progress = 1;
-	required int32 games_played = 2;
-	required int32 games_won = 3;
-	required int32 win_streak = 4;
-	required int32 best_streak = 5;
-	extend .PegasusUtil.TavernBrawlSpec {
-		optional TavernBrawlPlayerRecord my_record = 105;
-	}
+	required int32 deprecated_reward_progress = 1;
+	required int32 deprecated_games_played = 2;
+	required int32 deprecated_games_won = 3;
+	required int32 deprecated_win_streak = 4;
+	optional PegasusShared.TavernBrawlPlayerRecord record = 6;
 }
 
 message FavoriteHeroesResponse {
@@ -1576,8 +1508,4 @@ enum ProductType {
 	PRODUCT_TYPE_BRM = 4;
 	PRODUCT_TYPE_CARD_BACK = 5;
 	PRODUCT_TYPE_HERO = 6;
-}
-
-enum AssetType {
-	ASSET_TYPE_SCENARIO = 1;
 }
