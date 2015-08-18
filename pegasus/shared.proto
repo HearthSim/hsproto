@@ -45,6 +45,8 @@ message ProfileNoticeMedal {
 
 	required int32 star_level = 1;
 	optional int32 legend_rank = 2;
+	optional int32 best_star_level = 3;
+	optional RewardChest chest = 4;
 }
 
 message ProfileNoticeRewardBooster {
@@ -255,6 +257,22 @@ message AccountLicenseInfo {
 	required int64 license = 1;
 	required uint64 flags = 2;
 	required int64 cas_id = 3;
+}
+
+message RewardBag {
+	optional ProfileNoticeRewardBooster reward_booster = 1;
+	optional ProfileNoticeRewardCard reward_card = 2;
+	optional ProfileNoticeRewardDust reward_dust = 3;
+	optional ProfileNoticeRewardGold reward_gold = 4;
+	optional ProfileNoticeCardBack reward_card_back = 5;
+}
+
+message RewardChest {
+	optional RewardBag bag1 = 1;
+	optional RewardBag bag2 = 2;
+	optional RewardBag bag3 = 3;
+	optional RewardBag bag4 = 4;
+	optional RewardBag bag5 = 5;
 }
 
 message LocalizedStringValue {

@@ -178,6 +178,27 @@ message EntitiesChosen {
 	required int32 player_id = 4;
 }
 
+message HistoryBlock {
+	enum Type {
+		ATTACK = 1;
+		JOUST = 2;
+		POWER = 3;
+		TRIGGER = 5;
+		DEATHS = 6;
+		PLAY = 7;
+		FATIGUE = 8;
+	}
+}
+
+message HistoryMeta {
+	enum Type {
+		TARGET = 0;
+		DAMAGE = 1;
+		HEALING = 2;
+		JOUST = 3;
+	}
+}
+
 message PowerHistoryCreateGame {
 	required Entity game_entity = 1;
 	repeated Player players = 2;
@@ -201,30 +222,13 @@ message PowerHistoryTagChange {
 }
 
 message PowerHistoryMetaData {
-	enum MetaType {
-		META_TARGET = 0;
-		META_DAMAGE = 1;
-		META_HEALING = 2;
-	}
-
 	repeated int32 info = 2 [packed = true];
-	optional MetaType meta_type = 3 [default = META_TARGET];
+	optional HistoryMeta.Type type = 3 [default = TARGET];
 	optional int32 data = 4;
 }
 
 message PowerHistoryStart {
-	enum Type {
-		ATTACK = 1;
-		CONTINUOUS = 2;
-		POWER = 3;
-		SCRIPT = 4;
-		TRIGGER = 5;
-		DEATHS = 6;
-		PLAY = 7;
-		FATIGUE = 8;
-	}
-
-	required Type type = 1;
+	required HistoryBlock.Type type = 1;
 	required int32 index = 2;
 	required int32 source = 3;
 	required int32 target = 4;
@@ -250,18 +254,6 @@ message PowerHistory {
 	}
 
 	repeated PowerHistoryData list = 1;
-}
-
-message Notification {
-	enum Type {
-		IN_HAND_CARD_CAP = 1;
-		MANA_CAP = 2;
-	}
-	enum PacketID {
-		ID = 21;
-	}
-
-	required Type type = 1;
 }
 
 message TurnTimer {
