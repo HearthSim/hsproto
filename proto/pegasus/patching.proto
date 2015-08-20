@@ -26,7 +26,8 @@ message DataOnlyPatching {
 		itIT = 11;
 		ptBR = 12;
 		plPL = 13;
-		ptPT = 14;
+		Locale15 = 15;
+		Locale16 = 16;
 	}
 	enum Platform {
 		UnknownPlatform = 0;
@@ -57,4 +58,78 @@ message DataOnlyPatching {
 	required uint64 game_account_id = 5;
 	optional int32 current_build = 6;
 	optional int32 new_build = 7;
+}
+
+message Telemetry {
+	enum Level {
+		LEVEL_NONE = 0;
+		LEVEL_INFO = 1;
+		LEVEL_WARN = 2;
+		LEVEL_ERROR = 3;
+	}
+	enum Locale {
+		LOCALE_UNKNOWN = 0;
+		LOCALE_ENUS = 1;
+		LOCALE_ENGB = 2;
+		LOCALE_FRFR = 3;
+		LOCALE_DEDE = 4;
+		LOCALE_KOKR = 5;
+		LOCALE_ESES = 6;
+		LOCALE_ESMX = 7;
+		LOCALE_RURU = 8;
+		LOCALE_ZHTW = 9;
+		LOCALE_ZHCN = 10;
+		LOCALE_ITIT = 11;
+		LOCALE_PTBR = 12;
+		LOCALE_PLPL = 13;
+		LOCALE_15 = 15;
+		LOCALE_16 = 16;
+	}
+	enum Platform {
+		PLATFORM_UNKNOWN = 0;
+		PLATFORM_PC = 1;
+		PLATFORM_MAC = 2;
+		PLATFORM_IOS = 3;
+		PLATFORM_ANDROID = 4;
+	}
+	enum ScreenUI {
+		SCREENUI_UNKNOWN = 0;
+		SCREENUI_DESKTOP = 1;
+		SCREENUI_TABLET = 2;
+		SCREENUI_PHONE = 3;
+	}
+	enum Store {
+		STORE_BLIZZARD = 0;
+		STORE_IOS = 1;
+		STORE_GOOGLEPLAY = 2;
+		STORE_AMAZON = 3;
+	}
+	enum BnetRegion {
+		REGION_UNINITIALIZED = -1;
+		REGION_UNKNOWN = 0;
+		REGION_US = 1;
+		REGION_EU = 2;
+		REGION_KR = 3;
+		REGION_TW = 4;
+		REGION_CN = 5;
+		REGION_LIVE_VERIFICATION = 40;
+		REGION_PTR_LOC = 41;
+		REGION_DEV = 60;
+		REGION_PTR = 98;
+	}
+
+	required int64 time = 1;
+	required Level level = 2;
+	required Locale locale = 3;
+	required string version = 4;
+	required Platform platform = 5;
+	required ScreenUI screen_u_i = 6;
+	required Store store = 7;
+	required string session_id = 8;
+	required string device_unique_identifier = 9;
+	required uint64 event = 10;
+	optional BnetRegion bnet_region = 11 [default = REGION_UNINITIALIZED];
+	optional uint64 game_account_id = 12;
+	optional int64 error_code = 13;
+	optional string message = 14;
 }

@@ -86,21 +86,6 @@ message Achieve {
 	optional bool do_not_ack = 9;
 }
 
-message DraftRewardBag {
-	optional PegasusShared.ProfileNoticeRewardBooster reward_booster = 1;
-	optional PegasusShared.ProfileNoticeRewardCard reward_card = 2;
-	optional PegasusShared.ProfileNoticeRewardDust reward_dust = 3;
-	optional PegasusShared.ProfileNoticeRewardGold reward_gold = 4;
-}
-
-message DraftRewardChest {
-	optional DraftRewardBag bag1 = 1;
-	optional DraftRewardBag bag2 = 2;
-	optional DraftRewardBag bag3 = 3;
-	optional DraftRewardBag bag4 = 4;
-	optional DraftRewardBag bag5 = 5;
-}
-
 message AdventureOptions {
 	required int32 adventure_id = 1;
 	required uint64 options = 2;
@@ -872,6 +857,7 @@ message BoughtSoldCard {
 		WRONG_SELL_PRICE = 5;
 		WRONG_BUY_PRICE = 6;
 		NO_PERMISSION = 7;
+		EVENT_NOT_ACTIVE = 8;
 	}
 	enum PacketID {
 		ID = 258;
@@ -934,7 +920,7 @@ message DraftRetired {
 	}
 
 	required int64 deck_id = 1;
-	required DraftRewardChest chest = 2;
+	required PegasusShared.RewardChest chest = 2;
 }
 
 message DraftRewardsAcked {
@@ -955,9 +941,10 @@ message DraftChoicesAndContents {
 	repeated PegasusShared.DeckCardData cards = 5;
 	required int32 wins = 6;
 	required int32 losses = 7;
-	optional DraftRewardChest chest = 8;
+	optional PegasusShared.RewardChest chest = 8;
 	repeated PegasusShared.CardDef choice_list = 9;
 	required PegasusShared.CardDef hero_def = 10;
+	optional int32 max_wins = 11;
 }
 
 message DraftChosen {
@@ -1158,6 +1145,7 @@ message MedalInfo {
 	required int32 level_end = 10;
 	required bool can_lose = 11;
 	optional int32 legend_rank = 13;
+	optional int32 best_star_level = 14;
 }
 
 message MedalHistory {
@@ -1205,6 +1193,8 @@ message PurchaseResponse {
 	optional string third_party_id = 4;
 	optional int32 currency = 5;
 	optional bool is_zero_cost_license = 6;
+	optional string challenge_id = 7;
+	optional string challenge_url = 8;
 }
 
 message BattlePayConfigResponse {
