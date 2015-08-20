@@ -1,0 +1,60 @@
+package WTCG.BI;
+
+message DataOnlyPatching {
+	enum Status {
+		SUCCEED = 0;
+		SUCCEED_WITH_CACHE = 1;
+		SUCCEED_WITH_TIMEOVER = 2;
+		FAILED_GENERIC = 3;
+		FAILED_DOWNLOADING = 4;
+		FAILED_BAD_DATA = 5;
+		FAILED_MD5_MISMATCH = 6;
+		FAILED_BAD_ASSETBUNDLE = 7;
+	}
+	enum Locale {
+		UnknownLocale = 0;
+		enUS = 1;
+		enGB = 2;
+		frFR = 3;
+		deDE = 4;
+		koKR = 5;
+		esES = 6;
+		esMX = 7;
+		ruRU = 8;
+		zhTW = 9;
+		zhCN = 10;
+		itIT = 11;
+		ptBR = 12;
+		plPL = 13;
+		ptPT = 14;
+	}
+	enum Platform {
+		UnknownPlatform = 0;
+		Windows = 1;
+		Mac = 2;
+		iPad = 3;
+		iPhone = 4;
+		Android_Tablet = 5;
+		Android_Phone = 6;
+	}
+	enum BnetRegion {
+		REGION_UNINITIALIZED = -1;
+		REGION_UNKNOWN = 0;
+		REGION_US = 1;
+		REGION_EU = 2;
+		REGION_KR = 3;
+		REGION_TW = 4;
+		REGION_CN = 5;
+		REGION_LIVE_VERIFICATION = 40;
+		REGION_PTR_LOC = 41;
+		REGION_DEV = 60;
+	}
+
+	required Status status = 1;
+	required Locale locale = 2;
+	required Platform platform = 3;
+	required BnetRegion bnet_region = 4;
+	required uint64 game_account_id = 5;
+	optional int32 current_build = 6;
+	optional int32 new_build = 7;
+}

@@ -1,0 +1,330 @@
+package PegasusShared;
+
+message CardDef {
+	required int32 asset = 1;
+	optional int32 premium = 2;
+}
+
+message DeckCardData {
+	required CardDef def = 1;
+	required int32 handle = 2;
+	optional int32 qty = 3;
+	required int32 prev = 5;
+}
+
+message BoosterInfo {
+	required int32 type = 2;
+	required int32 count = 3;
+}
+
+message Date {
+	required int32 year = 1;
+	required int32 month = 2;
+	required int32 day = 3;
+	required int32 hours = 4;
+	required int32 min = 5;
+	required int32 sec = 6;
+}
+
+message CardStack {
+	required CardDef card_def = 1;
+	required Date latest_insert_date = 2;
+	required int32 count = 3;
+	required int32 num_seen = 4;
+}
+
+message BnetId {
+	required uint64 hi = 1;
+	required uint64 lo = 2;
+}
+
+message ProfileNoticeMedal {
+	enum NoticeID {
+		ID = 1;
+	}
+
+	required int32 star_level = 1;
+	optional int32 legend_rank = 2;
+}
+
+message ProfileNoticeRewardBooster {
+	enum NoticeID {
+		ID = 2;
+	}
+
+	required int32 booster_type = 1;
+	required int32 booster_count = 2;
+}
+
+message ProfileNoticeRewardCard {
+	enum NoticeID {
+		ID = 3;
+	}
+
+	required CardDef card = 1;
+	optional int32 quantity = 2;
+}
+
+message ProfileNoticeDisconnectedGameResult {
+	enum GameResult {
+		GR_UNKNOWN = 0;
+		GR_PLAYING = 1;
+		GR_WINNER = 2;
+		GR_TIE = 3;
+	}
+	enum PlayerResult {
+		PR_UNKNOWN = 0;
+		PR_WON = 1;
+		PR_LOST = 2;
+		PR_DISCONNECTED = 3;
+		PR_QUIT = 4;
+	}
+	enum NoticeID {
+		ID = 4;
+	}
+
+	optional GameType game_type = 8 [default = GT_UNKNOWN];
+	optional int32 mission_id = 9;
+	optional GameResult game_result = 10 [default = GR_UNKNOWN];
+	optional PlayerResult your_result = 11 [default = PR_UNKNOWN];
+	optional PlayerResult opponent_result = 12 [default = PR_UNKNOWN];
+}
+
+message ProfileNoticePreconDeck {
+	enum NoticeID {
+		ID = 5;
+	}
+
+	required int64 deck = 1;
+	required int32 hero = 2;
+}
+
+message ProfileNoticeRewardDust {
+	enum NoticeID {
+		ID = 6;
+	}
+
+	required int32 amount = 1;
+}
+
+message ProfileNoticeRewardMount {
+	enum NoticeID {
+		ID = 7;
+	}
+
+	required int32 mount_id = 1;
+}
+
+message ProfileNoticeRewardForge {
+	enum NoticeID {
+		ID = 8;
+	}
+
+	required int32 quantity = 1;
+}
+
+message ProfileNoticeRewardGold {
+	enum NoticeID {
+		ID = 9;
+	}
+
+	required int32 amount = 1;
+}
+
+message ProfileNoticePurchase {
+	enum NoticeID {
+		ID = 10;
+	}
+
+	required string product_id = 1;
+	optional int64 data = 2;
+	optional int32 currency = 3;
+}
+
+message ProfileNoticeCardBack {
+	enum NoticeID {
+		ID = 11;
+	}
+
+	required int32 card_back = 1;
+}
+
+message ProfileNoticeBonusStars {
+	enum NoticeID {
+		ID = 12;
+	}
+
+	required int32 star_level = 1;
+	required int32 stars = 2;
+}
+
+message ProfileNoticeRewardCard2x {
+	enum NoticeID {
+		ID = 13;
+	}
+}
+
+message ProfileNoticeAdventureProgress {
+	enum NoticeID {
+		ID = 14;
+	}
+
+	required int32 wing_id = 1;
+}
+
+message ProfileNoticeLevelUp {
+	enum NoticeID {
+		ID = 15;
+	}
+
+	required int32 hero_class = 1;
+	required int32 new_level = 2;
+}
+
+message ProfileNoticeAccountLicense {
+	enum NoticeID {
+		ID = 16;
+	}
+
+	required int64 license = 1;
+	required int64 cas_id = 2;
+}
+
+message PlayQueueInfo {
+	required BnetGameType game_type = 1;
+}
+
+message Platform {
+	required int32 os = 1;
+	required int32 screen = 2;
+	required string name = 3;
+	optional int32 store = 4;
+}
+
+message DeckInfo {
+	enum ValidityFlags {
+		UNLOCKED_HERO_CLASS = 1;
+		OWNS_CARDS = 2;
+		HAS_30_CARDS = 4;
+		OBEYS_MAXES = 8;
+		CLASS_MATCHES = 16;
+		OWNS_CARD_BACK = 32;
+		OWNS_HERO = 64;
+	}
+
+	required int64 id = 1;
+	required string name = 2;
+	required int32 card_back = 3;
+	required int32 hero = 4;
+	required DeckType deck_type = 5;
+	required uint64 validity = 6;
+	required int32 hero_premium = 7;
+	required bool card_back_override = 8;
+	required bool hero_override = 9;
+	optional int64 last_modified = 10;
+}
+
+message AdventureProgress {
+	enum Flags {
+		OWNED = 1;
+		DEFEAT_HEROIC_MISSION_1 = 2;
+		DEFEAT_HEROIC_MISSION_2 = 4;
+		DEFEAT_HEROIC_MISSION_3 = 8;
+		DEFEAT_HEROIC_MISSION_4 = 16;
+		DEFEAT_CLASS_CHALLENGE_MISSION_1 = 256;
+		DEFEAT_CLASS_CHALLENGE_MISSION_2 = 512;
+	}
+
+	required int32 wing_id = 1;
+	required int32 progress = 2;
+	optional int32 ack = 3 [default = 0];
+	required uint64 flags = 4;
+}
+
+message FavoriteHero {
+	required int32 class_id = 1;
+	required CardDef hero = 2;
+}
+
+message AccountLicenseInfo {
+	enum Flags {
+		OWNED = 1;
+	}
+
+	required int64 license = 1;
+	required uint64 flags = 2;
+	required int64 cas_id = 3;
+}
+
+enum GameType {
+	GT_UNKNOWN = 0;
+	GT_VS_AI = 1;
+	GT_VS_FRIEND = 2;
+	GT_TUTORIAL = 4;
+	GT_ARENA = 5;
+	GT_TEST = 6;
+	GT_RANKED = 7;
+	GT_UNRANKED = 8;
+	GT_TAVERNBRAWL = 16;
+	GT_LAST = 17;
+}
+
+enum BnetGameType {
+	BGT_UNKNOWN = 0;
+	BGT_FRIENDS = 1;
+	BGT_RANKED = 2;
+	BGT_ARENA = 3;
+	BGT_VS_AI = 4;
+	BGT_TUTORIAL = 5;
+	BGT_ASYNC = 6;
+	BGT_NEWBIE = 9;
+	BGT_NORMAL = 10;
+	BGT_TEST1 = 11;
+	BGT_TEST2 = 12;
+	BGT_TEST3 = 13;
+	BGT_TAVERNBRAWL_PVP = 16;
+	BGT_LAST = 18;
+}
+
+enum DeckType {
+	NORMAL_DECK = 1;
+	AI_DECK = 2;
+	DRAFT_DECK = 4;
+	PRECON_DECK = 5;
+	TAVERN_BRAWL_DECK = 6;
+}
+
+enum RuleType {
+	RULE_NONE = 0;
+	RULE_CHOOSE_HERO = 1;
+	RULE_CHOOSE_DECK = 2;
+}
+
+enum DatabaseResult {
+	DB_E_SQL_EX = -1;
+	DB_E_UNKNOWN = 0;
+	DB_E_SUCCESS = 1;
+	DB_E_NOT_OWNED = 2;
+	DB_E_CONSTRAINT = 3;
+	DB_E_NOT_FOUND = 4;
+	DB_E_EXCEPTION = 9;
+	DB_E_BAD_PARAM = 11;
+}
+
+enum BattlePayProvider {
+	BP_PROVIDER_BLIZZARD = 1;
+	BP_PROVIDER_APPLE = 2;
+	BP_PROVIDER_GOOGLE_PLAY = 3;
+	BP_PROVIDER_AMAZON = 4;
+}
+
+enum DatabaseAction {
+	DB_A_UNKNOWN = 0;
+	DB_A_GET_DECK = 1;
+	DB_A_CREATE_DECK = 2;
+	DB_A_RENAME_DECK = 3;
+	DB_A_DELETE_DECK = 4;
+	DB_A_SET_DECK = 5;
+	DB_A_OPEN_BOOSTER = 6;
+	DB_A_GAMES_INFO = 7;
+}
