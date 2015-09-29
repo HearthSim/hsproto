@@ -1,0 +1,160 @@
+syntax = "proto3";
+package wtcg.bi;
+
+// Proto extractor compiled unit - https://github.com/HearthSim/proto-extractor
+
+
+// ref: WTCG.BI.DataOnlyPatching
+message DataOnlyPatching {
+	// ref: WTCG.BI.DataOnlyPatching/BnetRegion
+	enum BnetRegion {
+		REGION_UNKNOWN = 0;
+		REGION_UNINITIALIZED = -1;
+		REGION_US = 1;
+		REGION_EU = 2;
+		REGION_KR = 3;
+		REGION_TW = 4;
+		REGION_CN = 5;
+		REGION_LIVE_VERIFICATION = 40;
+		REGION_PTR_LOC = 41;
+		REGION_DEV = 60;
+	}
+
+	// ref: WTCG.BI.DataOnlyPatching/Locale
+	enum Locale {
+		unknown_locale = 0;
+		en_us = 1;
+		en_gb = 2;
+		fr_fr = 3;
+		de_de = 4;
+		ko_kr = 5;
+		es_es = 6;
+		es_mx = 7;
+		ru_ru = 8;
+		zh_tw = 9;
+		zh_cn = 10;
+		it_it = 11;
+		pt_br = 12;
+		pl_pl = 13;
+		locale15 = 15;
+		locale16 = 16;
+	}
+
+	// ref: WTCG.BI.DataOnlyPatching/Platform
+	enum Platform {
+		unknown_platform = 0;
+		windows = 1;
+		mac = 2;
+		i_pad = 3;
+		i_phone = 4;
+		android__tablet = 5;
+		android__phone = 6;
+	}
+
+	// ref: WTCG.BI.DataOnlyPatching/Status
+	enum Status {
+		SUCCEED = 0;
+		SUCCEED_WITH_CACHE = 1;
+		SUCCEED_WITH_TIMEOVER = 2;
+		FAILED_GENERIC = 3;
+		FAILED_DOWNLOADING = 4;
+		FAILED_BAD_DATA = 5;
+		FAILED_MD5_MISMATCH = 6;
+		FAILED_BAD_ASSETBUNDLE = 7;
+	}
+
+	Status status = 1;
+	Locale locale = 2;
+	Platform platform = 3;
+	BnetRegion bnet_region = 4;
+	uint64 game_account_id = 5;
+	int32 current_build = 6;
+	int32 new_build = 7;
+}
+
+// ref: WTCG.BI.Telemetry
+message Telemetry {
+	// ref: WTCG.BI.Telemetry/BnetRegion
+	enum BnetRegion {
+		REGION_UNKNOWN = 0;
+		REGION_UNINITIALIZED = -1;
+		REGION_US = 1;
+		REGION_EU = 2;
+		REGION_KR = 3;
+		REGION_TW = 4;
+		REGION_CN = 5;
+		REGION_LIVE_VERIFICATION = 40;
+		REGION_PTR_LOC = 41;
+		REGION_DEV = 60;
+		REGION_PTR = 98;
+	}
+
+	// ref: WTCG.BI.Telemetry/Level
+	enum Level {
+		LEVEL_NONE = 0;
+		LEVEL_INFO = 1;
+		LEVEL_WARN = 2;
+		LEVEL_ERROR = 3;
+	}
+
+	// ref: WTCG.BI.Telemetry/Locale
+	enum Locale {
+		LOCALE_UNKNOWN = 0;
+		LOCALE_ENUS = 1;
+		LOCALE_ENGB = 2;
+		LOCALE_FRFR = 3;
+		LOCALE_DEDE = 4;
+		LOCALE_KOKR = 5;
+		LOCALE_ESES = 6;
+		LOCALE_ESMX = 7;
+		LOCALE_RURU = 8;
+		LOCALE_ZHTW = 9;
+		LOCALE_ZHCN = 10;
+		LOCALE_ITIT = 11;
+		LOCALE_PTBR = 12;
+		LOCALE_PLPL = 13;
+		LOCALE_15 = 15;
+		LOCALE_16 = 16;
+	}
+
+	// ref: WTCG.BI.Telemetry/Platform
+	enum Platform {
+		PLATFORM_UNKNOWN = 0;
+		PLATFORM_PC = 1;
+		PLATFORM_MAC = 2;
+		PLATFORM_IOS = 3;
+		PLATFORM_ANDROID = 4;
+	}
+
+	// ref: WTCG.BI.Telemetry/ScreenUI
+	enum ScreenUI {
+		SCREENUI_UNKNOWN = 0;
+		SCREENUI_DESKTOP = 1;
+		SCREENUI_TABLET = 2;
+		SCREENUI_PHONE = 3;
+	}
+
+	// ref: WTCG.BI.Telemetry/Store
+	enum Store {
+		STORE_BLIZZARD = 0;
+		STORE_IOS = 1;
+		STORE_GOOGLEPLAY = 2;
+		STORE_AMAZON = 3;
+	}
+
+	int64 time = 1;
+	Level level = 2;
+	Locale locale = 3;
+	string version = 4;
+	Platform platform = 5;
+	ScreenUI screen_ui = 6;
+	Store store = 7;
+	string session_id = 8;
+	string device_unique_identifier = 9;
+	uint64 event = 10;
+	BnetRegion bnet_region = 11;
+	uint64 game_account_id = 12;
+	int64 error_code = 13;
+	string message = 14;
+}
+

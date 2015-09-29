@@ -1,0 +1,1908 @@
+syntax = "proto3";
+package pegasus.pegasusutil;
+
+// Proto extractor compiled unit - https://github.com/HearthSim/proto-extractor
+
+import "pegasus/pegasusshared/pegasusshared.proto";
+
+// ref: PegasusUtil.ProductType
+enum ProductType {
+	PRODUCT_TYPE_UNKNOWN = 0;
+	PRODUCT_TYPE_BOOSTER = 1;
+	PRODUCT_TYPE_DRAFT = 2;
+	PRODUCT_TYPE_NAXX = 3;
+	PRODUCT_TYPE_BRM = 4;
+	PRODUCT_TYPE_CARD_BACK = 5;
+	PRODUCT_TYPE_HERO = 6;
+}
+
+// ref: PegasusUtil.AccountLicenseAchieveResponse
+message AccountLicenseAchieveResponse {
+	// ref: PegasusUtil.AccountLicenseAchieveResponse/PacketID
+	enum PacketID {
+		PACKETID_AUTO_INVALID = 0;
+		ID = 311;
+	}
+
+	// ref: PegasusUtil.AccountLicenseAchieveResponse/Result
+	enum Result {
+		RESULT_AUTO_INVALID = 0;
+		INVALID_ACHIEVE = 1;
+		NOT_ACTIVE = 2;
+		IN_PROGRESS = 3;
+		COMPLETE = 4;
+		STATUS_UNKNOWN = 5;
+	}
+
+	int32 achieve = 1;
+	Result result = 2;
+}
+
+// ref: PegasusUtil.AccountLicensesInfoResponse
+message AccountLicensesInfoResponse {
+	// ref: PegasusUtil.AccountLicensesInfoResponse/PacketID
+	enum PacketID {
+		PACKETID_AUTO_INVALID = 0;
+		ID = 325;
+	}
+
+	repeated pegasus.pegasusshared.AccountLicenseInfo list = 1 [packed=false];
+}
+
+// ref: PegasusUtil.Achieve
+message Achieve {
+	int32 id = 1;
+	int32 progress = 2;
+	int32 ack_progress = 3;
+	int32 completion_count = 4;
+	bool active = 5;
+	int32 started_count = 6;
+	pegasus.pegasusshared.Date date_given = 7;
+	pegasus.pegasusshared.Date date_completed = 8;
+	bool do_not_ack = 9;
+}
+
+// ref: PegasusUtil.Achieves
+message Achieves {
+	// ref: PegasusUtil.Achieves/PacketID
+	enum PacketID {
+		PACKETID_AUTO_INVALID = 0;
+		ID = 252;
+	}
+
+	repeated Achieve list = 1 [packed=false];
+}
+
+// ref: PegasusUtil.AckAchieveProgress
+message AckAchieveProgress {
+	// ref: PegasusUtil.AckAchieveProgress/PacketID
+	enum PacketID {
+		system = 0;
+		ID = 243;
+	}
+
+	int32 id = 1;
+	int32 ack_progress = 2;
+}
+
+// ref: PegasusUtil.AckCardSeen
+message AckCardSeen {
+	// ref: PegasusUtil.AckCardSeen/PacketID
+	enum PacketID {
+		system = 0;
+		ID = 223;
+	}
+
+	repeated pegasus.pegasusshared.CardDef card_defs = 1 [packed=false];
+}
+
+// ref: PegasusUtil.AckNotice
+message AckNotice {
+	// ref: PegasusUtil.AckNotice/PacketID
+	enum PacketID {
+		system = 0;
+		ID = 213;
+	}
+
+	int64 entry = 1;
+}
+
+// ref: PegasusUtil.AcknowledgeBanner
+message AcknowledgeBanner {
+	// ref: PegasusUtil.AcknowledgeBanner/PacketID
+	enum PacketID {
+		system = 0;
+		ID = 309;
+	}
+
+	int32 banner = 1;
+}
+
+// ref: PegasusUtil.AckWingProgress
+message AckWingProgress {
+	// ref: PegasusUtil.AckWingProgress/PacketID
+	enum PacketID {
+		system = 0;
+		ID = 308;
+	}
+
+	int32 wing = 1;
+	int32 ack = 2;
+}
+
+// ref: PegasusUtil.AdventureOptions
+message AdventureOptions {
+	int32 adventure_id = 1;
+	uint64 options = 2;
+}
+
+// ref: PegasusUtil.AdventureProgressResponse
+message AdventureProgressResponse {
+	// ref: PegasusUtil.AdventureProgressResponse/PacketID
+	enum PacketID {
+		PACKETID_AUTO_INVALID = 0;
+		ID = 306;
+	}
+
+	repeated pegasus.pegasusshared.AdventureProgress list = 1 [packed=false];
+}
+
+// ref: PegasusUtil.ArcaneDustBalance
+message ArcaneDustBalance {
+	// ref: PegasusUtil.ArcaneDustBalance/PacketID
+	enum PacketID {
+		PACKETID_AUTO_INVALID = 0;
+		ID = 262;
+	}
+
+	int64 balance = 1;
+}
+
+// ref: PegasusUtil.AssetRequestKey
+message AssetRequestKey {
+	pegasus.pegasusshared.AssetType type = 1;
+	int32 asset_id = 2;
+}
+
+// ref: PegasusUtil.AssetResponse
+message AssetResponse {
+	AssetRequestKey requested_key = 1;
+	pegasus.pegasusshared.DatabaseResult error_code = 2;
+	pegasus.pegasusshared.ScenarioDbRecord scenario_asset = 100;
+}
+
+// ref: PegasusUtil.AssetsVersionResponse
+message AssetsVersionResponse {
+	// ref: PegasusUtil.AssetsVersionResponse/PacketID
+	enum PacketID {
+		PACKETID_AUTO_INVALID = 0;
+		ID = 304;
+	}
+
+	int32 version = 1;
+}
+
+// ref: PegasusUtil.BattlePayConfigResponse
+message BattlePayConfigResponse {
+	// ref: PegasusUtil.BattlePayConfigResponse/PacketID
+	enum PacketID {
+		PACKETID_AUTO_INVALID = 0;
+		ID = 238;
+	}
+
+	repeated Bundle bundles = 1 [packed=false];
+	int32 currency = 2;
+	bool unavailable = 4;
+	int32 secs_before_auto_cancel = 5;
+	repeated GoldCostBooster gold_cost_boosters = 6 [packed=false];
+	int64 gold_cost_arena = 7;
+}
+
+// ref: PegasusUtil.BattlePayStatusResponse
+message BattlePayStatusResponse {
+	// ref: PegasusUtil.BattlePayStatusResponse/PacketID
+	enum PacketID {
+		PACKETID_AUTO_INVALID = 0;
+		ID = 265;
+	}
+
+	// ref: PegasusUtil.BattlePayStatusResponse/PurchaseState
+	enum PurchaseState {
+		PS_READY = 0;
+		PS_CHECK_RESULTS = 1;
+		PS_ERROR = 2;
+	}
+
+	PurchaseState status = 1;
+	string product_id = 2;
+	PurchaseError purchase_error = 3;
+	bool battle_pay_available = 4;
+	int64 transaction_id = 5;
+	string third_party_id = 6;
+	int32 currency = 7;
+	pegasus.pegasusshared.BattlePayProvider provider = 8;
+}
+
+// ref: PegasusUtil.BoosterCard
+message BoosterCard {
+	pegasus.pegasusshared.CardDef card_def = 1;
+	pegasus.pegasusshared.Date insert_date = 2;
+}
+
+// ref: PegasusUtil.BoosterContent
+message BoosterContent {
+	// ref: PegasusUtil.BoosterContent/PacketID
+	enum PacketID {
+		PACKETID_AUTO_INVALID = 0;
+		ID = 226;
+	}
+
+	repeated BoosterCard list = 1 [packed=false];
+}
+
+// ref: PegasusUtil.BoosterList
+message BoosterList {
+	// ref: PegasusUtil.BoosterList/PacketID
+	enum PacketID {
+		PACKETID_AUTO_INVALID = 0;
+		ID = 224;
+	}
+
+	repeated pegasus.pegasusshared.BoosterInfo list = 1 [packed=false];
+}
+
+// ref: PegasusUtil.BoosterTally
+message BoosterTally {
+	bool is_open = 1;
+	int32 type_id = 2;
+	bool is_bought = 3;
+	int32 source_id = 4;
+	int32 count = 5;
+}
+
+// ref: PegasusUtil.BoosterTallyList
+message BoosterTallyList {
+	// ref: PegasusUtil.BoosterTallyList/PacketID
+	enum PacketID {
+		PACKETID_AUTO_INVALID = 0;
+		ID = 313;
+	}
+
+	repeated BoosterTally list = 1 [packed=false];
+}
+
+// ref: PegasusUtil.BoughtSoldCard
+message BoughtSoldCard {
+	// ref: PegasusUtil.BoughtSoldCard/PacketID
+	enum PacketID {
+		PACKETID_AUTO_INVALID = 0;
+		ID = 258;
+	}
+
+	// ref: PegasusUtil.BoughtSoldCard/Result
+	enum Result {
+		RESULT_AUTO_INVALID = 0;
+		GENERIC_FAILURE = 1;
+		SOLD = 2;
+		BOUGHT = 3;
+		SOULBOUND = 4;
+		WRONG_SELL_PRICE = 5;
+		WRONG_BUY_PRICE = 6;
+		NO_PERMISSION = 7;
+		EVENT_NOT_ACTIVE = 8;
+	}
+
+	pegasus.pegasusshared.CardDef def = 1;
+	int32 amount = 2;
+	Result result = 3;
+	int32 count = 4;
+	bool nerfed = 5;
+	int32 unit_sell_price = 6;
+	int32 unit_buy_price = 7;
+}
+
+// ref: PegasusUtil.Bundle
+message Bundle {
+	string id = 1;
+	double cost = 2;
+	string apple_id = 3;
+	string google_play_id = 4;
+	repeated BundleItem items = 5 [packed=false];
+	int64 gold_cost = 6;
+	string amazon_id = 7;
+	string product_event_name = 9;
+}
+
+// ref: PegasusUtil.BundleItem
+message BundleItem {
+	ProductType product_type = 1;
+	int32 data = 2;
+	int32 quantity = 3;
+}
+
+// ref: PegasusUtil.BuySellCard
+message BuySellCard {
+	// ref: PegasusUtil.BuySellCard/PacketID
+	enum PacketID {
+		system = 0;
+		ID = 257;
+	}
+
+	pegasus.pegasusshared.CardDef def = 1;
+	int32 count = 2;
+	bool buying = 3;
+	int32 unit_sell_price = 4;
+	int32 unit_buy_price = 5;
+}
+
+// ref: PegasusUtil.CancelPurchase
+message CancelPurchase {
+	// ref: PegasusUtil.CancelPurchase/PacketID
+	enum PacketID {
+		PACKETID_AUTO_INVALID = 0;
+		system = 1;
+		ID = 274;
+	}
+
+	// ref: PegasusUtil.CancelPurchase/ThirdPartyCancelReason
+	enum ThirdPartyCancelReason {
+		THIRDPARTYCANCELREASON_AUTO_INVALID = 0;
+		PROVIDER_REPORTED_FAILURE = 1;
+		NOT_RECOGNIZED_BY_PROVIDER = 2;
+		USER_CANCELED_BEFORE_PAYMENT = 3;
+		USER_CANCELING_TO_UNBLOCK = 4;
+	}
+
+	bool is_auto_cancel = 1;
+	ThirdPartyCancelReason third_party_reason = 2;
+	string device_id = 3;
+}
+
+// ref: PegasusUtil.CancelPurchaseResponse
+message CancelPurchaseResponse {
+	// ref: PegasusUtil.CancelPurchaseResponse/CancelResult
+	enum CancelResult {
+		CANCELRESULT_AUTO_INVALID = 0;
+		CR_SUCCESS = 1;
+		CR_NOT_ALLOWED = 2;
+		CR_NOTHING_TO_CANCEL = 3;
+	}
+
+	// ref: PegasusUtil.CancelPurchaseResponse/PacketID
+	enum PacketID {
+		PACKETID_AUTO_INVALID = 0;
+		ID = 275;
+	}
+
+	CancelResult result = 1;
+	int64 transaction_id = 2;
+	string product_id = 3;
+	int32 currency = 4;
+}
+
+// ref: PegasusUtil.CancelQuest
+message CancelQuest {
+	// ref: PegasusUtil.CancelQuest/PacketID
+	enum PacketID {
+		system = 0;
+		ID = 281;
+	}
+
+	int32 quest_id = 1;
+}
+
+// ref: PegasusUtil.CancelQuestResponse
+message CancelQuestResponse {
+	// ref: PegasusUtil.CancelQuestResponse/PacketID
+	enum PacketID {
+		PACKETID_AUTO_INVALID = 0;
+		ID = 282;
+	}
+
+	int32 quest_id = 1;
+	bool success = 2;
+	pegasus.pegasusshared.Date next_quest_cancel = 3;
+}
+
+// ref: PegasusUtil.CardBacks
+message CardBacks {
+	// ref: PegasusUtil.CardBacks/PacketID
+	enum PacketID {
+		system = 0;
+		ID = 236;
+	}
+
+	int32 default_card_back = 1;
+	repeated int32 card_backs = 2 [packed=false];
+}
+
+// ref: PegasusUtil.CardUseCount
+message CardUseCount {
+	int32 asset = 1;
+	int32 count = 2;
+}
+
+// ref: PegasusUtil.CardValue
+message CardValue {
+	pegasus.pegasusshared.CardDef card = 1;
+	int32 buy = 2;
+	int32 sell = 3;
+	bool nerfed = 4;
+}
+
+// ref: PegasusUtil.CardValues
+message CardValues {
+	// ref: PegasusUtil.CardValues/PacketID
+	enum PacketID {
+		PACKETID_AUTO_INVALID = 0;
+		ID = 260;
+	}
+
+	repeated CardValue cards = 1 [packed=false];
+	int32 card_nerf_index = 2;
+}
+
+// ref: PegasusUtil.CheckAccountLicenseAchieve
+message CheckAccountLicenseAchieve {
+	// ref: PegasusUtil.CheckAccountLicenseAchieve/PacketID
+	enum PacketID {
+		PACKETID_AUTO_INVALID = 0;
+		system = 1;
+		ID = 297;
+	}
+
+	int32 achieve = 1;
+}
+
+// ref: PegasusUtil.CheckAccountLicenses
+message CheckAccountLicenses {
+	// ref: PegasusUtil.CheckAccountLicenses/PacketID
+	enum PacketID {
+		system = 0;
+		ID = 267;
+	}
+
+}
+
+// ref: PegasusUtil.CheckGameLicenses
+message CheckGameLicenses {
+	// ref: PegasusUtil.CheckGameLicenses/PacketID
+	enum PacketID {
+		PACKETID_AUTO_INVALID = 0;
+		system = 1;
+		ID = 276;
+	}
+
+}
+
+// ref: PegasusUtil.CheckLicensesResponse
+message CheckLicensesResponse {
+	// ref: PegasusUtil.CheckLicensesResponse/PacketID
+	enum PacketID {
+		PACKETID_AUTO_INVALID = 0;
+		ID = 277;
+	}
+
+	bool account_level = 1;
+	bool success = 2;
+}
+
+// ref: PegasusUtil.ClientOption
+message ClientOption {
+	int32 index = 1;
+	bool as_bool = 2;
+	int32 as_int32 = 3;
+	int64 as_int64 = 4;
+	float as_float = 5;
+	uint64 as_uint64 = 6;
+}
+
+// ref: PegasusUtil.ClientOptions
+message ClientOptions {
+	// ref: PegasusUtil.ClientOptions/PacketID
+	enum PacketID {
+		PACKETID_AUTO_INVALID = 0;
+		ID = 241;
+	}
+
+	repeated ClientOption options = 1 [packed=false];
+	bool failed = 2;
+}
+
+// ref: PegasusUtil.ClientTracking
+message ClientTracking {
+	// ref: PegasusUtil.ClientTracking/PacketID
+	enum PacketID {
+		system = 0;
+		ID = 228;
+	}
+
+	repeated OneClientTracking info = 4 [packed=false];
+}
+
+// ref: PegasusUtil.CloseCardMarket
+message CloseCardMarket {
+	// ref: PegasusUtil.CloseCardMarket/PacketID
+	enum PacketID {
+		system = 0;
+		ID = 263;
+	}
+
+}
+
+// ref: PegasusUtil.Collection
+message Collection {
+	// ref: PegasusUtil.Collection/PacketID
+	enum PacketID {
+		PACKETID_AUTO_INVALID = 0;
+		ID = 207;
+	}
+
+	repeated pegasus.pegasusshared.CardStack stacks = 1 [packed=false];
+}
+
+// ref: PegasusUtil.CreateDeck
+message CreateDeck {
+	// ref: PegasusUtil.CreateDeck/PacketID
+	enum PacketID {
+		system = 0;
+		ID = 209;
+	}
+
+	string name = 1;
+	int32 hero = 2;
+	int32 hero_premium = 3;
+	pegasus.pegasusshared.DeckType deck_type = 4;
+}
+
+// ref: PegasusUtil.DBAction
+message DBAction {
+	// ref: PegasusUtil.DBAction/PacketID
+	enum PacketID {
+		PACKETID_AUTO_INVALID = 0;
+		ID = 216;
+	}
+
+	pegasus.pegasusshared.DatabaseAction action = 1;
+	pegasus.pegasusshared.DatabaseResult result = 2;
+	int64 meta_data = 3;
+}
+
+// ref: PegasusUtil.DebugAuth
+message DebugAuth {
+	// ref: PegasusUtil.DebugAuth/PacketID
+	enum PacketID {
+		PACKETID_AUTO_INVALID = 0;
+		ID = 206;
+	}
+
+	// ref: PegasusUtil.DebugAuth/Result
+	enum Result {
+		UNKNOWN = 0;
+		VALID = 1;
+		BAD_USER = 2;
+		BAD_PASSWORD = 3;
+	}
+
+	Result result = 1;
+	int64 player_id = 2;
+}
+
+// ref: PegasusUtil.DebugCommandRequest
+message DebugCommandRequest {
+	// ref: PegasusUtil.DebugCommandRequest/PacketID
+	enum PacketID {
+		system = 0;
+		ID = 322;
+	}
+
+	string command = 1;
+	repeated string args = 2 [packed=false];
+}
+
+// ref: PegasusUtil.DebugCommandResponse
+message DebugCommandResponse {
+	// ref: PegasusUtil.DebugCommandResponse/PacketID
+	enum PacketID {
+		PACKETID_AUTO_INVALID = 0;
+		ID = 324;
+	}
+
+	bool success = 1;
+	string response = 2;
+}
+
+// ref: PegasusUtil.DeckContents
+message DeckContents {
+	// ref: PegasusUtil.DeckContents/PacketID
+	enum PacketID {
+		PACKETID_AUTO_INVALID = 0;
+		ID = 215;
+	}
+
+	int64 deck = 1;
+	repeated pegasus.pegasusshared.DeckCardData cards = 2 [packed=false];
+}
+
+// ref: PegasusUtil.DeckCreated
+message DeckCreated {
+	// ref: PegasusUtil.DeckCreated/PacketID
+	enum PacketID {
+		PACKETID_AUTO_INVALID = 0;
+		ID = 217;
+	}
+
+	pegasus.pegasusshared.DeckInfo info = 1;
+}
+
+// ref: PegasusUtil.DeckDeleted
+message DeckDeleted {
+	// ref: PegasusUtil.DeckDeleted/PacketID
+	enum PacketID {
+		PACKETID_AUTO_INVALID = 0;
+		ID = 218;
+	}
+
+	int64 deck = 1;
+}
+
+// ref: PegasusUtil.DeckGainedCard
+message DeckGainedCard {
+	// ref: PegasusUtil.DeckGainedCard/PacketID
+	enum PacketID {
+		PACKETID_AUTO_INVALID = 0;
+		ID = 220;
+	}
+
+	int64 deck = 1;
+	int64 card = 2;
+}
+
+// ref: PegasusUtil.DeckList
+message DeckList {
+	// ref: PegasusUtil.DeckList/PacketID
+	enum PacketID {
+		PACKETID_AUTO_INVALID = 0;
+		ID = 202;
+	}
+
+	repeated pegasus.pegasusshared.DeckInfo decks = 1 [packed=false];
+}
+
+// ref: PegasusUtil.DeckLostCard
+message DeckLostCard {
+	// ref: PegasusUtil.DeckLostCard/PacketID
+	enum PacketID {
+		PACKETID_AUTO_INVALID = 0;
+		ID = 221;
+	}
+
+	int64 deck = 1;
+	int64 card = 2;
+}
+
+// ref: PegasusUtil.DeckRenamed
+message DeckRenamed {
+	// ref: PegasusUtil.DeckRenamed/PacketID
+	enum PacketID {
+		PACKETID_AUTO_INVALID = 0;
+		ID = 219;
+	}
+
+	int64 deck = 1;
+	string name = 2;
+}
+
+// ref: PegasusUtil.DeckSetData
+message DeckSetData {
+	// ref: PegasusUtil.DeckSetData/PacketID
+	enum PacketID {
+		system = 0;
+		ID = 222;
+	}
+
+	int64 deck = 1;
+	repeated pegasus.pegasusshared.DeckCardData cards = 2 [packed=false];
+	pegasus.pegasusshared.CardDef hero = 3;
+	int32 card_back = 4;
+}
+
+// ref: PegasusUtil.DeleteDeck
+message DeleteDeck {
+	// ref: PegasusUtil.DeleteDeck/PacketID
+	enum PacketID {
+		system = 0;
+		ID = 210;
+	}
+
+	int64 deck = 1;
+}
+
+// ref: PegasusUtil.DevBnetIdentify
+message DevBnetIdentify {
+	// ref: PegasusUtil.DevBnetIdentify/PacketID
+	enum PacketID {
+		system = 0;
+		ID = 259;
+	}
+
+	string name = 1;
+}
+
+// ref: PegasusUtil.Disconnected
+message Disconnected {
+	// ref: PegasusUtil.Disconnected/PacketID
+	enum PacketID {
+		PACKETID_AUTO_INVALID = 0;
+		ID = 289;
+	}
+
+	string address = 1;
+	int32 game_handle = 2;
+	int64 client_handle = 3;
+	int32 port = 4;
+	string version = 5;
+	string aurora_password = 6;
+	int32 scenario = 7;
+}
+
+// ref: PegasusUtil.DoPurchase
+message DoPurchase {
+	// ref: PegasusUtil.DoPurchase/PacketID
+	enum PacketID {
+		PACKETID_AUTO_INVALID = 0;
+		system = 1;
+		ID = 273;
+	}
+
+}
+
+// ref: PegasusUtil.DraftAckRewards
+message DraftAckRewards {
+	// ref: PegasusUtil.DraftAckRewards/PacketID
+	enum PacketID {
+		system = 0;
+		ID = 287;
+	}
+
+	int64 deck_id = 1;
+	int32 slot = 2;
+}
+
+// ref: PegasusUtil.DraftBegin
+message DraftBegin {
+	// ref: PegasusUtil.DraftBegin/PacketID
+	enum PacketID {
+		system = 0;
+		ID = 235;
+	}
+
+}
+
+// ref: PegasusUtil.DraftBeginning
+message DraftBeginning {
+	// ref: PegasusUtil.DraftBeginning/PacketID
+	enum PacketID {
+		PACKETID_AUTO_INVALID = 0;
+		ID = 246;
+	}
+
+	int64 deck_id = 1;
+	repeated pegasus.pegasusshared.CardDef choice_list = 3 [packed=false];
+}
+
+// ref: PegasusUtil.DraftChoicesAndContents
+message DraftChoicesAndContents {
+	// ref: PegasusUtil.DraftChoicesAndContents/PacketID
+	enum PacketID {
+		PACKETID_AUTO_INVALID = 0;
+		ID = 248;
+	}
+
+	int64 deck_id = 1;
+	int32 slot = 2;
+	repeated pegasus.pegasusshared.DeckCardData cards = 5 [packed=false];
+	int32 wins = 6;
+	int32 losses = 7;
+	pegasus.pegasusshared.RewardChest chest = 8;
+	repeated pegasus.pegasusshared.CardDef choice_list = 9 [packed=false];
+	pegasus.pegasusshared.CardDef hero_def = 10;
+	int32 max_wins = 11;
+}
+
+// ref: PegasusUtil.DraftChosen
+message DraftChosen {
+	// ref: PegasusUtil.DraftChosen/PacketID
+	enum PacketID {
+		PACKETID_AUTO_INVALID = 0;
+		ID = 249;
+	}
+
+	pegasus.pegasusshared.CardDef chosen = 3;
+	repeated pegasus.pegasusshared.CardDef next_choice_list = 4 [packed=false];
+}
+
+// ref: PegasusUtil.DraftError
+message DraftError {
+	// ref: PegasusUtil.DraftError/ErrorCode
+	enum ErrorCode {
+		DE_UNKNOWN = 0;
+		DE_NO_LICENSE = 1;
+		DE_RETIRE_FIRST = 2;
+		DE_NOT_IN_DRAFT = 3;
+		DE_BAD_DECK = 4;
+		DE_BAD_SLOT = 5;
+		DE_BAD_INDEX = 6;
+		DE_NOT_IN_DRAFT_BUT_COULD_BE = 7;
+		DE_FEATURE_DISABLED = 8;
+	}
+
+	// ref: PegasusUtil.DraftError/PacketID
+	enum PacketID {
+		PACKETID_AUTO_INVALID = 0;
+		ID = 251;
+	}
+
+	ErrorCode error_code = 1;
+}
+
+// ref: PegasusUtil.DraftGetPicksAndContents
+message DraftGetPicksAndContents {
+	// ref: PegasusUtil.DraftGetPicksAndContents/PacketID
+	enum PacketID {
+		system = 0;
+		ID = 244;
+	}
+
+}
+
+// ref: PegasusUtil.DraftMakePick
+message DraftMakePick {
+	// ref: PegasusUtil.DraftMakePick/PacketID
+	enum PacketID {
+		system = 0;
+		ID = 245;
+	}
+
+	int64 deck_id = 1;
+	int32 slot = 2;
+	int32 index = 3;
+}
+
+// ref: PegasusUtil.DraftRetire
+message DraftRetire {
+	// ref: PegasusUtil.DraftRetire/PacketID
+	enum PacketID {
+		system = 0;
+		ID = 242;
+	}
+
+	int64 deck_id = 1;
+	int32 slot = 2;
+}
+
+// ref: PegasusUtil.DraftRetired
+message DraftRetired {
+	// ref: PegasusUtil.DraftRetired/PacketID
+	enum PacketID {
+		PACKETID_AUTO_INVALID = 0;
+		ID = 247;
+	}
+
+	int64 deck_id = 1;
+	pegasus.pegasusshared.RewardChest chest = 2;
+}
+
+// ref: PegasusUtil.DraftRewardsAcked
+message DraftRewardsAcked {
+	// ref: PegasusUtil.DraftRewardsAcked/PacketID
+	enum PacketID {
+		PACKETID_AUTO_INVALID = 0;
+		ID = 288;
+	}
+
+	int64 deck_id = 1;
+}
+
+// ref: PegasusUtil.DroppedRequest
+message DroppedRequest {
+	// ref: PegasusUtil.DroppedRequest/PacketID
+	enum PacketID {
+		ID = 0;
+	}
+
+}
+
+// ref: PegasusUtil.Error37
+message Error37 {
+	// ref: PegasusUtil.Error37/PacketID
+	enum PacketID {
+		PACKETID_AUTO_INVALID = 0;
+		ID = 266;
+	}
+
+	// ref: PegasusUtil.Error37/ThrottleReason
+	enum ThrottleReason {
+		TR_DB_LOAD = 0;
+	}
+
+	ThrottleReason reason = 1;
+	int64 retry_millis = 2;
+}
+
+// ref: PegasusUtil.FavoriteHeroesResponse
+message FavoriteHeroesResponse {
+	// ref: PegasusUtil.FavoriteHeroesResponse/PacketID
+	enum PacketID {
+		PACKETID_AUTO_INVALID = 0;
+		ID = 318;
+	}
+
+	repeated pegasus.pegasusshared.FavoriteHero favorite_heroes = 1 [packed=false];
+}
+
+// ref: PegasusUtil.GamesInfo
+message GamesInfo {
+	// ref: PegasusUtil.GamesInfo/PacketID
+	enum PacketID {
+		PACKETID_AUTO_INVALID = 0;
+		ID = 208;
+	}
+
+	int32 games_started = 1;
+	int32 games_won = 2;
+	int32 games_lost = 3;
+	int32 free_reward_progress = 4;
+}
+
+// ref: PegasusUtil.GetAccountInfo
+message GetAccountInfo {
+	// ref: PegasusUtil.GetAccountInfo/PacketID
+	enum PacketID {
+		system = 0;
+		ID = 201;
+	}
+
+	// ref: PegasusUtil.GetAccountInfo/Request
+	enum Request {
+		REQUEST_AUTO_INVALID = 0;
+		LAST_LOGIN = 1;
+		DECK_LIST = 2;
+		COLLECTION = 3;
+		MEDAL_INFO = 4;
+		MEDAL_HISTORY = 5;
+		BOOSTERS = 6;
+		CARD_BACKS = 7;
+		PLAYER_RECORD = 8;
+		GAMES_PLAYED = 9;
+		DECK_LIMIT = 10;
+		CAMPAIGN_INFO = 11;
+		NOTICES = 12;
+		MOTD = 13;
+		CLIENT_OPTIONS = 14;
+		CARD_VALUES = 15;
+		DISCONNECTED = 16;
+		ARCANE_DUST_BALANCE = 17;
+		FEATURES = 18;
+		REWARD_PROGRESS = 19;
+		GOLD_BALANCE = 20;
+		HERO_XP = 21;
+		PVP_QUEUE = 22;
+		NOT_SO_MASSIVE_LOGIN = 23;
+		BOOSTER_TALLY = 24;
+		TAVERN_BRAWL_INFO = 25;
+		TAVERN_BRAWL_RECORD = 26;
+		FAVORITE_HEROES = 27;
+		ACCOUNT_LICENSES = 28;
+	}
+
+	Request request = 1;
+}
+
+// ref: PegasusUtil.GetAchieves
+message GetAchieves {
+	// ref: PegasusUtil.GetAchieves/PacketID
+	enum PacketID {
+		system = 0;
+		ID = 253;
+	}
+
+	bool only_active_or_new_complete = 1;
+}
+
+// ref: PegasusUtil.GetAdventureProgress
+message GetAdventureProgress {
+	// ref: PegasusUtil.GetAdventureProgress/PacketID
+	enum PacketID {
+		system = 0;
+		ID = 305;
+	}
+
+}
+
+// ref: PegasusUtil.GetAssetRequest
+message GetAssetRequest {
+	// ref: PegasusUtil.GetAssetRequest/PacketID
+	enum PacketID {
+		system = 0;
+		ID = 321;
+	}
+
+	repeated AssetRequestKey requests = 1 [packed=false];
+}
+
+// ref: PegasusUtil.GetAssetResponse
+message GetAssetResponse {
+	// ref: PegasusUtil.GetAssetResponse/PacketID
+	enum PacketID {
+		PACKETID_AUTO_INVALID = 0;
+		ID = 322;
+	}
+
+	repeated AssetResponse responses = 1 [packed=false];
+}
+
+// ref: PegasusUtil.GetAssetsVersion
+message GetAssetsVersion {
+	// ref: PegasusUtil.GetAssetsVersion/PacketID
+	enum PacketID {
+		system = 0;
+		ID = 303;
+	}
+
+}
+
+// ref: PegasusUtil.GetBattlePayConfig
+message GetBattlePayConfig {
+	// ref: PegasusUtil.GetBattlePayConfig/PacketID
+	enum PacketID {
+		PACKETID_AUTO_INVALID = 0;
+		system = 1;
+		ID = 237;
+	}
+
+}
+
+// ref: PegasusUtil.GetBattlePayStatus
+message GetBattlePayStatus {
+	// ref: PegasusUtil.GetBattlePayStatus/PacketID
+	enum PacketID {
+		PACKETID_AUTO_INVALID = 0;
+		system = 1;
+		ID = 255;
+	}
+
+}
+
+// ref: PegasusUtil.GetDeck
+message GetDeck {
+	// ref: PegasusUtil.GetDeck/PacketID
+	enum PacketID {
+		system = 0;
+		ID = 214;
+	}
+
+	int64 deck = 1;
+}
+
+// ref: PegasusUtil.GetOptions
+message GetOptions {
+	// ref: PegasusUtil.GetOptions/PacketID
+	enum PacketID {
+		system = 0;
+		ID = 240;
+	}
+
+	repeated int32 keys = 1;
+}
+
+// ref: PegasusUtil.GetPurchaseMethod
+message GetPurchaseMethod {
+	// ref: PegasusUtil.GetPurchaseMethod/PacketID
+	enum PacketID {
+		PACKETID_AUTO_INVALID = 0;
+		system = 1;
+		ID = 250;
+	}
+
+	string product_id = 1;
+	int32 quantity = 2;
+	int32 currency = 3;
+	string device_id = 4;
+}
+
+// ref: PegasusUtil.GetThirdPartyPurchaseStatus
+message GetThirdPartyPurchaseStatus {
+	// ref: PegasusUtil.GetThirdPartyPurchaseStatus/PacketID
+	enum PacketID {
+		PACKETID_AUTO_INVALID = 0;
+		system = 1;
+		ID = 294;
+	}
+
+	string third_party_id = 1;
+}
+
+// ref: PegasusUtil.GoldBalance
+message GoldBalance {
+	// ref: PegasusUtil.GoldBalance/PacketID
+	enum PacketID {
+		PACKETID_AUTO_INVALID = 0;
+		ID = 278;
+	}
+
+	int64 capped_balance = 1;
+	int64 bonus_balance = 2;
+	int64 cap = 3;
+	int64 cap_warning = 4;
+}
+
+// ref: PegasusUtil.GoldCostBooster
+message GoldCostBooster {
+	int64 cost = 1;
+	int32 pack_type = 2;
+}
+
+// ref: PegasusUtil.GuardianTrack
+message GuardianTrack {
+	// ref: PegasusUtil.GuardianTrack/PacketID
+	enum PacketID {
+		system = 0;
+		ID = 261;
+	}
+
+	int32 what = 1;
+}
+
+// ref: PegasusUtil.GuardianVars
+message GuardianVars {
+	// ref: PegasusUtil.GuardianVars/PacketID
+	enum PacketID {
+		PACKETID_AUTO_INVALID = 0;
+		ID = 264;
+	}
+
+	bool tourney = 1;
+	bool practice = 2;
+	bool casual = 3;
+	bool forge = 4;
+	bool friendly = 5;
+	bool manager = 6;
+	bool crafting = 7;
+	bool hunter = 8;
+	bool mage = 9;
+	bool paladin = 10;
+	bool priest = 11;
+	bool rogue = 12;
+	bool shaman = 13;
+	bool warlock = 14;
+	bool warrior = 15;
+	int32 show_user_ui = 16;
+	bool store = 17;
+	bool battle_pay = 18;
+	bool buy_with_gold = 19;
+	bool tavern_brawl = 20;
+}
+
+// ref: PegasusUtil.HeroXP
+message HeroXP {
+	// ref: PegasusUtil.HeroXP/PacketID
+	enum PacketID {
+		PACKETID_AUTO_INVALID = 0;
+		ID = 283;
+	}
+
+	repeated HeroXPInfo xp_infos = 1 [packed=false];
+}
+
+// ref: PegasusUtil.HeroXPInfo
+message HeroXPInfo {
+	int32 class_id = 1;
+	int32 level = 2;
+	int64 curr_xp = 3;
+	int64 max_xp = 4;
+	NextHeroLevelReward next_reward = 5;
+}
+
+// ref: PegasusUtil.MassDisenchantRequest
+message MassDisenchantRequest {
+	// ref: PegasusUtil.MassDisenchantRequest/PacketID
+	enum PacketID {
+		system = 0;
+		ID = 268;
+	}
+
+}
+
+// ref: PegasusUtil.MassDisenchantResponse
+message MassDisenchantResponse {
+	// ref: PegasusUtil.MassDisenchantResponse/PacketID
+	enum PacketID {
+		PACKETID_AUTO_INVALID = 0;
+		ID = 269;
+	}
+
+	int32 amount = 1;
+}
+
+// ref: PegasusUtil.MedalHistory
+message MedalHistory {
+	// ref: PegasusUtil.MedalHistory/PacketID
+	enum PacketID {
+		PACKETID_AUTO_INVALID = 0;
+		ID = 234;
+	}
+
+	repeated MedalHistoryInfo medals = 1 [packed=false];
+}
+
+// ref: PegasusUtil.MedalHistoryInfo
+message MedalHistoryInfo {
+	int32 season = 1;
+	pegasus.pegasusshared.Date when = 2;
+	int32 stars = 3;
+	int32 star_level = 4;
+	int32 level_start = 5;
+	int32 level_end = 6;
+	int32 legend_rank = 7;
+}
+
+// ref: PegasusUtil.MedalInfo
+message MedalInfo {
+	// ref: PegasusUtil.MedalInfo/PacketID
+	enum PacketID {
+		PACKETID_AUTO_INVALID = 0;
+		ID = 232;
+	}
+
+	int32 season_wins = 3;
+	int32 stars = 6;
+	int32 streak = 7;
+	int32 star_level = 8;
+	int32 level_start = 9;
+	int32 level_end = 10;
+	bool can_lose_level = 11;
+	int32 legend_rank = 13;
+	int32 best_star_level = 14;
+	bool can_lose_stars = 15;
+}
+
+// ref: PegasusUtil.NearbyPlayer
+message NearbyPlayer {
+	uint64 bnet_id_hi = 1;
+	uint64 bnet_id_lo = 2;
+	uint64 session_start_time = 3;
+}
+
+// ref: PegasusUtil.NextHeroLevelReward
+message NextHeroLevelReward {
+	int32 level = 1;
+	pegasus.pegasusshared.ProfileNoticeRewardBooster reward_booster = 2;
+	pegasus.pegasusshared.ProfileNoticeRewardCard reward_card = 3;
+	pegasus.pegasusshared.ProfileNoticeRewardDust reward_dust = 4;
+	pegasus.pegasusshared.ProfileNoticeRewardGold reward_gold = 5;
+	pegasus.pegasusshared.ProfileNoticeRewardMount reward_mount = 6;
+	pegasus.pegasusshared.ProfileNoticeRewardForge reward_forge = 7;
+}
+
+// ref: PegasusUtil.NOP
+message NOP {
+	// ref: PegasusUtil.NOP/PacketID
+	enum PacketID {
+		PACKETID_AUTO_INVALID = 0;
+		ID = 254;
+	}
+
+}
+
+// ref: PegasusUtil.NotSoMassiveLoginReply
+message NotSoMassiveLoginReply {
+	// ref: PegasusUtil.NotSoMassiveLoginReply/PacketID
+	enum PacketID {
+		PACKETID_AUTO_INVALID = 0;
+		ID = 300;
+	}
+
+	repeated SpecialEventTiming special_event_timing = 10 [packed=false];
+	TavernBrawlInfo tavern_brawls = 11;
+}
+
+// ref: PegasusUtil.OneClientTracking
+message OneClientTracking {
+	// ref: PegasusUtil.OneClientTracking/Level
+	enum Level {
+		LEVEL_AUTO_INVALID = 0;
+		L_INFO = 1;
+		L_WARNING = 2;
+		L_ERROR = 3;
+	}
+
+	Level level = 1;
+	int32 what = 2;
+	string message = 3;
+	uint64 timestamp = 4;
+}
+
+// ref: PegasusUtil.OpenBooster
+message OpenBooster {
+	// ref: PegasusUtil.OpenBooster/PacketID
+	enum PacketID {
+		system = 0;
+		ID = 225;
+	}
+
+	int32 booster_type = 2;
+}
+
+// ref: PegasusUtil.PlayerRecord
+message PlayerRecord {
+	pegasus.pegasusshared.GameType type = 1;
+	int32 data = 2;
+	int32 wins = 3;
+	int32 losses = 4;
+	int32 ties = 5;
+}
+
+// ref: PegasusUtil.PlayerRecords
+message PlayerRecords {
+	// ref: PegasusUtil.PlayerRecords/PacketID
+	enum PacketID {
+		PACKETID_AUTO_INVALID = 0;
+		ID = 270;
+	}
+
+	repeated PlayerRecord records = 1 [packed=false];
+}
+
+// ref: PegasusUtil.PlayQueue
+message PlayQueue {
+	// ref: PegasusUtil.PlayQueue/PacketID
+	enum PacketID {
+		PACKETID_AUTO_INVALID = 0;
+		ID = 286;
+	}
+
+	pegasus.pegasusshared.PlayQueueInfo queue = 1;
+}
+
+// ref: PegasusUtil.ProfileDeckLimit
+message ProfileDeckLimit {
+	// ref: PegasusUtil.ProfileDeckLimit/PacketID
+	enum PacketID {
+		PACKETID_AUTO_INVALID = 0;
+		ID = 231;
+	}
+
+	int32 deck_limit = 1;
+}
+
+// ref: PegasusUtil.ProfileLastLogin
+message ProfileLastLogin {
+	// ref: PegasusUtil.ProfileLastLogin/PacketID
+	enum PacketID {
+		PACKETID_AUTO_INVALID = 0;
+		ID = 227;
+	}
+
+	pegasus.pegasusshared.Date last_login = 1;
+}
+
+// ref: PegasusUtil.ProfileNotice
+message ProfileNotice {
+	int64 entry = 1;
+	pegasus.pegasusshared.ProfileNoticeMedal medal = 2;
+	pegasus.pegasusshared.ProfileNoticeRewardBooster reward_booster = 3;
+	pegasus.pegasusshared.ProfileNoticeRewardCard reward_card = 4;
+	pegasus.pegasusshared.ProfileNoticePreconDeck precon_deck = 6;
+	pegasus.pegasusshared.ProfileNoticeRewardDust reward_dust = 7;
+	pegasus.pegasusshared.ProfileNoticeRewardGold reward_gold = 8;
+	pegasus.pegasusshared.ProfileNoticeRewardMount reward_mount = 9;
+	pegasus.pegasusshared.ProfileNoticeRewardForge reward_forge = 10;
+	int32 origin = 11;
+	int64 origin_data = 12;
+	pegasus.pegasusshared.Date when = 13;
+	pegasus.pegasusshared.ProfileNoticePurchase purchase = 14;
+	pegasus.pegasusshared.ProfileNoticeCardBack reward_card_back = 15;
+	pegasus.pegasusshared.ProfileNoticeDisconnectedGameResult dc_game_result = 16;
+	pegasus.pegasusshared.ProfileNoticeBonusStars bonus_stars = 17;
+	pegasus.pegasusshared.ProfileNoticeAdventureProgress adventure_progress = 18;
+	pegasus.pegasusshared.ProfileNoticeLevelUp level_up = 19;
+	pegasus.pegasusshared.ProfileNoticeAccountLicense account_license = 20;
+}
+
+// ref: PegasusUtil.ProfileNotices
+message ProfileNotices {
+	// ref: PegasusUtil.ProfileNotices/PacketID
+	enum PacketID {
+		PACKETID_AUTO_INVALID = 0;
+		ID = 212;
+	}
+
+	repeated ProfileNotice list = 1 [packed=false];
+}
+
+// ref: PegasusUtil.ProfileProgress
+message ProfileProgress {
+	// ref: PegasusUtil.ProfileProgress/PacketID
+	enum PacketID {
+		PACKETID_AUTO_INVALID = 0;
+		ID = 233;
+	}
+
+	int64 progress = 1;
+	int32 best_forge = 2;
+	pegasus.pegasusshared.Date last_forge = 3;
+	int32 display_banner = 4;
+	repeated AdventureOptions adventure_options = 5 [packed=false];
+}
+
+// ref: PegasusUtil.PurchaseError
+message PurchaseError {
+	// ref: PegasusUtil.PurchaseError/Error
+	enum Error {
+		E_SUCCESS = 0;
+		E_UNKNOWN = -1;
+		E_STILL_IN_PROGRESS = 1;
+		E_INVALID_BNET = 2;
+		E_SERVICE_NA = 3;
+		E_PURCHASE_IN_PROGRESS = 4;
+		E_DATABASE = 5;
+		E_INVALID_QUANTITY = 6;
+		E_DUPLICATE_LICENSE = 7;
+		E_REQUEST_NOT_SENT = 8;
+		E_NO_ACTIVE_BPAY = 9;
+		E_FAILED_RISK = 10;
+		E_CANCELED = 11;
+		E_WAIT_MOP = 12;
+		E_WAIT_CLIENT_CONFIRM = 13;
+		E_WAIT_CLIENT_RISK = 14;
+		E_PRODUCT_NA = 15;
+		E_RISK_TIMEOUT = 16;
+		E_PRODUCT_ALREADY_OWNED = 17;
+		E_WAIT_THIRD_PARTY_RECEIPT = 18;
+		E_PRODUCT_EVENT_HAS_ENDED = 19;
+		E_BP_GENERIC_FAIL = 100;
+		E_BP_INVALID_CC_EXPIRY = 101;
+		E_BP_RISK_ERROR = 102;
+		E_BP_NO_VALID_PAYMENT = 103;
+		E_BP_PAYMENT_AUTH = 104;
+		E_BP_PROVIDER_DENIED = 105;
+		E_BP_PURCHASE_BAN = 106;
+		E_BP_SPENDING_LIMIT = 107;
+		E_BP_PARENTAL_CONTROL = 108;
+		E_BP_THROTTLED = 109;
+		E_BP_THIRD_PARTY_BAD_RECEIPT = 110;
+		E_BP_THIRD_PARTY_RECEIPT_USED = 111;
+		E_BP_PRODUCT_UNIQUENESS_VIOLATED = 112;
+		E_BP_REGION_IS_DOWN = 113;
+	}
+
+	Error error = 1;
+	string purchase_in_progress = 2;
+	string error_code = 3;
+}
+
+// ref: PegasusUtil.PurchaseMethod
+message PurchaseMethod {
+	// ref: PegasusUtil.PurchaseMethod/PacketID
+	enum PacketID {
+		PACKETID_AUTO_INVALID = 0;
+		ID = 272;
+	}
+
+	string product_id = 1;
+	int32 quantity = 2;
+	int32 currency = 3;
+	string wallet_name = 4;
+	bool use_ebalance = 5;
+	PurchaseError error = 6;
+	int64 transaction_id = 7;
+	bool is_zero_cost_license = 8;
+}
+
+// ref: PegasusUtil.PurchaseResponse
+message PurchaseResponse {
+	// ref: PegasusUtil.PurchaseResponse/PacketID
+	enum PacketID {
+		PACKETID_AUTO_INVALID = 0;
+		ID = 256;
+	}
+
+	PurchaseError error = 1;
+	int64 transaction_id = 2;
+	string product_id = 3;
+	string third_party_id = 4;
+	int32 currency = 5;
+	bool is_zero_cost_license = 6;
+	string challenge_id = 7;
+	string challenge_url = 8;
+}
+
+// ref: PegasusUtil.PurchaseWithGold
+message PurchaseWithGold {
+	// ref: PegasusUtil.PurchaseWithGold/PacketID
+	enum PacketID {
+		system = 0;
+		ID = 279;
+	}
+
+	int32 quantity = 1;
+	ProductType product = 2;
+	int32 data = 3;
+}
+
+// ref: PegasusUtil.PurchaseWithGoldResponse
+message PurchaseWithGoldResponse {
+	// ref: PegasusUtil.PurchaseWithGoldResponse/PacketID
+	enum PacketID {
+		PACKETID_AUTO_INVALID = 0;
+		ID = 280;
+	}
+
+	// ref: PegasusUtil.PurchaseWithGoldResponse/PurchaseResult
+	enum PurchaseResult {
+		PURCHASERESULT_AUTO_INVALID = 0;
+		PR_SUCCESS = 1;
+		PR_INSUFFICIENT_FUNDS = 2;
+		PR_PRODUCT_NA = 3;
+		PR_FEATURE_NA = 4;
+		PR_INVALID_QUANTITY = 5;
+	}
+
+	PurchaseResult result = 1;
+	int64 gold_used = 2;
+}
+
+// ref: PegasusUtil.RenameDeck
+message RenameDeck {
+	// ref: PegasusUtil.RenameDeck/PacketID
+	enum PacketID {
+		system = 0;
+		ID = 211;
+	}
+
+	int64 deck = 1;
+	string name = 2;
+}
+
+// ref: PegasusUtil.RewardProgress
+message RewardProgress {
+	// ref: PegasusUtil.RewardProgress/PacketID
+	enum PacketID {
+		PACKETID_AUTO_INVALID = 0;
+		ID = 271;
+	}
+
+	pegasus.pegasusshared.Date season_end = 1;
+	int32 wins_per_gold = 2;
+	int32 gold_per_reward = 3;
+	int32 max_gold_per_day = 4;
+	int32 season_number = 5;
+	int32 pack_id = 8;
+	int32 xp_solo_limit = 9;
+	int32 max_hero_level = 10;
+	pegasus.pegasusshared.Date next_quest_cancel = 11;
+	float event_timing_mod = 12;
+}
+
+// ref: PegasusUtil.SetAdventureOptions
+message SetAdventureOptions {
+	// ref: PegasusUtil.SetAdventureOptions/PacketID
+	enum PacketID {
+		system = 0;
+		ID = 310;
+	}
+
+	AdventureOptions adventure_options = 1;
+}
+
+// ref: PegasusUtil.SetCardBack
+message SetCardBack {
+	// ref: PegasusUtil.SetCardBack/PacketID
+	enum PacketID {
+		system = 0;
+		ID = 291;
+	}
+
+	int32 card_back = 1;
+	int64 deck_id = 2;
+}
+
+// ref: PegasusUtil.SetCardBackResponse
+message SetCardBackResponse {
+	// ref: PegasusUtil.SetCardBackResponse/PacketID
+	enum PacketID {
+		PACKETID_AUTO_INVALID = 0;
+		ID = 292;
+	}
+
+	bool success = 1;
+	int32 card_back = 2;
+}
+
+// ref: PegasusUtil.SetFavoriteHero
+message SetFavoriteHero {
+	// ref: PegasusUtil.SetFavoriteHero/PacketID
+	enum PacketID {
+		system = 0;
+		ID = 319;
+	}
+
+	pegasus.pegasusshared.FavoriteHero favorite_hero = 1;
+}
+
+// ref: PegasusUtil.SetFavoriteHeroResponse
+message SetFavoriteHeroResponse {
+	// ref: PegasusUtil.SetFavoriteHeroResponse/PacketID
+	enum PacketID {
+		PACKETID_AUTO_INVALID = 0;
+		ID = 320;
+	}
+
+	bool success = 1;
+	pegasus.pegasusshared.FavoriteHero favorite_hero = 2;
+}
+
+// ref: PegasusUtil.SetOptions
+message SetOptions {
+	// ref: PegasusUtil.SetOptions/PacketID
+	enum PacketID {
+		system = 0;
+		ID = 239;
+	}
+
+	repeated ClientOption options = 1 [packed=false];
+}
+
+// ref: PegasusUtil.SetProgress
+message SetProgress {
+	// ref: PegasusUtil.SetProgress/PacketID
+	enum PacketID {
+		system = 0;
+		ID = 230;
+	}
+
+	int64 value = 1;
+}
+
+// ref: PegasusUtil.SetProgressResponse
+message SetProgressResponse {
+	// ref: PegasusUtil.SetProgressResponse/PacketID
+	enum PacketID {
+		PACKETID_AUTO_INVALID = 0;
+		ID = 296;
+	}
+
+	// ref: PegasusUtil.SetProgressResponse/Result
+	enum Result {
+		RESULT_AUTO_INVALID = 0;
+		SUCCESS = 1;
+		FAILED = 2;
+		ALREADY_DONE = 3;
+	}
+
+	Result result = 1;
+	int64 progress = 2;
+}
+
+// ref: PegasusUtil.SpecialEventTiming
+message SpecialEventTiming {
+	string event = 1;
+	uint64 start = 2;
+	uint64 end = 3;
+}
+
+// ref: PegasusUtil.StartThirdPartyPurchase
+message StartThirdPartyPurchase {
+	// ref: PegasusUtil.StartThirdPartyPurchase/PacketID
+	enum PacketID {
+		PACKETID_AUTO_INVALID = 0;
+		system = 1;
+		ID = 312;
+	}
+
+	pegasus.pegasusshared.BattlePayProvider provider = 1;
+	string product_id = 2;
+	int32 quantity = 3;
+	ThirdPartyReceiptData dangling_receipt_data = 4;
+	string device_id = 5;
+}
+
+// ref: PegasusUtil.SubmitThirdPartyReceipt
+message SubmitThirdPartyReceipt {
+	// ref: PegasusUtil.SubmitThirdPartyReceipt/PacketID
+	enum PacketID {
+		PACKETID_AUTO_INVALID = 0;
+		system = 1;
+		ID = 293;
+	}
+
+	ThirdPartyReceiptData receipt_data = 1;
+	int64 transaction_id = 2;
+}
+
+// ref: PegasusUtil.Subscribe
+message Subscribe {
+	// ref: PegasusUtil.Subscribe/PacketID
+	enum PacketID {
+		PACKETID_AUTO_INVALID = 0;
+		ID = 314;
+	}
+
+}
+
+// ref: PegasusUtil.SubscribeResponse
+message SubscribeResponse {
+	// ref: PegasusUtil.SubscribeResponse/Features
+	enum Features {
+		FEATURES_AUTO_INVALID = 0;
+		F_SYSTEM_0 = 1;
+		F_SYSTEM_1 = 2;
+	}
+
+	// ref: PegasusUtil.SubscribeResponse/PacketID
+	enum PacketID {
+		PACKETID_AUTO_INVALID = 0;
+		ID = 315;
+	}
+
+	uint64 route = 1;
+	uint64 supported_features = 2;
+	uint64 keep_alive_secs = 3;
+}
+
+// ref: PegasusUtil.TavernBrawlInfo
+message TavernBrawlInfo {
+	// ref: PegasusUtil.TavernBrawlInfo/PacketID
+	enum PacketID {
+		PACKETID_AUTO_INVALID = 0;
+		ID = 316;
+	}
+
+	pegasus.pegasusshared.TavernBrawlSpec current_tavern_brawl = 1;
+	uint64 next_start_seconds_from_now = 2;
+}
+
+// ref: PegasusUtil.TavernBrawlPlayerRecordResponse
+message TavernBrawlPlayerRecordResponse {
+	// ref: PegasusUtil.TavernBrawlPlayerRecordResponse/PacketID
+	enum PacketID {
+		PACKETID_AUTO_INVALID = 0;
+		ID = 317;
+	}
+
+	int32 deprecated_reward_progress = 1;
+	int32 deprecated_games_played = 2;
+	int32 deprecated_games_won = 3;
+	int32 deprecated_win_streak = 4;
+	pegasus.pegasusshared.TavernBrawlPlayerRecord record = 6;
+}
+
+// ref: PegasusUtil.ThirdPartyPurchaseStatusResponse
+message ThirdPartyPurchaseStatusResponse {
+	// ref: PegasusUtil.ThirdPartyPurchaseStatusResponse/PacketID
+	enum PacketID {
+		PACKETID_AUTO_INVALID = 0;
+		ID = 295;
+	}
+
+	// ref: PegasusUtil.ThirdPartyPurchaseStatusResponse/Status
+	enum Status {
+		STATUS_AUTO_INVALID = 0;
+		NOT_FOUND = 1;
+		SUCCEEDED = 2;
+		FAILED = 3;
+		IN_PROGRESS = 4;
+	}
+
+	string third_party_id = 1;
+	Status status = 2;
+}
+
+// ref: PegasusUtil.ThirdPartyReceiptData
+message ThirdPartyReceiptData {
+	string third_party_id = 1;
+	string receipt = 2;
+	string third_party_user_id = 3;
+}
+
+// ref: PegasusUtil.TriggerEventResponse
+message TriggerEventResponse {
+	// ref: PegasusUtil.TriggerEventResponse/PacketID
+	enum PacketID {
+		PACKETID_AUTO_INVALID = 0;
+		ID = 299;
+	}
+
+	int32 event_id = 1;
+	bool success = 2;
+}
+
+// ref: PegasusUtil.TriggerLaunchDayEvent
+message TriggerLaunchDayEvent {
+	// ref: PegasusUtil.TriggerLaunchDayEvent/PacketID
+	enum PacketID {
+		system = 0;
+		ID = 298;
+	}
+
+	NearbyPlayer last_played = 1;
+	NearbyPlayer other_player = 2;
+}
+
+// ref: PegasusUtil.UpdateLogin
+message UpdateLogin {
+	// ref: PegasusUtil.UpdateLogin/PacketID
+	enum PacketID {
+		system = 0;
+		ID = 205;
+	}
+
+	bool reply_required = 1;
+	string referral = 2;
+	string device_model = 3;
+}
+
+// ref: PegasusUtil.UpdateLoginComplete
+message UpdateLoginComplete {
+	// ref: PegasusUtil.UpdateLoginComplete/PacketID
+	enum PacketID {
+		PACKETID_AUTO_INVALID = 0;
+		ID = 307;
+	}
+
+}
+
+// ref: PegasusUtil.UtilAuth
+message UtilAuth {
+	// ref: PegasusUtil.UtilAuth/PacketID
+	enum PacketID {
+		PACKETID_AUTO_INVALID = 0;
+		ID = 204;
+	}
+
+	// ref: PegasusUtil.UtilAuth/Result
+	enum Result {
+		UNKNOWN = 0;
+		ALLOWED = 1;
+		INVALID = 2;
+		NO_SERVER = 3;
+	}
+
+	Result result = 1;
+}
+
+// ref: PegasusUtil.UtilHandshake
+message UtilHandshake {
+	// ref: PegasusUtil.UtilHandshake/PacketID
+	enum PacketID {
+		PACKETID_AUTO_INVALID = 0;
+		ID = 203;
+	}
+
+	int32 client_handle = 1;
+	int32 password = 2;
+}
+
+// ref: PegasusUtil.ValidateAchieve
+message ValidateAchieve {
+	// ref: PegasusUtil.ValidateAchieve/PacketID
+	enum PacketID {
+		system = 0;
+		ID = 284;
+	}
+
+	int32 achieve = 1;
+}
+
+// ref: PegasusUtil.ValidateAchieveResponse
+message ValidateAchieveResponse {
+	// ref: PegasusUtil.ValidateAchieveResponse/PacketID
+	enum PacketID {
+		PACKETID_AUTO_INVALID = 0;
+		ID = 285;
+	}
+
+	int32 achieve = 1;
+}
+

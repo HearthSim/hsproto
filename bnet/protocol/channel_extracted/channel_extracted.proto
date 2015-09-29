@@ -1,0 +1,85 @@
+syntax = "proto3";
+package bnet.protocol.channel_extracted;
+
+// Proto extractor compiled unit - https://github.com/HearthSim/proto-extractor
+
+import "bnet/protocol/chat/chat.proto";
+import "bnet/protocol/friends/friends.proto";
+import "bnet/protocol/presence/presence.proto";
+import "bnet/protocol/protocol.proto";
+
+// ref: bnet.protocol.channel.ChannelDescription
+message ChannelDescription {
+	bnet.protocol.EntityId channel_id = 1;
+	uint32 current_members = 2;
+	ChannelState state = 3;
+}
+
+// ref: bnet.protocol.channel_invitation.ChannelInvitation
+message ChannelInvitation {
+	ChannelDescription channel_description = 1;
+	bool reserved = 2;
+	bool rejoin = 3;
+	uint32 service_type = 4;
+}
+
+// ref: bnet.protocol.channel.ChannelState
+message ChannelState {
+	// ref: bnet.protocol.channel.ChannelState/Types/PrivacyLevel
+	enum PrivacyLevel {
+		PRIVACYLEVEL_AUTO_INVALID = 0;
+		PRIVACY_LEVEL_OPEN = 1;
+		PRIVACY_LEVEL_OPEN_INVITATION_AND_FRIEND = 2;
+		PRIVACY_LEVEL_OPEN_INVITATION = 3;
+		PRIVACY_LEVEL_CLOSED = 4;
+	}
+
+	uint32 max_members = 1;
+	uint32 min_members = 2;
+	repeated bnet.protocol.Attribute attribute = 3 [packed=false];
+	repeated Invitation invitation = 4 [packed=false];
+	uint32 max_invitations = 5;
+	uint32 reason = 6;
+	PrivacyLevel privacy_level = 7;
+	string name = 8;
+	string delegate_name = 9;
+	string channel_type = 10;
+	fixed32 program = 11;
+	bool allow_offline_members = 12;
+	bool subscribe_to_presence = 13;
+	bnet.protocol.chat.ChannelState chat = 100;
+	bnet.protocol.presence.ChannelState presence = 101;
+}
+
+// ref: bnet.protocol.invitation.Invitation
+message Invitation {
+	fixed64 id = 1;
+	bnet.protocol.Identity inviter_identity = 2;
+	bnet.protocol.Identity invitee_identity = 3;
+	string inviter_name = 4;
+	string invitee_name = 5;
+	string invitation_message = 6;
+	uint64 creation_time = 7;
+	uint64 expiration_time = 8;
+	bnet.protocol.friends.FriendInvitation friend_invite = 103;
+	ChannelInvitation channel_invitation = 105;
+}
+
+// ref: bnet.protocol.friends.InvitationNotification
+message InvitationNotification {
+	Invitation invitation = 1;
+	bnet.protocol.EntityId game_account_id = 2;
+	uint32 reason = 3;
+}
+
+// ref: bnet.protocol.friends.SubscribeToFriendsResponse
+message SubscribeToFriendsResponse {
+	uint32 max_friends = 1;
+	uint32 max_received_invitations = 2;
+	uint32 max_sent_invitations = 3;
+	repeated bnet.protocol.Role role = 4 [packed=false];
+	repeated bnet.protocol.friends.Friend friends = 5 [packed=false];
+	repeated Invitation sent_invitations = 6 [packed=false];
+	repeated Invitation received_invitations = 7 [packed=false];
+}
+

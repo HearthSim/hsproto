@@ -1,0 +1,235 @@
+syntax = "proto3";
+package bobnetproto;
+
+// Proto extractor compiled unit - https://github.com/HearthSim/proto-extractor
+
+import "pegasus/pegasusshared/pegasusshared.proto";
+
+// ref: BobNetProto.AuroraHandshake
+message AuroraHandshake {
+	// ref: BobNetProto.AuroraHandshake/PacketID
+	enum PacketID {
+		PACKETID_AUTO_INVALID = 0;
+		ID = 168;
+	}
+
+	int32 game_handle = 1;
+	string password = 2;
+	int64 client_handle = 3;
+	int32 mission = 4;
+	string version = 5;
+	int32 old_platform = 6;
+	pegasus.pegasusshared.Platform platform = 7;
+}
+
+// ref: BobNetProto.AutoLogin
+message AutoLogin {
+	// ref: BobNetProto.AutoLogin/PacketID
+	enum PacketID {
+		PACKETID_AUTO_INVALID = 0;
+		ID = 103;
+	}
+
+	string user = 1;
+	string pwd = 2;
+	int32 build_id = 3;
+	string debug_name = 4;
+	int32 source = 5;
+}
+
+// ref: BobNetProto.Deadend
+message Deadend {
+	// ref: BobNetProto.Deadend/PacketID
+	enum PacketID {
+		PACKETID_AUTO_INVALID = 0;
+		ID = 169;
+	}
+
+	string reply1 = 1;
+	string reply2 = 2;
+	string reply3 = 3;
+}
+
+// ref: BobNetProto.DeadendUtil
+message DeadendUtil {
+	// ref: BobNetProto.DeadendUtil/PacketID
+	enum PacketID {
+		PACKETID_AUTO_INVALID = 0;
+		ID = 167;
+	}
+
+	string reply1 = 1;
+	string reply2 = 2;
+	string reply3 = 3;
+}
+
+// ref: BobNetProto.DebugConsoleCmdList
+message DebugConsoleCmdList {
+	// ref: BobNetProto.DebugConsoleCmdList/PacketID
+	enum PacketID {
+		PACKETID_AUTO_INVALID = 0;
+		ID = 146;
+	}
+
+	// ref: BobNetProto.DebugConsoleCmdList/DebugConsoleCmd
+	message DebugConsoleCmd {
+		// ref: BobNetProto.DebugConsoleCmdList/DebugConsoleCmd/DebugConsoleCmdParam
+		message DebugConsoleCmdParam {
+			string param_type = 1;
+			string param_name = 2;
+		}
+
+		string name = 1;
+		repeated DebugConsoleCmdList.DebugConsoleCmdParam params = 2 [packed=false];
+	}
+
+	// ref: BobNetProto.DebugConsoleCmdList/DebugConsoleCmd/DebugConsoleCmdParam
+	message DebugConsoleCmdParam {
+		string param_type = 1;
+		string param_name = 2;
+	}
+
+	repeated DebugConsoleCmd commands = 1 [packed=false];
+}
+
+// ref: BobNetProto.DebugConsoleCommand
+message DebugConsoleCommand {
+	// ref: BobNetProto.DebugConsoleCommand/PacketID
+	enum PacketID {
+		PACKETID_AUTO_INVALID = 0;
+		ID = 123;
+	}
+
+	string command = 1;
+}
+
+// ref: BobNetProto.DebugConsoleGetCmdList
+message DebugConsoleGetCmdList {
+	// ref: BobNetProto.DebugConsoleGetCmdList/PacketID
+	enum PacketID {
+		PACKETID_AUTO_INVALID = 0;
+		ID = 125;
+	}
+
+}
+
+// ref: BobNetProto.DebugConsoleGetZones
+message DebugConsoleGetZones {
+	// ref: BobNetProto.DebugConsoleGetZones/PacketID
+	enum PacketID {
+		PACKETID_AUTO_INVALID = 0;
+		ID = 147;
+	}
+
+}
+
+// ref: BobNetProto.DebugConsoleResponse
+message DebugConsoleResponse {
+	// ref: BobNetProto.DebugConsoleResponse/PacketID
+	enum PacketID {
+		PACKETID_AUTO_INVALID = 0;
+		ID = 124;
+	}
+
+	// ref: BobNetProto.DebugConsoleResponse/ResponseType
+	enum ResponseType {
+		CONSOLE_OUTPUT = 0;
+		LOG_MESSAGE = 1;
+	}
+
+	string response = 1;
+	ResponseType response_type = 2;
+}
+
+// ref: BobNetProto.DebugConsoleUpdateFromPane
+message DebugConsoleUpdateFromPane {
+	// ref: BobNetProto.DebugConsoleUpdateFromPane/PacketID
+	enum PacketID {
+		PACKETID_AUTO_INVALID = 0;
+		ID = 145;
+	}
+
+	string name = 1;
+	string value = 2;
+}
+
+// ref: BobNetProto.DebugConsoleZones
+message DebugConsoleZones {
+	// ref: BobNetProto.DebugConsoleZones/PacketID
+	enum PacketID {
+		PACKETID_AUTO_INVALID = 0;
+		ID = 148;
+	}
+
+	// ref: BobNetProto.DebugConsoleZones/DebugConsoleZone
+	message DebugConsoleZone {
+		string name = 1;
+		uint32 id = 2;
+	}
+
+	repeated DebugConsoleZone zones = 1 [packed=false];
+}
+
+// ref: BobNetProto.DebugPaneDelItems
+message DebugPaneDelItems {
+	// ref: BobNetProto.DebugPaneDelItems/PacketID
+	enum PacketID {
+		PACKETID_AUTO_INVALID = 0;
+		ID = 143;
+	}
+
+	// ref: BobNetProto.DebugPaneDelItems/DebugPaneDelItem
+	message DebugPaneDelItem {
+		string name = 1;
+	}
+
+	repeated DebugPaneDelItem items = 1 [packed=false];
+}
+
+// ref: BobNetProto.DebugPaneNewItems
+message DebugPaneNewItems {
+	// ref: BobNetProto.DebugPaneNewItems/PacketID
+	enum PacketID {
+		PACKETID_AUTO_INVALID = 0;
+		ID = 142;
+	}
+
+	// ref: BobNetProto.DebugPaneNewItems/DebugPaneNewItem
+	message DebugPaneNewItem {
+		string name = 1;
+		string value = 2;
+	}
+
+	repeated DebugPaneNewItem items = 1 [packed=false];
+}
+
+// ref: BobNetProto.PACKETTYPES
+message PACKETTYPES {
+	// ref: BobNetProto.PACKETTYPES/BobNetCount
+	enum BobNetCount {
+		BOBNETCOUNT_AUTO_INVALID = 0;
+		COUNT = 500;
+	}
+
+}
+
+// ref: BobNetProto.Ping
+message Ping {
+	// ref: BobNetProto.Ping/PacketID
+	enum PacketID {
+		PACKETID_AUTO_INVALID = 0;
+		ID = 115;
+	}
+
+}
+
+// ref: BobNetProto.Pong
+message Pong {
+	// ref: BobNetProto.Pong/PacketID
+	enum PacketID {
+		PACKETID_AUTO_INVALID = 0;
+		ID = 116;
+	}
+
+}
+

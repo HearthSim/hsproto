@@ -1,0 +1,96 @@
+syntax = "proto3";
+package bnet.protocol.friends;
+
+// Proto extractor compiled unit - https://github.com/HearthSim/proto-extractor
+
+import "bnet/protocol/protocol.proto";
+
+// ref: bnet.protocol.friends.AssignRoleRequest
+message AssignRoleRequest {
+	bnet.protocol.EntityId agent_id = 1;
+	bnet.protocol.EntityId target_id = 2;
+	repeated int32 role = 3 [packed=false];
+}
+
+// ref: bnet.protocol.friends.Friend
+message Friend {
+	bnet.protocol.EntityId id = 1;
+	repeated bnet.protocol.Attribute attribute = 2 [packed=false];
+	repeated uint32 role = 3;
+	uint64 privileges = 4;
+	uint64 attributes_epoch = 5;
+	string full_name = 6;
+	string battle_tag = 7;
+}
+
+// ref: bnet.protocol.friends.FriendInvitation
+message FriendInvitation {
+	bool first_received = 1;
+	repeated uint32 role = 2;
+}
+
+// ref: bnet.protocol.friends.FriendInvitationParams
+message FriendInvitationParams {
+	string target_email = 1;
+	string target_battle_tag = 2;
+	string inviter_battle_tag = 3;
+	string inviter_full_name = 4;
+	string invitee_display_name = 5;
+	repeated uint32 role = 6;
+}
+
+// ref: bnet.protocol.friends.FriendNotification
+message FriendNotification {
+	Friend target = 1;
+	bnet.protocol.EntityId game_account_id = 2;
+}
+
+// ref: bnet.protocol.friends.GenericFriendRequest
+message GenericFriendRequest {
+	bnet.protocol.EntityId agent_id = 1;
+	bnet.protocol.EntityId target_id = 2;
+}
+
+// ref: bnet.protocol.friends.GenericFriendResponse
+message GenericFriendResponse {
+	Friend target_friend = 1;
+}
+
+// ref: bnet.protocol.friends.SubscribeToFriendsRequest
+message SubscribeToFriendsRequest {
+	bnet.protocol.EntityId agent_id = 1;
+	uint64 object_id = 2;
+}
+
+// ref: bnet.protocol.friends.UnsubscribeToFriendsRequest
+message UnsubscribeToFriendsRequest {
+	bnet.protocol.EntityId agent_id = 1;
+	uint64 object_id = 2;
+}
+
+// ref: bnet.protocol.friends.UpdateFriendStateNotification
+message UpdateFriendStateNotification {
+	Friend changed_friend = 1;
+	bnet.protocol.EntityId game_account_id = 2;
+}
+
+// ref: bnet.protocol.friends.UpdateFriendStateRequest
+message UpdateFriendStateRequest {
+	bnet.protocol.EntityId agent_id = 1;
+	bnet.protocol.EntityId target_id = 2;
+	repeated bnet.protocol.Attribute attribute = 3 [packed=false];
+	uint64 attributes_epoch = 4;
+}
+
+// ref: bnet.protocol.friends.ViewFriendsRequest
+message ViewFriendsRequest {
+	bnet.protocol.EntityId agent_id = 1;
+	bnet.protocol.EntityId target_id = 2;
+	repeated uint32 role = 3;
+}
+
+// ref: bnet.protocol.friends.ViewFriendsResponse
+message ViewFriendsResponse {
+	repeated Friend friends = 1 [packed=false];
+}
+

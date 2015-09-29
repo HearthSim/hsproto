@@ -1,0 +1,92 @@
+syntax = "proto3";
+package bnet.protocol.challenge;
+
+// Proto extractor compiled unit - https://github.com/HearthSim/proto-extractor
+
+import "bnet/protocol/protocol.proto";
+
+// ref: bnet.protocol.challenge.Challenge
+message Challenge {
+	fixed32 type = 1;
+	string info = 2;
+	string answer = 3;
+	uint32 retries = 4;
+}
+
+// ref: bnet.protocol.challenge.ChallengeAnsweredRequest
+message ChallengeAnsweredRequest {
+	string answer = 1;
+	bytes data = 2;
+	uint32 id = 3;
+}
+
+// ref: bnet.protocol.challenge.ChallengeAnsweredResponse
+message ChallengeAnsweredResponse {
+	bytes data = 1;
+	bool do_retry = 2;
+	bool record_not_found = 3;
+}
+
+// ref: bnet.protocol.challenge.ChallengeCancelledRequest
+message ChallengeCancelledRequest {
+	uint32 id = 1;
+}
+
+// ref: bnet.protocol.challenge.ChallengeExternalRequest
+message ChallengeExternalRequest {
+	string request_token = 1;
+	string payload_type = 2;
+	bytes payload = 3;
+}
+
+// ref: bnet.protocol.challenge.ChallengeExternalResult
+message ChallengeExternalResult {
+	string request_token = 1;
+	bool passed = 2;
+}
+
+// ref: bnet.protocol.challenge.ChallengePickedRequest
+message ChallengePickedRequest {
+	fixed32 challenge = 1;
+	uint32 id = 2;
+	bool new_challenge_protocol = 3;
+}
+
+// ref: bnet.protocol.challenge.ChallengePickedResponse
+message ChallengePickedResponse {
+	bytes data = 1;
+}
+
+// ref: bnet.protocol.challenge.ChallengeResultRequest
+message ChallengeResultRequest {
+	uint32 id = 1;
+	fixed32 type = 2;
+	uint32 error_id = 3;
+	bytes answer = 4;
+}
+
+// ref: bnet.protocol.challenge.ChallengeUserRequest
+message ChallengeUserRequest {
+	repeated Challenge challenges = 1 [packed=false];
+	fixed32 context = 2;
+	uint32 id = 3;
+	uint64 deadline = 4;
+	repeated bnet.protocol.Attribute attributes = 5 [packed=false];
+	bnet.protocol.EntityId game_account_id = 6;
+}
+
+// ref: bnet.protocol.challenge.SendChallengeToUserRequest
+message SendChallengeToUserRequest {
+	bnet.protocol.ProcessId peer_id = 1;
+	bnet.protocol.EntityId game_account_id = 2;
+	repeated Challenge challenges = 3 [packed=false];
+	fixed32 context = 4;
+	uint64 timeout = 5;
+	repeated bnet.protocol.Attribute attributes = 6 [packed=false];
+}
+
+// ref: bnet.protocol.challenge.SendChallengeToUserResponse
+message SendChallengeToUserResponse {
+	uint32 id = 1;
+}
+

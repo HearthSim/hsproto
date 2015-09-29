@@ -1,0 +1,219 @@
+syntax = "proto3";
+package bnet.protocol.game_master;
+
+// Proto extractor compiled unit - https://github.com/HearthSim/proto-extractor
+
+import "bnet/protocol/attribute_468/attribute_468.proto";
+import "bnet/protocol/protocol.proto";
+import "bnet/protocol/server_pool/server_pool.proto";
+
+// ref: bnet.protocol.game_master.CancelGameEntryRequest
+message CancelGameEntryRequest {
+	fixed64 request_id = 1;
+	fixed64 factory_id = 2;
+	repeated Player player = 3 [packed=false];
+}
+
+// ref: bnet.protocol.game_master.ChangeGameRequest
+message ChangeGameRequest {
+	GameHandle game_handle = 1;
+	bool open = 2;
+	repeated bnet.protocol.Attribute attribute = 3 [packed=false];
+	bool replace = 4;
+}
+
+// ref: bnet.protocol.game_master.ConnectInfo
+message ConnectInfo {
+	bnet.protocol.EntityId member_id = 1;
+	string host = 2;
+	int32 port = 3;
+	bytes token = 4;
+	repeated bnet.protocol.Attribute attribute = 5 [packed=false];
+}
+
+// ref: bnet.protocol.game_master.FactoryUpdateNotification
+message FactoryUpdateNotification {
+	// ref: bnet.protocol.game_master.FactoryUpdateNotification/Types/Operation
+	enum Operation {
+		OPERATION_AUTO_INVALID = 0;
+		ADD = 1;
+		REMOVE = 2;
+		CHANGE = 3;
+	}
+
+	Operation op = 1;
+	GameFactoryDescription description = 2;
+	fixed32 program_id = 3;
+}
+
+// ref: bnet.protocol.game_master.FindGameRequest
+message FindGameRequest {
+	repeated Player player = 1 [packed=false];
+	fixed64 factory_id = 2;
+	GameProperties properties = 3;
+	uint64 object_id = 4;
+	fixed64 request_id = 5;
+	bool advanced_notification = 6;
+}
+
+// ref: bnet.protocol.game_master.FindGameResponse
+message FindGameResponse {
+	fixed64 request_id = 1;
+	fixed64 factory_id = 2;
+	bool queued = 3;
+}
+
+// ref: bnet.protocol.game_master.GameEndedNotification
+message GameEndedNotification {
+	GameHandle game_handle = 1;
+	uint32 reason = 2;
+}
+
+// ref: bnet.protocol.game_master.GameFactoryDescription
+message GameFactoryDescription {
+	fixed64 id = 1;
+	string name = 2;
+	repeated bnet.protocol.Attribute attribute = 3 [packed=false];
+	repeated GameStatsBucket stats_bucket = 4 [packed=false];
+	fixed64 unseeded_id = 5;
+	bool allow_queueing = 6;
+}
+
+// ref: bnet.protocol.game_master.GameFoundNotification
+message GameFoundNotification {
+	fixed64 request_id = 1;
+	uint32 error_code = 2;
+	GameHandle game_handle = 3;
+	repeated ConnectInfo connect_info = 4 [packed=false];
+}
+
+// ref: bnet.protocol.game_master.GameHandle
+message GameHandle {
+	fixed64 factory_id = 1;
+	bnet.protocol.EntityId game_id = 2;
+}
+
+// ref: bnet.protocol.game_master.GameProperties
+message GameProperties {
+	repeated bnet.protocol.Attribute creation_attributes = 1 [packed=false];
+	bnet.protocol.attribute_468.AttributeFilter filter = 2;
+	bool create = 3;
+	bool open = 4;
+	fixed32 program_id = 5;
+}
+
+// ref: bnet.protocol.game_master.GameStatsBucket
+message GameStatsBucket {
+	float bucket_min = 1;
+	float bucket_max = 2;
+	uint32 wait_milliseconds = 3;
+	uint32 games_per_hour = 4;
+	uint32 active_games = 5;
+	uint32 active_players = 6;
+	uint32 forming_games = 7;
+	uint32 waiting_players = 8;
+	uint32 open_joinable_games = 9;
+	uint32 players_in_open_joinable_games = 10;
+	uint32 open_games_total = 11;
+	uint32 players_in_open_games_total = 12;
+}
+
+// ref: bnet.protocol.game_master.GetFactoryInfoRequest
+message GetFactoryInfoRequest {
+	fixed64 factory_id = 1;
+}
+
+// ref: bnet.protocol.game_master.GetFactoryInfoResponse
+message GetFactoryInfoResponse {
+	repeated bnet.protocol.Attribute attribute = 1 [packed=false];
+	repeated GameStatsBucket stats_bucket = 2 [packed=false];
+}
+
+// ref: bnet.protocol.game_master.GetGameStatsRequest
+message GetGameStatsRequest {
+	fixed64 factory_id = 1;
+	bnet.protocol.attribute_468.AttributeFilter filter = 2;
+}
+
+// ref: bnet.protocol.game_master.GetGameStatsResponse
+message GetGameStatsResponse {
+	repeated GameStatsBucket stats_bucket = 1 [packed=false];
+}
+
+// ref: bnet.protocol.game_master.JoinGameRequest
+message JoinGameRequest {
+	GameHandle game_handle = 1;
+	repeated Player player = 2 [packed=false];
+	bool advanced_notification = 3;
+}
+
+// ref: bnet.protocol.game_master.JoinGameResponse
+message JoinGameResponse {
+	fixed64 request_id = 1;
+	bool queued = 2;
+	repeated ConnectInfo connect_info = 3 [packed=false];
+}
+
+// ref: bnet.protocol.game_master.ListFactoriesRequest
+message ListFactoriesRequest {
+	bnet.protocol.attribute_468.AttributeFilter filter = 1;
+	uint32 start_index = 2;
+	uint32 max_results = 3;
+}
+
+// ref: bnet.protocol.game_master.ListFactoriesResponse
+message ListFactoriesResponse {
+	repeated GameFactoryDescription description = 1 [packed=false];
+	uint32 total_results = 2;
+}
+
+// ref: bnet.protocol.game_master.Player
+message Player {
+	bnet.protocol.Identity identity = 1;
+	repeated bnet.protocol.Attribute attribute = 2 [packed=false];
+}
+
+// ref: bnet.protocol.game_master.PlayerLeftNotification
+message PlayerLeftNotification {
+	GameHandle game_handle = 1;
+	bnet.protocol.EntityId member_id = 2;
+	uint32 reason = 3;
+}
+
+// ref: bnet.protocol.game_master.RegisterServerRequest
+message RegisterServerRequest {
+	repeated bnet.protocol.Attribute attribute = 1 [packed=false];
+	bnet.protocol.server_pool.ServerState state = 2;
+	fixed32 program_id = 3;
+}
+
+// ref: bnet.protocol.game_master.RegisterUtilitiesRequest
+message RegisterUtilitiesRequest {
+	repeated bnet.protocol.Attribute attribute = 1 [packed=false];
+	bnet.protocol.server_pool.ServerState state = 2;
+	fixed32 program_id = 3;
+}
+
+// ref: bnet.protocol.game_master.SubscribeRequest
+message SubscribeRequest {
+	uint64 object_id = 1;
+}
+
+// ref: bnet.protocol.game_master.SubscribeResponse
+message SubscribeResponse {
+	uint64 subscription_id = 1;
+}
+
+// ref: bnet.protocol.game_master.UnregisterServerRequest
+message UnregisterServerRequest {
+}
+
+// ref: bnet.protocol.game_master.UnregisterUtilitiesRequest
+message UnregisterUtilitiesRequest {
+}
+
+// ref: bnet.protocol.game_master.UnsubscribeRequest
+message UnsubscribeRequest {
+	uint64 subscription_id = 1;
+}
+

@@ -1,0 +1,73 @@
+syntax = "proto3";
+package bnet.protocol.connection;
+
+// Proto extractor compiled unit - https://github.com/HearthSim/proto-extractor
+
+import "bnet/protocol/protocol.proto";
+
+// ref: bnet.protocol.connection.BindRequest
+message BindRequest {
+	repeated fixed32 imported_service_hash = 1 [packed=false];
+	repeated BoundService exported_service = 2 [packed=false];
+}
+
+// ref: bnet.protocol.connection.BindResponse
+message BindResponse {
+	repeated uint32 imported_service_id = 1;
+}
+
+// ref: bnet.protocol.connection.BoundService
+message BoundService {
+	fixed32 hash = 1;
+	uint32 id = 2;
+}
+
+// ref: bnet.protocol.connection.ConnectionMeteringContentHandles
+message ConnectionMeteringContentHandles {
+	repeated bnet.protocol.ContentHandle content_handle = 1 [packed=false];
+}
+
+// ref: bnet.protocol.connection.ConnectRequest
+message ConnectRequest {
+	bnet.protocol.ProcessId client_id = 1;
+	BindRequest bind_request = 2;
+}
+
+// ref: bnet.protocol.connection.ConnectResponse
+message ConnectResponse {
+	bnet.protocol.ProcessId server_id = 1;
+	bnet.protocol.ProcessId client_id = 2;
+	uint32 bind_result = 3;
+	BindResponse bind_response = 4;
+	ConnectionMeteringContentHandles content_handle_array = 5;
+	uint64 server_time = 6;
+}
+
+// ref: bnet.protocol.connection.DisconnectNotification
+message DisconnectNotification {
+	uint32 error_code = 1;
+	string reason = 2;
+}
+
+// ref: bnet.protocol.connection.DisconnectRequest
+message DisconnectRequest {
+	uint32 error_code = 1;
+}
+
+// ref: bnet.protocol.connection.EchoRequest
+message EchoRequest {
+	fixed64 time = 1;
+	bool network_only = 2;
+	bytes payload = 3;
+}
+
+// ref: bnet.protocol.connection.EchoResponse
+message EchoResponse {
+	fixed64 time = 1;
+	bytes payload = 2;
+}
+
+// ref: bnet.protocol.connection.EncryptRequest
+message EncryptRequest {
+}
+

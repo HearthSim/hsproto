@@ -1,0 +1,30 @@
+syntax = "proto3";
+package bnet.protocol.config;
+
+// Proto extractor compiled unit - https://github.com/HearthSim/proto-extractor
+
+
+// ref: bnet.protocol.config.RPCMeterConfig
+message RPCMeterConfig {
+	repeated RPCMethodConfig method = 1 [packed=false];
+	uint32 income_per_second = 2;
+	uint32 initial_balance = 3;
+	uint32 cap_balance = 4;
+	float startup_period = 5;
+}
+
+// ref: bnet.protocol.config.RPCMethodConfig
+message RPCMethodConfig {
+	string service_name = 1;
+	string method_name = 2;
+	uint32 fixed_call_cost = 3;
+	uint32 fixed_packet_size = 4;
+	float variable_multiplier = 5;
+	float multiplier = 6;
+	uint32 rate_limit_count = 7;
+	uint32 rate_limit_seconds = 8;
+	uint32 max_packet_size = 9;
+	uint32 max_encoded_size = 10;
+	float timeout = 11;
+}
+

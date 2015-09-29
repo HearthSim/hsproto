@@ -1,0 +1,89 @@
+syntax = "proto3";
+package bnet.protocol.presence;
+
+// Proto extractor compiled unit - https://github.com/HearthSim/proto-extractor
+
+import "bnet/protocol/protocol.proto";
+
+// ref: bnet.protocol.presence.ChannelState
+message ChannelState {
+	bnet.protocol.EntityId entity_id = 1;
+	repeated FieldOperation field_operation = 2 [packed=false];
+	bool healing = 3;
+}
+
+// ref: bnet.protocol.presence.Field
+message Field {
+	FieldKey key = 1;
+	bnet.protocol.Variant value = 2;
+}
+
+// ref: bnet.protocol.presence.FieldKey
+message FieldKey {
+	uint32 program = 1;
+	uint32 group = 2;
+	uint32 field = 3;
+	uint64 index = 4;
+}
+
+// ref: bnet.protocol.presence.FieldOperation
+message FieldOperation {
+	// ref: bnet.protocol.presence.FieldOperation/Types/OperationType
+	enum OperationType {
+		SET = 0;
+		CLEAR = 1;
+	}
+
+	Field field = 1;
+	OperationType operation = 2;
+}
+
+// ref: bnet.protocol.presence.OwnershipRequest
+message OwnershipRequest {
+	bnet.protocol.EntityId entity_id = 1;
+	bool release_ownership = 2;
+}
+
+// ref: bnet.protocol.presence.QueryRequest
+message QueryRequest {
+	bnet.protocol.EntityId entity_id = 1;
+	repeated FieldKey key = 2 [packed=false];
+}
+
+// ref: bnet.protocol.presence.QueryResponse
+message QueryResponse {
+	repeated Field field = 2 [packed=false];
+}
+
+// ref: bnet.protocol.presence.RichPresence
+message RichPresence {
+	fixed32 program_id = 1;
+	fixed32 stream_id = 2;
+	uint32 index = 3;
+}
+
+// ref: bnet.protocol.presence.SubscribeNotificationRequest
+message SubscribeNotificationRequest {
+	bnet.protocol.EntityId entity_id = 1;
+}
+
+// ref: bnet.protocol.presence.SubscribeRequest
+message SubscribeRequest {
+	bnet.protocol.EntityId agent_id = 1;
+	bnet.protocol.EntityId entity_id = 2;
+	uint64 object_id = 3;
+	repeated fixed32 program_id = 4 [packed=false];
+}
+
+// ref: bnet.protocol.presence.UnsubscribeRequest
+message UnsubscribeRequest {
+	bnet.protocol.EntityId agent_id = 1;
+	bnet.protocol.EntityId entity_id = 2;
+}
+
+// ref: bnet.protocol.presence.UpdateRequest
+message UpdateRequest {
+	bnet.protocol.EntityId entity_id = 1;
+	repeated FieldOperation field_operation = 2 [packed=false];
+}
+

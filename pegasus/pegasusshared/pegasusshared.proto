@@ -1,0 +1,512 @@
+syntax = "proto3";
+package pegasus.pegasusshared;
+
+// Proto extractor compiled unit - https://github.com/HearthSim/proto-extractor
+
+
+// ref: PegasusShared.AssetType
+enum AssetType {
+	ASSETTYPE_AUTO_INVALID = 0;
+	ASSET_TYPE_SCENARIO = 1;
+}
+
+// ref: PegasusShared.BattlePayProvider
+enum BattlePayProvider {
+	BATTLEPAYPROVIDER_AUTO_INVALID = 0;
+	BP_PROVIDER_BLIZZARD = 1;
+	BP_PROVIDER_APPLE = 2;
+	BP_PROVIDER_GOOGLE_PLAY = 3;
+	BP_PROVIDER_AMAZON = 4;
+}
+
+// ref: PegasusShared.BnetGameType
+enum BnetGameType {
+	BGT_UNKNOWN = 0;
+	BGT_FRIENDS = 1;
+	BGT_RANKED = 2;
+	BGT_ARENA = 3;
+	BGT_VS_AI = 4;
+	BGT_TUTORIAL = 5;
+	BGT_ASYNC = 6;
+	BGT_NEWBIE = 9;
+	BGT_NORMAL = 10;
+	BGT_TEST1 = 11;
+	BGT_TEST2 = 12;
+	BGT_TEST3 = 13;
+	BGT_TAVERNBRAWL_PVP = 16;
+	BGT_LAST = 18;
+}
+
+// ref: PegasusShared.DatabaseAction
+enum DatabaseAction {
+	DB_A_UNKNOWN = 0;
+	DB_A_GET_DECK = 1;
+	DB_A_CREATE_DECK = 2;
+	DB_A_RENAME_DECK = 3;
+	DB_A_DELETE_DECK = 4;
+	DB_A_SET_DECK = 5;
+	DB_A_OPEN_BOOSTER = 6;
+	DB_A_GAMES_INFO = 7;
+}
+
+// ref: PegasusShared.DatabaseResult
+enum DatabaseResult {
+	DB_E_UNKNOWN = 0;
+	DB_E_SQL_EX = -1;
+	DB_E_SUCCESS = 1;
+	DB_E_NOT_OWNED = 2;
+	DB_E_CONSTRAINT = 3;
+	DB_E_NOT_FOUND = 4;
+	DB_E_EXCEPTION = 9;
+	DB_E_BAD_PARAM = 11;
+}
+
+// ref: PegasusShared.DeckType
+enum DeckType {
+	DECKTYPE_AUTO_INVALID = 0;
+	NORMAL_DECK = 1;
+	AI_DECK = 2;
+	DRAFT_DECK = 4;
+	PRECON_DECK = 5;
+	TAVERN_BRAWL_DECK = 6;
+}
+
+// ref: PegasusShared.GameType
+enum GameType {
+	GT_UNKNOWN = 0;
+	GT_VS_AI = 1;
+	GT_VS_FRIEND = 2;
+	GT_TUTORIAL = 4;
+	GT_ARENA = 5;
+	GT_TEST = 6;
+	GT_RANKED = 7;
+	GT_UNRANKED = 8;
+	GT_TAVERNBRAWL = 16;
+	GT_LAST = 17;
+}
+
+// ref: PegasusShared.RuleType
+enum RuleType {
+	RULE_NONE = 0;
+	RULE_CHOOSE_HERO = 1;
+	RULE_CHOOSE_DECK = 2;
+}
+
+// ref: PegasusShared.AccountLicenseInfo
+message AccountLicenseInfo {
+	// ref: PegasusShared.AccountLicenseInfo/Flags
+	enum Flags {
+		FLAGS_AUTO_INVALID = 0;
+		OWNED = 1;
+	}
+
+	int64 license = 1;
+	uint64 flags = 2;
+	int64 cas_id = 3;
+}
+
+// ref: PegasusShared.AdventureProgress
+message AdventureProgress {
+	// ref: PegasusShared.AdventureProgress/Flags
+	enum Flags {
+		FLAGS_AUTO_INVALID = 0;
+		OWNED = 1;
+		DEFEAT_HEROIC_MISSION_1 = 2;
+		DEFEAT_HEROIC_MISSION_2 = 4;
+		DEFEAT_HEROIC_MISSION_3 = 8;
+		DEFEAT_HEROIC_MISSION_4 = 16;
+		DEFEAT_CLASS_CHALLENGE_MISSION_1 = 256;
+		DEFEAT_CLASS_CHALLENGE_MISSION_2 = 512;
+	}
+
+	int32 wing_id = 1;
+	int32 progress = 2;
+	int32 ack = 3;
+	uint64 flags = 4;
+}
+
+// ref: PegasusShared.BnetId
+message BnetId {
+	uint64 hi = 1;
+	uint64 lo = 2;
+}
+
+// ref: PegasusShared.BoosterInfo
+message BoosterInfo {
+	int32 type = 2;
+	int32 count = 3;
+}
+
+// ref: PegasusShared.CardDef
+message CardDef {
+	int32 asset = 1;
+	int32 premium = 2;
+}
+
+// ref: PegasusShared.CardStack
+message CardStack {
+	CardDef card_def = 1;
+	Date latest_insert_date = 2;
+	int32 count = 3;
+	int32 num_seen = 4;
+}
+
+// ref: PegasusShared.Date
+message Date {
+	int32 year = 1;
+	int32 month = 2;
+	int32 day = 3;
+	int32 hours = 4;
+	int32 min = 5;
+	int32 sec = 6;
+}
+
+// ref: PegasusShared.DeckCardData
+message DeckCardData {
+	CardDef def = 1;
+	int32 handle = 2;
+	int32 qty = 3;
+	int32 prev = 5;
+}
+
+// ref: PegasusShared.DeckInfo
+message DeckInfo {
+	// ref: PegasusShared.DeckInfo/ValidityFlags
+	enum ValidityFlags {
+		VALIDITYFLAGS_AUTO_INVALID = 0;
+		UNLOCKED_HERO_CLASS = 1;
+		OWNS_CARDS = 2;
+		HAS_30_CARDS = 4;
+		OBEYS_MAXES = 8;
+		CLASS_MATCHES = 16;
+		OWNS_CARD_BACK = 32;
+		OWNS_HERO = 64;
+	}
+
+	int64 id = 1;
+	string name = 2;
+	int32 card_back = 3;
+	int32 hero = 4;
+	DeckType deck_type = 5;
+	uint64 validity = 6;
+	int32 hero_premium = 7;
+	bool card_back_override = 8;
+	bool hero_override = 9;
+	int64 last_modified = 10;
+	int32 season_id = 11;
+}
+
+// ref: PegasusShared.FavoriteHero
+message FavoriteHero {
+	int32 class_id = 1;
+	CardDef hero = 2;
+}
+
+// ref: PegasusShared.GameSetupRule
+message GameSetupRule {
+	int32 id = 1;
+	RuleType rule_type = 2;
+	int64 data1 = 3;
+	int64 data2 = 4;
+	int64 data3 = 5;
+}
+
+// ref: PegasusShared.LocalizedString
+message LocalizedString {
+	string key = 1;
+	string deprecated_value = 2;
+	int32 deprecated_locale = 3;
+	repeated LocalizedStringValue values = 4 [packed=false];
+}
+
+// ref: PegasusShared.LocalizedStringValue
+message LocalizedStringValue {
+	int32 locale = 1;
+	string value = 2;
+}
+
+// ref: PegasusShared.Platform
+message Platform {
+	int32 os = 1;
+	int32 screen = 2;
+	string name = 3;
+	int32 store = 4;
+}
+
+// ref: PegasusShared.PlayQueueInfo
+message PlayQueueInfo {
+	BnetGameType game_type = 1;
+}
+
+// ref: PegasusShared.ProfileNoticeAccountLicense
+message ProfileNoticeAccountLicense {
+	// ref: PegasusShared.ProfileNoticeAccountLicense/NoticeID
+	enum NoticeID {
+		NOTICEID_AUTO_INVALID = 0;
+		ID = 16;
+	}
+
+	int64 license = 1;
+	int64 cas_id = 2;
+}
+
+// ref: PegasusShared.ProfileNoticeAdventureProgress
+message ProfileNoticeAdventureProgress {
+	// ref: PegasusShared.ProfileNoticeAdventureProgress/NoticeID
+	enum NoticeID {
+		NOTICEID_AUTO_INVALID = 0;
+		ID = 14;
+	}
+
+	int32 wing_id = 1;
+}
+
+// ref: PegasusShared.ProfileNoticeBonusStars
+message ProfileNoticeBonusStars {
+	// ref: PegasusShared.ProfileNoticeBonusStars/NoticeID
+	enum NoticeID {
+		NOTICEID_AUTO_INVALID = 0;
+		ID = 12;
+	}
+
+	int32 star_level = 1;
+	int32 stars = 2;
+}
+
+// ref: PegasusShared.ProfileNoticeCardBack
+message ProfileNoticeCardBack {
+	// ref: PegasusShared.ProfileNoticeCardBack/NoticeID
+	enum NoticeID {
+		NOTICEID_AUTO_INVALID = 0;
+		ID = 11;
+	}
+
+	int32 card_back = 1;
+}
+
+// ref: PegasusShared.ProfileNoticeDisconnectedGameResult
+message ProfileNoticeDisconnectedGameResult {
+	// ref: PegasusShared.ProfileNoticeDisconnectedGameResult/GameResult
+	enum GameResult {
+		GR_UNKNOWN = 0;
+		GR_PLAYING = 1;
+		GR_WINNER = 2;
+		GR_TIE = 3;
+	}
+
+	// ref: PegasusShared.ProfileNoticeDisconnectedGameResult/NoticeID
+	enum NoticeID {
+		NOTICEID_AUTO_INVALID = 0;
+		ID = 4;
+	}
+
+	// ref: PegasusShared.ProfileNoticeDisconnectedGameResult/PlayerResult
+	enum PlayerResult {
+		PR_UNKNOWN = 0;
+		PR_WON = 1;
+		PR_LOST = 2;
+		PR_DISCONNECTED = 3;
+		PR_QUIT = 4;
+	}
+
+	GameType game_type = 8;
+	int32 mission_id = 9;
+	GameResult game_result = 10;
+	PlayerResult your_result = 11;
+	PlayerResult opponent_result = 12;
+}
+
+// ref: PegasusShared.ProfileNoticeLevelUp
+message ProfileNoticeLevelUp {
+	// ref: PegasusShared.ProfileNoticeLevelUp/NoticeID
+	enum NoticeID {
+		NOTICEID_AUTO_INVALID = 0;
+		ID = 15;
+	}
+
+	int32 hero_class = 1;
+	int32 new_level = 2;
+}
+
+// ref: PegasusShared.ProfileNoticeMedal
+message ProfileNoticeMedal {
+	// ref: PegasusShared.ProfileNoticeMedal/NoticeID
+	enum NoticeID {
+		NOTICEID_AUTO_INVALID = 0;
+		ID = 1;
+	}
+
+	int32 star_level = 1;
+	int32 legend_rank = 2;
+	int32 best_star_level = 3;
+	RewardChest chest = 4;
+}
+
+// ref: PegasusShared.ProfileNoticePreconDeck
+message ProfileNoticePreconDeck {
+	// ref: PegasusShared.ProfileNoticePreconDeck/NoticeID
+	enum NoticeID {
+		NOTICEID_AUTO_INVALID = 0;
+		ID = 5;
+	}
+
+	int64 deck = 1;
+	int32 hero = 2;
+}
+
+// ref: PegasusShared.ProfileNoticePurchase
+message ProfileNoticePurchase {
+	// ref: PegasusShared.ProfileNoticePurchase/NoticeID
+	enum NoticeID {
+		NOTICEID_AUTO_INVALID = 0;
+		ID = 10;
+	}
+
+	string product_id = 1;
+	int64 data = 2;
+	int32 currency = 3;
+}
+
+// ref: PegasusShared.ProfileNoticeRewardBooster
+message ProfileNoticeRewardBooster {
+	// ref: PegasusShared.ProfileNoticeRewardBooster/NoticeID
+	enum NoticeID {
+		NOTICEID_AUTO_INVALID = 0;
+		ID = 2;
+	}
+
+	int32 booster_type = 1;
+	int32 booster_count = 2;
+}
+
+// ref: PegasusShared.ProfileNoticeRewardCard
+message ProfileNoticeRewardCard {
+	// ref: PegasusShared.ProfileNoticeRewardCard/NoticeID
+	enum NoticeID {
+		NOTICEID_AUTO_INVALID = 0;
+		ID = 3;
+	}
+
+	CardDef card = 1;
+	int32 quantity = 2;
+}
+
+// ref: PegasusShared.ProfileNoticeRewardCard2x
+message ProfileNoticeRewardCard2x {
+	// ref: PegasusShared.ProfileNoticeRewardCard2x/NoticeID
+	enum NoticeID {
+		NOTICEID_AUTO_INVALID = 0;
+		ID = 13;
+	}
+
+}
+
+// ref: PegasusShared.ProfileNoticeRewardDust
+message ProfileNoticeRewardDust {
+	// ref: PegasusShared.ProfileNoticeRewardDust/NoticeID
+	enum NoticeID {
+		NOTICEID_AUTO_INVALID = 0;
+		ID = 6;
+	}
+
+	int32 amount = 1;
+}
+
+// ref: PegasusShared.ProfileNoticeRewardForge
+message ProfileNoticeRewardForge {
+	// ref: PegasusShared.ProfileNoticeRewardForge/NoticeID
+	enum NoticeID {
+		NOTICEID_AUTO_INVALID = 0;
+		ID = 8;
+	}
+
+	int32 quantity = 1;
+}
+
+// ref: PegasusShared.ProfileNoticeRewardGold
+message ProfileNoticeRewardGold {
+	// ref: PegasusShared.ProfileNoticeRewardGold/NoticeID
+	enum NoticeID {
+		NOTICEID_AUTO_INVALID = 0;
+		ID = 9;
+	}
+
+	int32 amount = 1;
+}
+
+// ref: PegasusShared.ProfileNoticeRewardMount
+message ProfileNoticeRewardMount {
+	// ref: PegasusShared.ProfileNoticeRewardMount/NoticeID
+	enum NoticeID {
+		NOTICEID_AUTO_INVALID = 0;
+		ID = 7;
+	}
+
+	int32 mount_id = 1;
+}
+
+// ref: PegasusShared.RewardBag
+message RewardBag {
+	ProfileNoticeRewardBooster reward_booster = 1;
+	ProfileNoticeRewardCard reward_card = 2;
+	ProfileNoticeRewardDust reward_dust = 3;
+	ProfileNoticeRewardGold reward_gold = 4;
+	ProfileNoticeCardBack reward_card_back = 5;
+}
+
+// ref: PegasusShared.RewardChest
+message RewardChest {
+	RewardBag bag1 = 1;
+	RewardBag bag2 = 2;
+	RewardBag bag3 = 3;
+	RewardBag bag4 = 4;
+	RewardBag bag5 = 5;
+}
+
+// ref: PegasusShared.ScenarioDbRecord
+message ScenarioDbRecord {
+	int32 id = 1;
+	string note_desc = 2;
+	int32 num_players = 3;
+	int64 player1_hero_card_id = 4;
+	int64 player2_hero_card_id = 5;
+	bool is_expert = 6;
+	int32 adventure_id = 7;
+	int32 adventure_mode_id = 8;
+	int32 wing_id = 9;
+	int32 sort_order = 10;
+	int64 client_player2_hero_card_id = 11;
+	string tavern_brawl_texture = 12;
+	string tavern_brawl_texture_phone = 13;
+	Vector2 tavern_brawl_texture_phone_offset = 14;
+	repeated LocalizedString strings = 100 [packed=false];
+	repeated GameSetupRule rules = 101 [packed=false];
+}
+
+// ref: PegasusShared.TavernBrawlPlayerRecord
+message TavernBrawlPlayerRecord {
+	int32 reward_progress = 1;
+	int32 games_played = 2;
+	int32 games_won = 3;
+	int32 win_streak = 4;
+}
+
+// ref: PegasusShared.TavernBrawlSpec
+message TavernBrawlSpec {
+	uint64 end_seconds_from_now = 1;
+	int32 scenario_id = 2;
+	uint32 scenario_record_byte_size = 3;
+	bytes scenario_record_hash = 4;
+	int32 reward_type = 5;
+	int64 reward_data1 = 6;
+	int64 reward_data2 = 7;
+	int32 season_id = 11;
+	TavernBrawlPlayerRecord my_record = 105;
+}
+
+// ref: PegasusShared.Vector2
+message Vector2 {
+	float x = 1;
+	float y = 2;
+}
+

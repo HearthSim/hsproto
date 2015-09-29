@@ -1,0 +1,176 @@
+syntax = "proto3";
+package bnet.protocol.channel_invitation;
+
+// Proto extractor compiled unit - https://github.com/HearthSim/proto-extractor
+
+import "bnet/protocol/channel/channel.proto";
+import "bnet/protocol/channel_extracted/channel_extracted.proto";
+import "bnet/protocol/friends/friends.proto";
+import "bnet/protocol/invitation/invitation.proto";
+import "bnet/protocol/protocol.proto";
+
+// ref: bnet.protocol.channel_invitation.AcceptInvitationRequest
+message AcceptInvitationRequest {
+	bnet.protocol.EntityId agent_id = 1;
+	bnet.protocol.channel.MemberState member_state = 2;
+	fixed64 invitation_id = 3;
+	uint64 object_id = 4;
+	bnet.protocol.EntityId channel_id = 5;
+	uint32 service_type = 6;
+	bool local_subscriber = 7;
+}
+
+// ref: bnet.protocol.channel_invitation.AcceptInvitationResponse
+message AcceptInvitationResponse {
+	uint64 object_id = 1;
+}
+
+// ref: bnet.protocol.channel_invitation.ChannelCount
+message ChannelCount {
+	bnet.protocol.EntityId channel_id = 1;
+	string channel_type = 2;
+}
+
+// ref: bnet.protocol.channel_invitation.ChannelCountDescription
+message ChannelCountDescription {
+	uint32 service_type = 1;
+	fixed32 program = 2;
+	string channel_type = 3;
+	bnet.protocol.EntityId channel_id = 4;
+}
+
+// ref: bnet.protocol.channel_invitation.ChannelInvitationParams
+message ChannelInvitationParams {
+	bnet.protocol.EntityId channel_id = 1;
+	bool reserved = 2;
+	bool rejoin = 3;
+	uint32 service_type = 4;
+}
+
+// ref: bnet.protocol.channel_invitation.DecrementChannelCountRequest
+message DecrementChannelCountRequest {
+	bnet.protocol.EntityId agent_id = 1;
+	bnet.protocol.EntityId channel_id = 2;
+	uint64 reservation_token = 3;
+}
+
+// ref: bnet.protocol.channel_invitation.HasRoomForInvitationRequest
+message HasRoomForInvitationRequest {
+	uint32 service_type = 1;
+	fixed32 program = 2;
+	string channel_type = 3;
+}
+
+// ref: bnet.protocol.channel_invitation.IncrementChannelCountRequest
+message IncrementChannelCountRequest {
+	bnet.protocol.EntityId agent_id = 1;
+	repeated ChannelCountDescription descriptions = 2 [packed=false];
+}
+
+// ref: bnet.protocol.channel_invitation.IncrementChannelCountResponse
+message IncrementChannelCountResponse {
+	repeated uint64 reservation_tokens = 1 [packed=false];
+}
+
+// ref: bnet.protocol.channel_invitation.InvitationAddedNotification
+message InvitationAddedNotification {
+	bnet.protocol.channel_extracted.Invitation invitation = 1;
+}
+
+// ref: bnet.protocol.channel_invitation.InvitationCollection
+message InvitationCollection {
+	uint32 service_type = 1;
+	uint32 max_received_invitations = 2;
+	uint64 object_id = 3;
+	repeated bnet.protocol.channel_extracted.Invitation received_invitation = 4 [packed=false];
+}
+
+// ref: bnet.protocol.invitation.InvitationParams
+message InvitationParams {
+	string invitation_message = 1;
+	uint64 expiration_time = 2;
+	bnet.protocol.friends.FriendInvitationParams friend_params = 103;
+	ChannelInvitationParams channel_params = 105;
+}
+
+// ref: bnet.protocol.channel_invitation.InvitationRemovedNotification
+message InvitationRemovedNotification {
+	bnet.protocol.channel_extracted.Invitation invitation = 1;
+	uint32 reason = 2;
+}
+
+// ref: bnet.protocol.channel_invitation.ListChannelCountRequest
+message ListChannelCountRequest {
+	bnet.protocol.EntityId member_id = 1;
+	uint32 service_type = 2;
+	fixed32 program = 3;
+}
+
+// ref: bnet.protocol.channel_invitation.ListChannelCountResponse
+message ListChannelCountResponse {
+	repeated ChannelCount channel = 1 [packed=false];
+}
+
+// ref: bnet.protocol.channel_invitation.RevokeInvitationRequest
+message RevokeInvitationRequest {
+	bnet.protocol.EntityId agent_id = 1;
+	bnet.protocol.EntityId target_id = 2;
+	fixed64 invitation_id = 3;
+	bnet.protocol.EntityId channel_id = 4;
+}
+
+// ref: bnet.protocol.invitation.SendInvitationRequest
+message SendInvitationRequest {
+	bnet.protocol.Identity agent_identity = 1;
+	bnet.protocol.EntityId target_id = 2;
+	InvitationParams params = 3;
+	bnet.protocol.AccountInfo agent_info = 4;
+	bnet.protocol.invitation.InvitationTarget target = 5;
+}
+
+// ref: bnet.protocol.channel_invitation.SubscribeRequest
+message SubscribeRequest {
+	bnet.protocol.EntityId agent_id = 1;
+	uint64 object_id = 2;
+}
+
+// ref: bnet.protocol.channel_invitation.SubscribeResponse
+message SubscribeResponse {
+	repeated InvitationCollection collection = 1 [packed=false];
+	repeated bnet.protocol.channel_extracted.Invitation received_invitation = 2 [packed=false];
+}
+
+// ref: bnet.protocol.channel_invitation.SuggestInvitationRequest
+message SuggestInvitationRequest {
+	bnet.protocol.EntityId agent_id = 1;
+	bnet.protocol.EntityId channel_id = 2;
+	bnet.protocol.EntityId target_id = 3;
+	bnet.protocol.EntityId approval_id = 4;
+	bnet.protocol.Identity agent_identity = 5;
+	bnet.protocol.AccountInfo agent_info = 6;
+}
+
+// ref: bnet.protocol.channel_invitation.SuggestionAddedNotification
+message SuggestionAddedNotification {
+	bnet.protocol.invitation.Suggestion suggestion = 1;
+}
+
+// ref: bnet.protocol.channel_invitation.UnsubscribeRequest
+message UnsubscribeRequest {
+	bnet.protocol.EntityId agent_id = 1;
+}
+
+// ref: bnet.protocol.channel_invitation.UpdateChannelCountRequest
+message UpdateChannelCountRequest {
+	bnet.protocol.EntityId agent_id = 1;
+	uint64 reservation_token = 2;
+	bnet.protocol.EntityId channel_id = 3;
+}
+
+// ref: bnet.protocol.invitation.UpdateInvitationRequest
+message UpdateInvitationRequest {
+	bnet.protocol.Identity agent_identity = 1;
+	fixed64 invitation_id = 2;
+	InvitationParams params = 3;
+}
+
