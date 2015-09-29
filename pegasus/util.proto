@@ -1143,9 +1143,10 @@ message MedalInfo {
 	required int32 star_level = 8;
 	required int32 level_start = 9;
 	required int32 level_end = 10;
-	required bool can_lose = 11;
+	required bool can_lose_level = 11;
 	optional int32 legend_rank = 13;
 	optional int32 best_star_level = 14;
+	optional bool can_lose_stars = 15;
 }
 
 message MedalHistory {
