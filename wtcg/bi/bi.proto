@@ -61,6 +61,7 @@ message DataOnlyPatching {
 		FAILED_BAD_DATA = 5;
 		FAILED_MD5_MISMATCH = 6;
 		FAILED_BAD_ASSETBUNDLE = 7;
+		STARTED = 8;
 	}
 
 	Status status = 1;
@@ -70,6 +71,8 @@ message DataOnlyPatching {
 	uint64 game_account_id = 5;
 	int32 current_build = 6;
 	int32 new_build = 7;
+	string session_id = 8;
+	string device_unique_identifier = 9;
 }
 
 // ref: WTCG.BI.Telemetry

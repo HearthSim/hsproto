@@ -34,7 +34,8 @@ enum BnetGameType {
 	BGT_TEST2 = 12;
 	BGT_TEST3 = 13;
 	BGT_TAVERNBRAWL_PVP = 16;
-	BGT_LAST = 18;
+	BGT_TAVERNBRAWL_2P_COOP = 18;
+	BGT_LAST = 19;
 }
 
 // ref: PegasusShared.DatabaseAction
@@ -83,6 +84,35 @@ enum GameType {
 	GT_UNRANKED = 8;
 	GT_TAVERNBRAWL = 16;
 	GT_LAST = 17;
+	GT_TB_2P_COOP = 18;
+}
+
+// ref: PegasusShared.RewardTrigger
+enum RewardTrigger {
+	REWARD_TRIGGER_UNKNOWN = 0;
+	REWARD_TRIGGER_NONE = 1;
+	REWARD_TRIGGER_WIN_GAME = 2;
+	REWARD_TRIGGER_FINISH_GAME = 3;
+}
+
+// ref: PegasusShared.RewardType
+enum RewardType {
+	REWARD_UNKNOWN = 0;
+	REWARD_NONE = 1;
+	REWARD_ADVENTURE_PROGRESS = 2;
+	REWARD_ARCANE_DUST = 3;
+	REWARD_BASIC_CARD = 4;
+	REWARD_BOOSTER_PACKS = 5;
+	REWARD_CARD_BACK = 6;
+	REWARD_CARD_ID = 7;
+	REWARD_CARD_ID_2X = 8;
+	REWARD_CARD_SET = 9;
+	DEPRECATED_REWARD_CRAFTABLE_GOLDEN = 10;
+	REWARD_GOLD = 11;
+	REWARD_GOLD_HERO = 12;
+	REWARD_FORGE_TICKETS = 13;
+	REWARD_HERO = 14;
+	REWARD_EXTERNAL_GAME_MOUNT = 15;
 }
 
 // ref: PegasusShared.RuleType
@@ -479,6 +509,7 @@ message ScenarioDbRecord {
 	string tavern_brawl_texture = 12;
 	string tavern_brawl_texture_phone = 13;
 	Vector2 tavern_brawl_texture_phone_offset = 14;
+	bool is_coop = 15;
 	repeated LocalizedString strings = 100 [packed=false];
 	repeated GameSetupRule rules = 101 [packed=false];
 }
@@ -497,9 +528,10 @@ message TavernBrawlSpec {
 	int32 scenario_id = 2;
 	uint32 scenario_record_byte_size = 3;
 	bytes scenario_record_hash = 4;
-	int32 reward_type = 5;
+	RewardType reward_type = 5;
 	int64 reward_data1 = 6;
 	int64 reward_data2 = 7;
+	RewardTrigger reward_trigger = 8;
 	int32 season_id = 11;
 	TavernBrawlPlayerRecord my_record = 105;
 }
