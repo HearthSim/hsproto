@@ -315,6 +315,7 @@ message ScenarioDbRecord {
 	optional string tavern_brawl_texture = 12;
 	optional string tavern_brawl_texture_phone = 13;
 	optional Vector2 tavern_brawl_texture_phone_offset = 14;
+	optional bool is_coop = 15;
 	repeated LocalizedString strings = 100;
 	repeated GameSetupRule rules = 101;
 }
@@ -324,9 +325,10 @@ message TavernBrawlSpec {
 	required int32 scenario_id = 2;
 	required uint32 scenario_record_byte_size = 3;
 	required bytes scenario_record_hash = 4;
-	required int32 reward_type = 5;
+	required RewardType reward_type = 5;
 	required int64 reward_data1 = 6;
 	required int64 reward_data2 = 7;
+	optional RewardTrigger reward_trigger = 8 [default = REWARD_TRIGGER_UNKNOWN];
 	required int32 season_id = 11;
 	required TavernBrawlPlayerRecord my_record = 105;
 }
@@ -348,6 +350,7 @@ enum GameType {
 	GT_RANKED = 7;
 	GT_UNRANKED = 8;
 	GT_TAVERNBRAWL = 16;
+	GT_TB_2P_COOP = 18;
 	GT_LAST = 17;
 }
 
@@ -365,7 +368,8 @@ enum BnetGameType {
 	BGT_TEST2 = 12;
 	BGT_TEST3 = 13;
 	BGT_TAVERNBRAWL_PVP = 16;
-	BGT_LAST = 18;
+	BGT_TAVERNBRAWL_2P_COOP = 18;
+	BGT_LAST = 19;
 }
 
 enum DeckType {
@@ -380,6 +384,32 @@ enum RuleType {
 	RULE_NONE = 0;
 	RULE_CHOOSE_HERO = 1;
 	RULE_CHOOSE_DECK = 2;
+}
+
+enum RewardType {
+	REWARD_UNKNOWN = 0;
+	REWARD_NONE = 1;
+	REWARD_ADVENTURE_PROGRESS = 2;
+	REWARD_ARCANE_DUST = 3;
+	REWARD_BASIC_CARD = 4;
+	REWARD_BOOSTER_PACKS = 5;
+	REWARD_CARD_BACK = 6;
+	REWARD_CARD_ID = 7;
+	REWARD_CARD_ID_2X = 8;
+	REWARD_CARD_SET = 9;
+	DEPRECATED_REWARD_CRAFTABLE_GOLDEN = 10;
+	REWARD_GOLD = 11;
+	REWARD_GOLD_HERO = 12;
+	REWARD_FORGE_TICKETS = 13;
+	REWARD_HERO = 14;
+	REWARD_EXTERNAL_GAME_MOUNT = 15;
+}
+
+enum RewardTrigger {
+	REWARD_TRIGGER_UNKNOWN = 0;
+	REWARD_TRIGGER_NONE = 1;
+	REWARD_TRIGGER_WIN_GAME = 2;
+	REWARD_TRIGGER_FINISH_GAME = 3;
 }
 
 enum DatabaseResult {
