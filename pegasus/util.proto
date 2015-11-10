@@ -216,13 +216,6 @@ message ValidateAchieve {
 	required int32 achieve = 1;
 }
 
-message CloseCardMarket {
-	enum PacketID {
-		ID = 263;
-		System = 0;
-	}
-}
-
 message UpdateLogin {
 	enum PacketID {
 		ID = 205;
@@ -241,15 +234,6 @@ message DevBnetIdentify {
 	}
 
 	required string name = 1;
-}
-
-message UtilHandshake {
-	enum PacketID {
-		ID = 203;
-	}
-
-	required int32 client_handle = 1;
-	required int32 password = 2;
 }
 
 message SetOptions {
@@ -373,6 +357,12 @@ message Subscribe {
 	}
 }
 
+message Unsubscribe {
+	enum PacketID {
+		ID = 329;
+	}
+}
+
 message OneClientTracking {
 	enum Level {
 		L_INFO = 1;
@@ -393,15 +383,6 @@ message ClientTracking {
 	}
 
 	repeated OneClientTracking info = 4;
-}
-
-message GuardianTrack {
-	enum PacketID {
-		ID = 261;
-		System = 0;
-	}
-
-	required int32 what = 1;
 }
 
 message SetProgress {
@@ -787,12 +768,6 @@ message PlayQueue {
 	required PegasusShared.PlayQueueInfo queue = 1;
 }
 
-message DroppedRequest {
-	enum PacketID {
-		ID = 0;
-	}
-}
-
 message GuardianVars {
 	enum PacketID {
 		ID = 264;
@@ -956,20 +931,6 @@ message DraftChosen {
 	repeated PegasusShared.CardDef next_choice_list = 4;
 }
 
-message UtilAuth {
-	enum Result {
-		UNKNOWN = 0;
-		ALLOWED = 1;
-		INVALID = 2;
-		NO_SERVER = 3;
-	}
-	enum PacketID {
-		ID = 204;
-	}
-
-	required Result result = 1;
-}
-
 message ClientOptions {
 	enum PacketID {
 		ID = 241;
@@ -977,14 +938,6 @@ message ClientOptions {
 
 	repeated ClientOption options = 1;
 	optional bool failed = 2;
-}
-
-message ProfileLastLogin {
-	enum PacketID {
-		ID = 227;
-	}
-
-	required PegasusShared.Date last_login = 1;
 }
 
 message ProfileDeckLimit {
@@ -1021,21 +974,6 @@ message DeckList {
 	}
 
 	repeated PegasusShared.DeckInfo decks = 1;
-}
-
-message DebugAuth {
-	enum Result {
-		UNKNOWN = 0;
-		VALID = 1;
-		BAD_USER = 2;
-		BAD_PASSWORD = 3;
-	}
-	enum PacketID {
-		ID = 206;
-	}
-
-	required Result result = 1;
-	required int64 player_id = 2;
 }
 
 message Collection {
@@ -1088,24 +1026,6 @@ message DeckRenamed {
 
 	required int64 deck = 1;
 	required string name = 2;
-}
-
-message DeckGainedCard {
-	enum PacketID {
-		ID = 220;
-	}
-
-	required int64 deck = 1;
-	required int64 card = 2;
-}
-
-message DeckLostCard {
-	enum PacketID {
-		ID = 221;
-	}
-
-	required int64 deck = 1;
-	required int64 card = 2;
 }
 
 message BoosterList {
@@ -1231,18 +1151,6 @@ message BattlePayStatusResponse {
 	optional PegasusShared.BattlePayProvider provider = 8 [default = BP_PROVIDER_BLIZZARD];
 }
 
-message Error37 {
-	enum ThrottleReason {
-		TR_DB_LOAD = 0;
-	}
-	enum PacketID {
-		ID = 266;
-	}
-
-	required ThrottleReason reason = 1;
-	required int64 retry_millis = 2;
-}
-
 message MassDisenchantResponse {
 	enum PacketID {
 		ID = 269;
@@ -1290,15 +1198,6 @@ message CancelPurchaseResponse {
 	optional int64 transaction_id = 2;
 	optional string product_id = 3;
 	optional int32 currency = 4;
-}
-
-message CheckLicensesResponse {
-	enum PacketID {
-		ID = 277;
-	}
-
-	required bool account_level = 1;
-	required bool success = 2;
 }
 
 message PurchaseWithGoldResponse {
@@ -1415,17 +1314,21 @@ message AccountLicenseAchieveResponse {
 }
 
 message SubscribeResponse {
+	enum ResponseResult {
+		SUCCESS = 1;
+		FAILED_UNAVAILABLE = 2;
+	}
 	enum PacketID {
 		ID = 315;
 	}
-	enum Features {
-		F_SYSTEM_0 = 1;
-		F_SYSTEM_1 = 2;
-	}
 
 	optional uint64 route = 1;
-	optional uint64 supported_features = 2;
 	optional uint64 keep_alive_secs = 3;
+	optional uint64 max_resubscribe_attempts = 4 [default = 0];
+	optional uint64 pending_response_timeout = 5 [default = 0];
+	optional uint64 pending_subscribe_timeout = 6 [default = 0];
+	optional ResponseResult result = 7 [default = SUCCESS];
+	optional uint64 request_max_wait_secs = 8;
 }
 
 message TavernBrawlInfo {
@@ -1442,10 +1345,6 @@ message TavernBrawlPlayerRecordResponse {
 		ID = 317;
 	}
 
-	required int32 deprecated_reward_progress = 1;
-	required int32 deprecated_games_played = 2;
-	required int32 deprecated_games_won = 3;
-	required int32 deprecated_win_streak = 4;
 	optional PegasusShared.TavernBrawlPlayerRecord record = 6;
 }
 
@@ -1491,6 +1390,76 @@ message AccountLicensesInfoResponse {
 	repeated PegasusShared.AccountLicenseInfo list = 1;
 }
 
+message GenericData {
+	required uint32 type_id = 1;
+	required bytes data = 2;
+}
+
+message GenericResponse {
+	enum Result {
+		RESULT_OK = 0;
+		RESULT_REQUEST_IN_PROCESS = 1;
+		RESULT_REQUEST_COMPLETE = 2;
+		RESULT_UNKNOWN_ERROR = 100;
+		RESULT_INTERNAL_ERROR = 101;
+		RESULT_DB_ERROR = 102;
+		RESULT_INVALID_REQUEST = 103;
+		RESULT_LOGIN_LOAD = 104;
+		RESULT_DATA_MIGRATION_ERROR = 105;
+	}
+	enum PacketID {
+		ID = 326;
+	}
+
+	required Result result_code = 1;
+	required int32 request_id = 2;
+	optional int32 request_sub_id = 3;
+	optional GenericData generic_data = 4;
+}
+
+message GenericRequest {
+	required int32 request_id = 1;
+	optional GenericData generic_data = 2;
+	optional int32 request_sub_id = 3;
+}
+
+message GenericRequestList {
+	enum PacketID {
+		ID = 327;
+		System = 0;
+	}
+
+	repeated GenericRequest requests = 1;
+}
+
+message ClientRequestResponse {
+	enum ClientRequestResponseFlags {
+		CRRF_SERVICE_NONE = 0;
+		CRRF_SERVICE_UNAVAILABLE = 1;
+	}
+	enum PacketID {
+		ID = 328;
+	}
+
+	optional ClientRequestResponseFlags response_flags = 1 [default = CRRF_SERVICE_NONE];
+}
+
+message CheckAccountLicensesResponse {
+	enum PacketID {
+		ID = 330;
+	}
+
+	required bool success = 1;
+}
+
+message CheckGameLicensesResponse {
+	enum PacketID {
+		ID = 331;
+	}
+
+	required bool success = 1;
+}
+
 enum ProductType {
 	PRODUCT_TYPE_UNKNOWN = 0;
 	PRODUCT_TYPE_BOOSTER = 1;
@@ -1499,4 +1468,5 @@ enum ProductType {
 	PRODUCT_TYPE_BRM = 4;
 	PRODUCT_TYPE_CARD_BACK = 5;
 	PRODUCT_TYPE_HERO = 6;
+	PRODUCT_TYPE_LOE = 7;
 }

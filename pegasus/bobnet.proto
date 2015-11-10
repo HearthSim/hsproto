@@ -1,23 +1,9 @@
 package BobNetProto;
-import "pegasus/shared.proto";
-
 
 message PACKETTYPES {
 	enum BobNetCount {
 		COUNT = 500;
 	}
-}
-
-message AutoLogin {
-	enum PacketID {
-		ID = 103;
-	}
-
-	required string user = 1;
-	required string pwd = 2;
-	required int32 build_id = 3;
-	required string debug_name = 4;
-	required int32 source = 5;
 }
 
 message DebugConsoleGetCmdList {
@@ -131,30 +117,4 @@ message DeadendUtil {
 	optional string reply1 = 1;
 	optional string reply2 = 2;
 	optional string reply3 = 3;
-}
-
-message Pong {
-	enum PacketID {
-		ID = 116;
-	}
-}
-
-message AuroraHandshake {
-	enum PacketID {
-		ID = 168;
-	}
-
-	required int32 game_handle = 1;
-	required string password = 2;
-	required int64 client_handle = 3;
-	optional int32 mission = 4;
-	required string version = 5;
-	required int32 old_platform = 6;
-	optional PegasusShared.Platform platform = 7;
-}
-
-message Ping {
-	enum PacketID {
-		ID = 115;
-	}
 }

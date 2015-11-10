@@ -36,12 +36,23 @@ message Player {
 	required Entity entity = 4;
 }
 
-message ClientPacket {
+message Handshake {
 	enum PacketID {
-		ID = 6;
+		ID = 168;
 	}
 
-	required bytes packet = 1;
+	required int32 game_handle = 1;
+	required string password = 2;
+	required int64 client_handle = 3;
+	optional int32 mission = 4;
+	required string version = 5;
+	required PegasusShared.Platform platform = 7;
+}
+
+message Ping {
+	enum PacketID {
+		ID = 115;
+	}
 }
 
 message GetGameState {
@@ -60,8 +71,6 @@ message ChooseOption {
 	required int32 target = 3;
 	optional int32 sub_option = 4;
 	optional int32 position = 5;
-	required int32 old_platform = 6;
-	optional PegasusShared.Platform platform = 7;
 }
 
 message ChooseEntities {
@@ -91,13 +100,10 @@ message UserUI {
 	optional int32 player_id = 3;
 }
 
-message GiveUp {
+message Concede {
 	enum PacketID {
 		ID = 11;
 	}
-
-	required int32 old_platform = 1;
-	optional PegasusShared.Platform platform = 2;
 }
 
 message InviteToSpectate {
@@ -117,6 +123,12 @@ message RemoveSpectators {
 	repeated PegasusShared.BnetId target_gameaccount_ids = 1;
 	optional bool kick_all_spectators = 2 [default = false];
 	optional bool regenerate_spectator_password = 3 [default = false];
+}
+
+message Pong {
+	enum PacketID {
+		ID = 116;
+	}
 }
 
 message GameSetup {
