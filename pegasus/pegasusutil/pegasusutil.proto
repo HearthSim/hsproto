@@ -14,6 +14,7 @@ enum ProductType {
 	PRODUCT_TYPE_BRM = 4;
 	PRODUCT_TYPE_CARD_BACK = 5;
 	PRODUCT_TYPE_HERO = 6;
+	PRODUCT_TYPE_LOE = 7;
 }
 
 // ref: PegasusUtil.AccountLicenseAchieveResponse
@@ -464,6 +465,17 @@ message CheckAccountLicenses {
 
 }
 
+// ref: PegasusUtil.CheckAccountLicensesResponse
+message CheckAccountLicensesResponse {
+	// ref: PegasusUtil.CheckAccountLicensesResponse/PacketID
+	enum PacketID {
+		PACKETID_AUTO_INVALID = 0;
+		ID = 330;
+	}
+
+	bool success = 1;
+}
+
 // ref: PegasusUtil.CheckGameLicenses
 message CheckGameLicenses {
 	// ref: PegasusUtil.CheckGameLicenses/PacketID
@@ -475,16 +487,15 @@ message CheckGameLicenses {
 
 }
 
-// ref: PegasusUtil.CheckLicensesResponse
-message CheckLicensesResponse {
-	// ref: PegasusUtil.CheckLicensesResponse/PacketID
+// ref: PegasusUtil.CheckGameLicensesResponse
+message CheckGameLicensesResponse {
+	// ref: PegasusUtil.CheckGameLicensesResponse/PacketID
 	enum PacketID {
 		PACKETID_AUTO_INVALID = 0;
-		ID = 277;
+		ID = 331;
 	}
 
-	bool account_level = 1;
-	bool success = 2;
+	bool success = 1;
 }
 
 // ref: PegasusUtil.ClientOption
@@ -509,6 +520,23 @@ message ClientOptions {
 	bool failed = 2;
 }
 
+// ref: PegasusUtil.ClientRequestResponse
+message ClientRequestResponse {
+	// ref: PegasusUtil.ClientRequestResponse/ClientRequestResponseFlags
+	enum ClientRequestResponseFlags {
+		CRRF_SERVICE_NONE = 0;
+		CRRF_SERVICE_UNAVAILABLE = 1;
+	}
+
+	// ref: PegasusUtil.ClientRequestResponse/PacketID
+	enum PacketID {
+		PACKETID_AUTO_INVALID = 0;
+		ID = 328;
+	}
+
+	ClientRequestResponseFlags response_flags = 1;
+}
+
 // ref: PegasusUtil.ClientTracking
 message ClientTracking {
 	// ref: PegasusUtil.ClientTracking/PacketID
@@ -518,16 +546,6 @@ message ClientTracking {
 	}
 
 	repeated OneClientTracking info = 4 [packed=false];
-}
-
-// ref: PegasusUtil.CloseCardMarket
-message CloseCardMarket {
-	// ref: PegasusUtil.CloseCardMarket/PacketID
-	enum PacketID {
-		system = 0;
-		ID = 263;
-	}
-
 }
 
 // ref: PegasusUtil.Collection
@@ -566,26 +584,6 @@ message DBAction {
 	pegasus.pegasusshared.DatabaseAction action = 1;
 	pegasus.pegasusshared.DatabaseResult result = 2;
 	int64 meta_data = 3;
-}
-
-// ref: PegasusUtil.DebugAuth
-message DebugAuth {
-	// ref: PegasusUtil.DebugAuth/PacketID
-	enum PacketID {
-		PACKETID_AUTO_INVALID = 0;
-		ID = 206;
-	}
-
-	// ref: PegasusUtil.DebugAuth/Result
-	enum Result {
-		UNKNOWN = 0;
-		VALID = 1;
-		BAD_USER = 2;
-		BAD_PASSWORD = 3;
-	}
-
-	Result result = 1;
-	int64 player_id = 2;
 }
 
 // ref: PegasusUtil.DebugCommandRequest
@@ -646,18 +644,6 @@ message DeckDeleted {
 	int64 deck = 1;
 }
 
-// ref: PegasusUtil.DeckGainedCard
-message DeckGainedCard {
-	// ref: PegasusUtil.DeckGainedCard/PacketID
-	enum PacketID {
-		PACKETID_AUTO_INVALID = 0;
-		ID = 220;
-	}
-
-	int64 deck = 1;
-	int64 card = 2;
-}
-
 // ref: PegasusUtil.DeckList
 message DeckList {
 	// ref: PegasusUtil.DeckList/PacketID
@@ -667,18 +653,6 @@ message DeckList {
 	}
 
 	repeated pegasus.pegasusshared.DeckInfo decks = 1 [packed=false];
-}
-
-// ref: PegasusUtil.DeckLostCard
-message DeckLostCard {
-	// ref: PegasusUtil.DeckLostCard/PacketID
-	enum PacketID {
-		PACKETID_AUTO_INVALID = 0;
-		ID = 221;
-	}
-
-	int64 deck = 1;
-	int64 card = 2;
 }
 
 // ref: PegasusUtil.DeckRenamed
@@ -904,32 +878,6 @@ message DraftRewardsAcked {
 	int64 deck_id = 1;
 }
 
-// ref: PegasusUtil.DroppedRequest
-message DroppedRequest {
-	// ref: PegasusUtil.DroppedRequest/PacketID
-	enum PacketID {
-		ID = 0;
-	}
-
-}
-
-// ref: PegasusUtil.Error37
-message Error37 {
-	// ref: PegasusUtil.Error37/PacketID
-	enum PacketID {
-		PACKETID_AUTO_INVALID = 0;
-		ID = 266;
-	}
-
-	// ref: PegasusUtil.Error37/ThrottleReason
-	enum ThrottleReason {
-		TR_DB_LOAD = 0;
-	}
-
-	ThrottleReason reason = 1;
-	int64 retry_millis = 2;
-}
-
 // ref: PegasusUtil.FavoriteHeroesResponse
 message FavoriteHeroesResponse {
 	// ref: PegasusUtil.FavoriteHeroesResponse/PacketID
@@ -953,6 +901,57 @@ message GamesInfo {
 	int32 games_won = 2;
 	int32 games_lost = 3;
 	int32 free_reward_progress = 4;
+}
+
+// ref: PegasusUtil.GenericData
+message GenericData {
+	uint32 type_id = 1;
+	bytes data = 2;
+}
+
+// ref: PegasusUtil.GenericRequest
+message GenericRequest {
+	int32 request_id = 1;
+	GenericData generic_data = 2;
+	int32 request_sub_id = 3;
+}
+
+// ref: PegasusUtil.GenericRequestList
+message GenericRequestList {
+	// ref: PegasusUtil.GenericRequestList/PacketID
+	enum PacketID {
+		system = 0;
+		ID = 327;
+	}
+
+	repeated GenericRequest requests = 1 [packed=false];
+}
+
+// ref: PegasusUtil.GenericResponse
+message GenericResponse {
+	// ref: PegasusUtil.GenericResponse/PacketID
+	enum PacketID {
+		PACKETID_AUTO_INVALID = 0;
+		ID = 326;
+	}
+
+	// ref: PegasusUtil.GenericResponse/Result
+	enum Result {
+		RESULT_OK = 0;
+		RESULT_REQUEST_IN_PROCESS = 1;
+		RESULT_REQUEST_COMPLETE = 2;
+		RESULT_UNKNOWN_ERROR = 100;
+		RESULT_INTERNAL_ERROR = 101;
+		RESULT_DB_ERROR = 102;
+		RESULT_INVALID_REQUEST = 103;
+		RESULT_LOGIN_LOAD = 104;
+		RESULT_DATA_MIGRATION_ERROR = 105;
+	}
+
+	Result result_code = 1;
+	int32 request_id = 2;
+	int32 request_sub_id = 3;
+	GenericData generic_data = 4;
 }
 
 // ref: PegasusUtil.GetAccountInfo
@@ -1141,17 +1140,6 @@ message GoldBalance {
 message GoldCostBooster {
 	int64 cost = 1;
 	int32 pack_type = 2;
-}
-
-// ref: PegasusUtil.GuardianTrack
-message GuardianTrack {
-	// ref: PegasusUtil.GuardianTrack/PacketID
-	enum PacketID {
-		system = 0;
-		ID = 261;
-	}
-
-	int32 what = 1;
 }
 
 // ref: PegasusUtil.GuardianVars
@@ -1374,17 +1362,6 @@ message ProfileDeckLimit {
 	}
 
 	int32 deck_limit = 1;
-}
-
-// ref: PegasusUtil.ProfileLastLogin
-message ProfileLastLogin {
-	// ref: PegasusUtil.ProfileLastLogin/PacketID
-	enum PacketID {
-		PACKETID_AUTO_INVALID = 0;
-		ID = 227;
-	}
-
-	pegasus.pegasusshared.Date last_login = 1;
 }
 
 // ref: PegasusUtil.ProfileNotice
@@ -1733,22 +1710,26 @@ message Subscribe {
 
 // ref: PegasusUtil.SubscribeResponse
 message SubscribeResponse {
-	// ref: PegasusUtil.SubscribeResponse/Features
-	enum Features {
-		FEATURES_AUTO_INVALID = 0;
-		F_SYSTEM_0 = 1;
-		F_SYSTEM_1 = 2;
-	}
-
 	// ref: PegasusUtil.SubscribeResponse/PacketID
 	enum PacketID {
 		PACKETID_AUTO_INVALID = 0;
 		ID = 315;
 	}
 
+	// ref: PegasusUtil.SubscribeResponse/ResponseResult
+	enum ResponseResult {
+		RESPONSERESULT_AUTO_INVALID = 0;
+		SUCCESS = 1;
+		FAILED_UNAVAILABLE = 2;
+	}
+
 	uint64 route = 1;
-	uint64 supported_features = 2;
 	uint64 keep_alive_secs = 3;
+	uint64 max_resubscribe_attempts = 4;
+	uint64 pending_response_timeout = 5;
+	uint64 pending_subscribe_timeout = 6;
+	ResponseResult result = 7;
+	uint64 request_max_wait_secs = 8;
 }
 
 // ref: PegasusUtil.TavernBrawlInfo
@@ -1771,10 +1752,6 @@ message TavernBrawlPlayerRecordResponse {
 		ID = 317;
 	}
 
-	int32 deprecated_reward_progress = 1;
-	int32 deprecated_games_played = 2;
-	int32 deprecated_games_won = 3;
-	int32 deprecated_win_streak = 4;
 	pegasus.pegasusshared.TavernBrawlPlayerRecord record = 6;
 }
 
@@ -1830,6 +1807,16 @@ message TriggerLaunchDayEvent {
 	NearbyPlayer other_player = 2;
 }
 
+// ref: PegasusUtil.Unsubscribe
+message Unsubscribe {
+	// ref: PegasusUtil.Unsubscribe/PacketID
+	enum PacketID {
+		PACKETID_AUTO_INVALID = 0;
+		ID = 329;
+	}
+
+}
+
 // ref: PegasusUtil.UpdateLogin
 message UpdateLogin {
 	// ref: PegasusUtil.UpdateLogin/PacketID
@@ -1851,37 +1838,6 @@ message UpdateLoginComplete {
 		ID = 307;
 	}
 
-}
-
-// ref: PegasusUtil.UtilAuth
-message UtilAuth {
-	// ref: PegasusUtil.UtilAuth/PacketID
-	enum PacketID {
-		PACKETID_AUTO_INVALID = 0;
-		ID = 204;
-	}
-
-	// ref: PegasusUtil.UtilAuth/Result
-	enum Result {
-		UNKNOWN = 0;
-		ALLOWED = 1;
-		INVALID = 2;
-		NO_SERVER = 3;
-	}
-
-	Result result = 1;
-}
-
-// ref: PegasusUtil.UtilHandshake
-message UtilHandshake {
-	// ref: PegasusUtil.UtilHandshake/PacketID
-	enum PacketID {
-		PACKETID_AUTO_INVALID = 0;
-		ID = 203;
-	}
-
-	int32 client_handle = 1;
-	int32 password = 2;
 }
 
 // ref: PegasusUtil.ValidateAchieve

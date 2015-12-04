@@ -150,14 +150,15 @@ message Telemetry {
 	Locale locale = 3;
 	string version = 4;
 	Platform platform = 5;
-	ScreenUI screen_ui = 6;
-	Store store = 7;
-	string session_id = 8;
-	string device_unique_identifier = 9;
-	uint64 event = 10;
-	BnetRegion bnet_region = 11;
-	uint64 game_account_id = 12;
-	int64 error_code = 13;
-	string message = 14;
+	string os = 6;
+	ScreenUI screen_ui = 7;
+	Store store = 8;
+	string session_id = 9;
+	string device_unique_identifier = 10;
+	uint64 event = 11;
+	BnetRegion bnet_region = 12;
+	uint64 game_account_id = 13;
+	int64 error_code = 14;
+	string message = 15;
 }
 

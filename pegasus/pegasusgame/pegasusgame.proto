@@ -42,19 +42,16 @@ message ChooseOption {
 	int32 target = 3;
 	int32 sub_option = 4;
 	int32 position = 5;
-	int32 old_platform = 6;
-	pegasus.pegasusshared.Platform platform = 7;
 }
 
-// ref: PegasusGame.ClientPacket
-message ClientPacket {
-	// ref: PegasusGame.ClientPacket/PacketID
+// ref: PegasusGame.Concede
+message Concede {
+	// ref: PegasusGame.Concede/PacketID
 	enum PacketID {
 		PACKETID_AUTO_INVALID = 0;
-		ID = 6;
+		ID = 11;
 	}
 
-	bytes packet = 1;
 }
 
 // ref: PegasusGame.DebugMessage
@@ -144,16 +141,20 @@ message GetGameState {
 
 }
 
-// ref: PegasusGame.GiveUp
-message GiveUp {
-	// ref: PegasusGame.GiveUp/PacketID
+// ref: PegasusGame.Handshake
+message Handshake {
+	// ref: PegasusGame.Handshake/PacketID
 	enum PacketID {
 		PACKETID_AUTO_INVALID = 0;
-		ID = 11;
+		ID = 168;
 	}
 
-	int32 old_platform = 1;
-	pegasus.pegasusshared.Platform platform = 2;
+	int32 game_handle = 1;
+	string password = 2;
+	int64 client_handle = 3;
+	int32 mission = 4;
+	string version = 5;
+	pegasus.pegasusshared.Platform platform = 7;
 }
 
 // ref: PegasusGame.HistoryBlock
@@ -231,12 +232,32 @@ message Option {
 	repeated SubOption sub_options = 3 [packed=false];
 }
 
+// ref: PegasusGame.Ping
+message Ping {
+	// ref: PegasusGame.Ping/PacketID
+	enum PacketID {
+		PACKETID_AUTO_INVALID = 0;
+		ID = 115;
+	}
+
+}
+
 // ref: PegasusGame.Player
 message Player {
 	int32 id = 1;
 	pegasus.pegasusshared.BnetId game_account_id = 2;
 	int32 card_back = 3;
 	Entity entity = 4;
+}
+
+// ref: PegasusGame.Pong
+message Pong {
+	// ref: PegasusGame.Pong/PacketID
+	enum PacketID {
+		PACKETID_AUTO_INVALID = 0;
+		ID = 116;
+	}
+
 }
 
 // ref: PegasusGame.PowerHistory

@@ -3,39 +3,6 @@ package bobnetproto;
 
 // Proto extractor compiled unit - https://github.com/HearthSim/proto-extractor
 
-import "pegasus/pegasusshared/pegasusshared.proto";
-
-// ref: BobNetProto.AuroraHandshake
-message AuroraHandshake {
-	// ref: BobNetProto.AuroraHandshake/PacketID
-	enum PacketID {
-		PACKETID_AUTO_INVALID = 0;
-		ID = 168;
-	}
-
-	int32 game_handle = 1;
-	string password = 2;
-	int64 client_handle = 3;
-	int32 mission = 4;
-	string version = 5;
-	int32 old_platform = 6;
-	pegasus.pegasusshared.Platform platform = 7;
-}
-
-// ref: BobNetProto.AutoLogin
-message AutoLogin {
-	// ref: BobNetProto.AutoLogin/PacketID
-	enum PacketID {
-		PACKETID_AUTO_INVALID = 0;
-		ID = 103;
-	}
-
-	string user = 1;
-	string pwd = 2;
-	int32 build_id = 3;
-	string debug_name = 4;
-	int32 source = 5;
-}
 
 // ref: BobNetProto.Deadend
 message Deadend {
@@ -209,26 +176,6 @@ message PACKETTYPES {
 	enum BobNetCount {
 		BOBNETCOUNT_AUTO_INVALID = 0;
 		COUNT = 500;
-	}
-
-}
-
-// ref: BobNetProto.Ping
-message Ping {
-	// ref: BobNetProto.Ping/PacketID
-	enum PacketID {
-		PACKETID_AUTO_INVALID = 0;
-		ID = 115;
-	}
-
-}
-
-// ref: BobNetProto.Pong
-message Pong {
-	// ref: BobNetProto.Pong/PacketID
-	enum PacketID {
-		PACKETID_AUTO_INVALID = 0;
-		ID = 116;
 	}
 
 }
