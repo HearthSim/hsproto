@@ -159,17 +159,13 @@ message ArcaneDustBalance {
 	int64 balance = 1;
 }
 
-// ref: PegasusUtil.AssetRequestKey
-message AssetRequestKey {
-	pegasus.pegasusshared.AssetType type = 1;
-	int32 asset_id = 2;
-}
-
 // ref: PegasusUtil.AssetResponse
 message AssetResponse {
-	AssetRequestKey requested_key = 1;
+	pegasus.pegasusshared.AssetKey requested_key = 1;
 	pegasus.pegasusshared.DatabaseResult error_code = 2;
 	pegasus.pegasusshared.ScenarioDbRecord scenario_asset = 100;
+	pegasus.pegasusshared.SubsetCardListDbRecord subset_card_list_asset = 101;
+	pegasus.pegasusshared.DeckRulesetDbRecord deck_ruleset_asset = 102;
 }
 
 // ref: PegasusUtil.AssetsVersionResponse
@@ -252,26 +248,6 @@ message BoosterList {
 	repeated pegasus.pegasusshared.BoosterInfo list = 1 [packed=false];
 }
 
-// ref: PegasusUtil.BoosterTally
-message BoosterTally {
-	bool is_open = 1;
-	int32 type_id = 2;
-	bool is_bought = 3;
-	int32 source_id = 4;
-	int32 count = 5;
-}
-
-// ref: PegasusUtil.BoosterTallyList
-message BoosterTallyList {
-	// ref: PegasusUtil.BoosterTallyList/PacketID
-	enum PacketID {
-		PACKETID_AUTO_INVALID = 0;
-		ID = 313;
-	}
-
-	repeated BoosterTally list = 1 [packed=false];
-}
-
 // ref: PegasusUtil.BoughtSoldCard
 message BoughtSoldCard {
 	// ref: PegasusUtil.BoughtSoldCard/PacketID
@@ -338,6 +314,18 @@ message BuySellCard {
 
 // ref: PegasusUtil.CancelPurchase
 message CancelPurchase {
+	// ref: PegasusUtil.CancelPurchase/CancelReason
+	enum CancelReason {
+		CANCELREASON_AUTO_INVALID = 0;
+		PROVIDER_REPORTED_FAILURE = 1;
+		NOT_RECOGNIZED_BY_PROVIDER = 2;
+		USER_CANCELED_BEFORE_PAYMENT = 3;
+		USER_CANCELING_TO_UNBLOCK = 4;
+		CHALLENGE_TIMEOUT = 5;
+		CHALLENGE_DENIED = 6;
+		CHALLENGE_OTHER_ERROR = 7;
+	}
+
 	// ref: PegasusUtil.CancelPurchase/PacketID
 	enum PacketID {
 		PACKETID_AUTO_INVALID = 0;
@@ -345,18 +333,10 @@ message CancelPurchase {
 		ID = 274;
 	}
 
-	// ref: PegasusUtil.CancelPurchase/ThirdPartyCancelReason
-	enum ThirdPartyCancelReason {
-		THIRDPARTYCANCELREASON_AUTO_INVALID = 0;
-		PROVIDER_REPORTED_FAILURE = 1;
-		NOT_RECOGNIZED_BY_PROVIDER = 2;
-		USER_CANCELED_BEFORE_PAYMENT = 3;
-		USER_CANCELING_TO_UNBLOCK = 4;
-	}
-
 	bool is_auto_cancel = 1;
-	ThirdPartyCancelReason third_party_reason = 2;
+	CancelReason reason = 2;
 	string device_id = 3;
+	string error_message = 4;
 }
 
 // ref: PegasusUtil.CancelPurchaseResponse
@@ -526,6 +506,7 @@ message ClientRequestResponse {
 	enum ClientRequestResponseFlags {
 		CRRF_SERVICE_NONE = 0;
 		CRRF_SERVICE_UNAVAILABLE = 1;
+		CRRF_SERVICE_UNKNOWN_ERROR = 2;
 	}
 
 	// ref: PegasusUtil.ClientRequestResponse/PacketID
@@ -679,6 +660,18 @@ message DeckSetData {
 	repeated pegasus.pegasusshared.DeckCardData cards = 2 [packed=false];
 	pegasus.pegasusshared.CardDef hero = 3;
 	int32 card_back = 4;
+}
+
+// ref: PegasusUtil.DeckSetTemplateSource
+message DeckSetTemplateSource {
+	// ref: PegasusUtil.DeckSetTemplateSource/PacketID
+	enum PacketID {
+		system = 0;
+		ID = 332;
+	}
+
+	int64 deck = 1;
+	int32 template_id = 2;
 }
 
 // ref: PegasusUtil.DeleteDeck
@@ -1027,7 +1020,8 @@ message GetAssetRequest {
 		ID = 321;
 	}
 
-	repeated AssetRequestKey requests = 1 [packed=false];
+	repeated pegasus.pegasusshared.AssetKey requests = 1 [packed=false];
+	int32 client_token = 2;
 }
 
 // ref: PegasusUtil.GetAssetResponse
@@ -1039,6 +1033,7 @@ message GetAssetResponse {
 	}
 
 	repeated AssetResponse responses = 1 [packed=false];
+	int32 client_token = 3;
 }
 
 // ref: PegasusUtil.GetAssetsVersion
@@ -1108,6 +1103,7 @@ message GetPurchaseMethod {
 	int32 quantity = 2;
 	int32 currency = 3;
 	string device_id = 4;
+	pegasus.pegasusshared.Platform platform = 5;
 }
 
 // ref: PegasusUtil.GetThirdPartyPurchaseStatus
@@ -1452,6 +1448,8 @@ message PurchaseError {
 		E_BP_THIRD_PARTY_RECEIPT_USED = 111;
 		E_BP_PRODUCT_UNIQUENESS_VIOLATED = 112;
 		E_BP_REGION_IS_DOWN = 113;
+		E_BP_GENERIC_FAIL_RETRY_CONTACT_CS_IF_PERSISTS = 115;
+		E_BP_CHALLENGE_ID_FAILED_VERIFICATION = 116;
 	}
 
 	Error error = 1;
@@ -1475,6 +1473,8 @@ message PurchaseMethod {
 	PurchaseError error = 6;
 	int64 transaction_id = 7;
 	bool is_zero_cost_license = 8;
+	string challenge_id = 9;
+	string challenge_url = 10;
 }
 
 // ref: PegasusUtil.PurchaseResponse
@@ -1491,8 +1491,6 @@ message PurchaseResponse {
 	string third_party_id = 4;
 	int32 currency = 5;
 	bool is_zero_cost_license = 6;
-	string challenge_id = 7;
-	string challenge_url = 8;
 }
 
 // ref: PegasusUtil.PurchaseWithGold
@@ -1560,6 +1558,18 @@ message RewardProgress {
 	int32 max_hero_level = 10;
 	pegasus.pegasusshared.Date next_quest_cancel = 11;
 	float event_timing_mod = 12;
+}
+
+// ref: PegasusUtil.RpcHeader
+message RpcHeader {
+	uint64 type = 1;
+	uint64 retry_count = 2;
+}
+
+// ref: PegasusUtil.RpcMessage
+message RpcMessage {
+	RpcHeader rpc_header = 1;
+	bytes message_body = 2;
 }
 
 // ref: PegasusUtil.SetAdventureOptions

@@ -8,6 +8,8 @@ package pegasus.pegasusshared;
 enum AssetType {
 	ASSETTYPE_AUTO_INVALID = 0;
 	ASSET_TYPE_SCENARIO = 1;
+	ASSET_TYPE_SUBSET_CARD = 2;
+	ASSET_TYPE_DECK_RULESET = 3;
 }
 
 // ref: PegasusShared.BattlePayProvider
@@ -34,6 +36,7 @@ enum BnetGameType {
 	BGT_TEST2 = 12;
 	BGT_TEST3 = 13;
 	BGT_TAVERNBRAWL_PVP = 16;
+	BGT_TAVERNBRAWL_1P_VERSUS_AI = 17;
 	BGT_TAVERNBRAWL_2P_COOP = 18;
 	BGT_LAST = 19;
 }
@@ -70,10 +73,12 @@ enum DeckType {
 	DRAFT_DECK = 4;
 	PRECON_DECK = 5;
 	TAVERN_BRAWL_DECK = 6;
+	HIDDEN_DECK = 1000;
 }
 
 // ref: PegasusShared.GameType
 enum GameType {
+	option allow_alias = true;
 	GT_UNKNOWN = 0;
 	GT_VS_AI = 1;
 	GT_VS_FRIEND = 2;
@@ -83,6 +88,7 @@ enum GameType {
 	GT_RANKED = 7;
 	GT_UNRANKED = 8;
 	GT_TAVERNBRAWL = 16;
+	GT_TB_1P_VS_AI = 17;
 	GT_LAST = 17;
 	GT_TB_2P_COOP = 18;
 }
@@ -155,6 +161,19 @@ message AdventureProgress {
 	uint64 flags = 4;
 }
 
+// ref: PegasusShared.AssetKey
+message AssetKey {
+	AssetType type = 1;
+	int32 asset_id = 2;
+}
+
+// ref: PegasusShared.AssetRecordInfo
+message AssetRecordInfo {
+	AssetKey asset = 1;
+	uint32 record_byte_size = 2;
+	bytes record_hash = 3;
+}
+
 // ref: PegasusShared.BnetId
 message BnetId {
 	uint64 hi = 1;
@@ -165,6 +184,20 @@ message BnetId {
 message BoosterInfo {
 	int32 type = 2;
 	int32 count = 3;
+}
+
+// ref: PegasusShared.CachedCard
+message CachedCard {
+	int64 card_id = 1;
+	int32 asset_card_id = 2;
+	Date insert_date = 3;
+	bool is_seen = 4;
+	int32 premium = 5;
+}
+
+// ref: PegasusShared.CachedCollection
+message CachedCollection {
+	repeated CachedCard card_collection = 1 [packed=false];
 }
 
 // ref: PegasusShared.CardDef
@@ -211,6 +244,9 @@ message DeckInfo {
 		CLASS_MATCHES = 16;
 		OWNS_CARD_BACK = 32;
 		OWNS_HERO = 64;
+		TAGGED_MODERN = 128;
+		NEEDS_VALIDATION = 256;
+		NEEDS_NAME = 512;
 	}
 
 	int64 id = 1;
@@ -224,6 +260,31 @@ message DeckInfo {
 	bool hero_override = 9;
 	int64 last_modified = 10;
 	int32 season_id = 11;
+	int64 sort_order = 12;
+}
+
+// ref: PegasusShared.DeckRulesetDbRecord
+message DeckRulesetDbRecord {
+	int32 id = 1;
+	repeated DeckRulesetRuleDbRecord rules = 2 [packed=false];
+}
+
+// ref: PegasusShared.DeckRulesetRuleDbRecord
+message DeckRulesetRuleDbRecord {
+	int32 id = 1;
+	int32 deck_ruleset_id = 2;
+	int32 applies_to_subset_id = 3;
+	bool applies_to_is_not = 4;
+	string rule_type = 5;
+	bool rule_is_not = 6;
+	int32 min_value = 7;
+	int32 max_value = 8;
+	int32 tag = 9;
+	int32 tag_min_value = 10;
+	int32 tag_max_value = 11;
+	string string_value = 12;
+	repeated int32 target_subset_ids = 13 [packed=false];
+	repeated LocalizedString strings = 100 [packed=false];
 }
 
 // ref: PegasusShared.FavoriteHero
@@ -510,8 +571,15 @@ message ScenarioDbRecord {
 	string tavern_brawl_texture_phone = 13;
 	Vector2 tavern_brawl_texture_phone_offset = 14;
 	bool is_coop = 15;
+	int32 deck_ruleset_id = 16;
 	repeated LocalizedString strings = 100 [packed=false];
 	repeated GameSetupRule rules = 101 [packed=false];
+}
+
+// ref: PegasusShared.SubsetCardListDbRecord
+message SubsetCardListDbRecord {
+	int32 subset_id = 1;
+	repeated int32 card_ids = 2 [packed=false];
 }
 
 // ref: PegasusShared.TavernBrawlPlayerRecord
@@ -533,6 +601,7 @@ message TavernBrawlSpec {
 	int64 reward_data2 = 7;
 	RewardTrigger reward_trigger = 8;
 	int32 season_id = 11;
+	repeated AssetRecordInfo additional_assets = 100 [packed=false];
 	TavernBrawlPlayerRecord my_record = 105;
 }
 

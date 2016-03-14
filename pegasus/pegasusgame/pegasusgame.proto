@@ -319,6 +319,7 @@ message PowerHistoryStart {
 	int32 index = 2;
 	int32 source = 3;
 	int32 target = 4;
+	string effect_card_id = 5;
 }
 
 // ref: PegasusGame.PowerHistoryTagChange
