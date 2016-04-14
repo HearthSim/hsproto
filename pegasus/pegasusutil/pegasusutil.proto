@@ -288,6 +288,7 @@ message Bundle {
 	int64 gold_cost = 6;
 	string amazon_id = 7;
 	string product_event_name = 9;
+	repeated pegasus.pegasusshared.BattlePayProvider exclusive_providers = 10 [packed=false];
 }
 
 // ref: PegasusUtil.BundleItem
@@ -1087,7 +1088,6 @@ message GetOptions {
 		ID = 240;
 	}
 
-	repeated int32 keys = 1;
 }
 
 // ref: PegasusUtil.GetPurchaseMethod
@@ -1166,6 +1166,7 @@ message GuardianVars {
 	bool battle_pay = 18;
 	bool buy_with_gold = 19;
 	bool tavern_brawl = 20;
+	int32 client_options_update_interval_seconds = 21;
 }
 
 // ref: PegasusUtil.HeroXP
@@ -1207,28 +1208,6 @@ message MassDisenchantResponse {
 	}
 
 	int32 amount = 1;
-}
-
-// ref: PegasusUtil.MedalHistory
-message MedalHistory {
-	// ref: PegasusUtil.MedalHistory/PacketID
-	enum PacketID {
-		PACKETID_AUTO_INVALID = 0;
-		ID = 234;
-	}
-
-	repeated MedalHistoryInfo medals = 1 [packed=false];
-}
-
-// ref: PegasusUtil.MedalHistoryInfo
-message MedalHistoryInfo {
-	int32 season = 1;
-	pegasus.pegasusshared.Date when = 2;
-	int32 stars = 3;
-	int32 star_level = 4;
-	int32 level_start = 5;
-	int32 level_end = 6;
-	int32 legend_rank = 7;
 }
 
 // ref: PegasusUtil.MedalInfo
@@ -1632,6 +1611,12 @@ message SetFavoriteHeroResponse {
 
 // ref: PegasusUtil.SetOptions
 message SetOptions {
+	// ref: PegasusUtil.SetOptions/MaxOptionCount
+	enum MaxOptionCount {
+		MAXOPTIONCOUNT_AUTO_INVALID = 0;
+		LIMIT = 51;
+	}
+
 	// ref: PegasusUtil.SetOptions/PacketID
 	enum PacketID {
 		system = 0;
