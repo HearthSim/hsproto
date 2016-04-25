@@ -44,6 +44,17 @@ message ChooseOption {
 	int32 position = 5;
 }
 
+// ref: PegasusGame.ClientHistoryMeta
+message ClientHistoryMeta {
+	// ref: PegasusGame.ClientHistoryMeta/Type
+	enum Type {
+		INVALID = 0;
+		SHOW_BIG_CARD = 1;
+		EFFECT_TIMING_HINT = 2;
+	}
+
+}
+
 // ref: PegasusGame.Concede
 message Concede {
 	// ref: PegasusGame.Concede/PacketID
@@ -128,7 +139,8 @@ message GameSetup {
 	int32 board = 1;
 	int32 max_secrets_per_player = 2;
 	int32 max_friendly_minions_per_player = 3;
-	int32 keep_alive_frequency = 4;
+	int32 keep_alive_frequency_seconds = 4;
+	int32 disconnect_when_stuck_seconds = 5;
 }
 
 // ref: PegasusGame.GetGameState
@@ -161,7 +173,7 @@ message Handshake {
 message HistoryBlock {
 	// ref: PegasusGame.HistoryBlock/Type
 	enum Type {
-		TYPE_AUTO_INVALID = 0;
+		INVALID = 0;
 		ATTACK = 1;
 		JOUST = 2;
 		POWER = 3;
@@ -169,6 +181,7 @@ message HistoryBlock {
 		DEATHS = 6;
 		PLAY = 7;
 		FATIGUE = 8;
+		RITUAL = 9;
 	}
 
 }
@@ -181,6 +194,7 @@ message HistoryMeta {
 		DAMAGE = 1;
 		HEALING = 2;
 		JOUST = 3;
+		CLIENT_HISTORY = 4;
 	}
 
 }
@@ -287,6 +301,7 @@ message PowerHistoryData {
 	PowerHistoryStart power_start = 6;
 	PowerHistoryEnd power_end = 7;
 	PowerHistoryMetaData meta_data = 8;
+	PowerHistoryEntity change_entity = 9;
 }
 
 // ref: PegasusGame.PowerHistoryEnd

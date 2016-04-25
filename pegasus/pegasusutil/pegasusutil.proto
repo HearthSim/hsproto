@@ -289,6 +289,7 @@ message Bundle {
 	string amazon_id = 7;
 	string product_event_name = 9;
 	repeated pegasus.pegasusshared.BattlePayProvider exclusive_providers = 10 [packed=false];
+	string real_money_product_event_name = 11;
 }
 
 // ref: PegasusUtil.BundleItem
@@ -553,6 +554,7 @@ message CreateDeck {
 	int32 hero = 2;
 	int32 hero_premium = 3;
 	pegasus.pegasusshared.DeckType deck_type = 4;
+	bool tagged_standard = 5;
 }
 
 // ref: PegasusUtil.DBAction
@@ -594,14 +596,9 @@ message DebugCommandResponse {
 
 // ref: PegasusUtil.DeckContents
 message DeckContents {
-	// ref: PegasusUtil.DeckContents/PacketID
-	enum PacketID {
-		PACKETID_AUTO_INVALID = 0;
-		ID = 215;
-	}
-
-	int64 deck = 1;
-	repeated pegasus.pegasusshared.DeckCardData cards = 2 [packed=false];
+	bool success = 1;
+	int64 deck_id = 2;
+	repeated pegasus.pegasusshared.DeckCardData cards = 3 [packed=false];
 }
 
 // ref: PegasusUtil.DeckCreated
@@ -661,6 +658,7 @@ message DeckSetData {
 	repeated pegasus.pegasusshared.DeckCardData cards = 2 [packed=false];
 	pegasus.pegasusshared.CardDef hero = 3;
 	int32 card_back = 4;
+	bool tagged_standard = 5;
 }
 
 // ref: PegasusUtil.DeckSetTemplateSource
@@ -1001,6 +999,7 @@ message GetAchieves {
 	}
 
 	bool only_active_or_new_complete = 1;
+	string device_model = 2;
 }
 
 // ref: PegasusUtil.GetAdventureProgress
@@ -1069,15 +1068,28 @@ message GetBattlePayStatus {
 
 }
 
-// ref: PegasusUtil.GetDeck
-message GetDeck {
-	// ref: PegasusUtil.GetDeck/PacketID
+// ref: PegasusUtil.GetDeckContents
+message GetDeckContents {
+	// ref: PegasusUtil.GetDeckContents/PacketID
 	enum PacketID {
 		system = 0;
 		ID = 214;
 	}
 
-	int64 deck = 1;
+	repeated int64 deck_id = 1 [packed=false];
+}
+
+// ref: PegasusUtil.GetDeckContentsResponse
+message GetDeckContentsResponse {
+	// ref: PegasusUtil.GetDeckContentsResponse/PacketID
+	enum PacketID {
+		PACKETID_AUTO_INVALID = 0;
+		ID = 215;
+	}
+
+	int64 deprecated_deck_id = 1;
+	repeated pegasus.pegasusshared.DeckCardData deprecated_cards = 2 [packed=false];
+	repeated DeckContents decks = 3 [packed=false];
 }
 
 // ref: PegasusUtil.GetOptions
@@ -1136,6 +1148,7 @@ message GoldBalance {
 message GoldCostBooster {
 	int64 cost = 1;
 	int32 pack_type = 2;
+	string buy_with_gold_event_name = 3;
 }
 
 // ref: PegasusUtil.GuardianVars
@@ -1218,6 +1231,12 @@ message MedalInfo {
 		ID = 232;
 	}
 
+	MedalInfoData standard = 1;
+	MedalInfoData wild = 2;
+}
+
+// ref: PegasusUtil.MedalInfoData
+message MedalInfoData {
 	int32 season_wins = 3;
 	int32 stars = 6;
 	int32 streak = 7;
@@ -1822,7 +1841,7 @@ message UpdateLogin {
 
 	bool reply_required = 1;
 	string referral = 2;
-	string device_model = 3;
+	string device_model_deprecated = 3;
 }
 
 // ref: PegasusUtil.UpdateLoginComplete
@@ -1855,5 +1874,6 @@ message ValidateAchieveResponse {
 	}
 
 	int32 achieve = 1;
+	bool success = 2;
 }
 
