@@ -24,6 +24,12 @@ message JoinInfo {
 	int32 mission_id = 9;
 	repeated pegasus.pegasusshared.BnetId spectated_players = 10 [packed=false];
 	pegasus.pegasusshared.BnetId party_id = 11;
+	pegasus.pegasusshared.FormatType format_type = 12;
+}
+
+// ref: SpectatorProto.PartyQuestInfo
+message PartyQuestInfo {
+	repeated int32 quest_ids = 1 [packed=false];
 }
 
 // ref: SpectatorProto.PartyServerInfo
@@ -34,5 +40,6 @@ message PartyServerInfo {
 	string secret_key = 4;
 	pegasus.pegasusshared.GameType game_type = 5;
 	int32 mission_id = 6;
+	pegasus.pegasusshared.FormatType format_type = 7;
 }
 

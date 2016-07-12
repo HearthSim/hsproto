@@ -17,6 +17,13 @@ enum ProductType {
 	PRODUCT_TYPE_LOE = 7;
 }
 
+// ref: PegasusUtil.RAFServiceStatus
+enum RAFServiceStatus {
+	RAFSERVICESTATUS_AUTO_INVALID = 0;
+	rafservice_status__ok = 1;
+	rafservice_status__not_available = 2;
+}
+
 // ref: PegasusUtil.AccountLicenseAchieveResponse
 message AccountLicenseAchieveResponse {
 	// ref: PegasusUtil.AccountLicenseAchieveResponse/PacketID
@@ -61,6 +68,32 @@ message Achieve {
 	pegasus.pegasusshared.Date date_given = 7;
 	pegasus.pegasusshared.Date date_completed = 8;
 	bool do_not_ack = 9;
+	int32 interval_reward_count = 10;
+	pegasus.pegasusshared.Date interval_reward_start = 11;
+}
+
+// ref: PegasusUtil.AchievementNotification
+message AchievementNotification {
+	int64 player_id = 1;
+	int64 achievement_id = 2;
+	int32 amount = 3;
+	int32 quota = 4;
+	pegasus.pegasusshared.Date start_date_local = 5;
+	pegasus.pegasusshared.Date end_date_local = 6;
+	bool complete = 7;
+	bool new_achievement = 8;
+	bool remove_achievement = 9;
+}
+
+// ref: PegasusUtil.AchievementNotifications
+message AchievementNotifications {
+	// ref: PegasusUtil.AchievementNotifications/PacketID
+	enum PacketID {
+		system = 0;
+		ID = 333;
+	}
+
+	repeated AchievementNotification achievement_notifications = 1 [packed=false];
 }
 
 // ref: PegasusUtil.Achieves
@@ -162,7 +195,8 @@ message ArcaneDustBalance {
 // ref: PegasusUtil.AssetResponse
 message AssetResponse {
 	pegasus.pegasusshared.AssetKey requested_key = 1;
-	pegasus.pegasusshared.DatabaseResult error_code = 2;
+	pegasus.pegasusshared.DatabaseResult deprecated_database_result = 2;
+	pegasus.pegasusshared.ErrorCode error_code = 3;
 	pegasus.pegasusshared.ScenarioDbRecord scenario_asset = 100;
 	pegasus.pegasusshared.SubsetCardListDbRecord subset_card_list_asset = 101;
 	pegasus.pegasusshared.DeckRulesetDbRecord deck_ruleset_asset = 102;
@@ -437,49 +471,6 @@ message CheckAccountLicenseAchieve {
 	int32 achieve = 1;
 }
 
-// ref: PegasusUtil.CheckAccountLicenses
-message CheckAccountLicenses {
-	// ref: PegasusUtil.CheckAccountLicenses/PacketID
-	enum PacketID {
-		system = 0;
-		ID = 267;
-	}
-
-}
-
-// ref: PegasusUtil.CheckAccountLicensesResponse
-message CheckAccountLicensesResponse {
-	// ref: PegasusUtil.CheckAccountLicensesResponse/PacketID
-	enum PacketID {
-		PACKETID_AUTO_INVALID = 0;
-		ID = 330;
-	}
-
-	bool success = 1;
-}
-
-// ref: PegasusUtil.CheckGameLicenses
-message CheckGameLicenses {
-	// ref: PegasusUtil.CheckGameLicenses/PacketID
-	enum PacketID {
-		PACKETID_AUTO_INVALID = 0;
-		system = 1;
-		ID = 276;
-	}
-
-}
-
-// ref: PegasusUtil.CheckGameLicensesResponse
-message CheckGameLicensesResponse {
-	// ref: PegasusUtil.CheckGameLicensesResponse/PacketID
-	enum PacketID {
-		PACKETID_AUTO_INVALID = 0;
-		ID = 331;
-	}
-
-	bool success = 1;
-}
-
 // ref: PegasusUtil.ClientOption
 message ClientOption {
 	int32 index = 1;
@@ -520,15 +511,15 @@ message ClientRequestResponse {
 	ClientRequestResponseFlags response_flags = 1;
 }
 
-// ref: PegasusUtil.ClientTracking
-message ClientTracking {
-	// ref: PegasusUtil.ClientTracking/PacketID
+// ref: PegasusUtil.ClientStaticAssetsResponse
+message ClientStaticAssetsResponse {
+	// ref: PegasusUtil.ClientStaticAssetsResponse/PacketID
 	enum PacketID {
-		system = 0;
-		ID = 228;
+		PACKETID_AUTO_INVALID = 0;
+		ID = 341;
 	}
 
-	repeated OneClientTracking info = 4 [packed=false];
+	repeated pegasus.pegasusshared.AssetRecordInfo assets_to_get = 1 [packed=false];
 }
 
 // ref: PegasusUtil.Collection
@@ -998,7 +989,6 @@ message GetAchieves {
 		ID = 253;
 	}
 
-	bool only_active_or_new_complete = 1;
 	string device_model = 2;
 }
 
@@ -1044,6 +1034,7 @@ message GetAssetsVersion {
 		ID = 303;
 	}
 
+	pegasus.pegasusshared.Platform platform = 1;
 }
 
 // ref: PegasusUtil.GetBattlePayConfig
@@ -1064,6 +1055,16 @@ message GetBattlePayStatus {
 		PACKETID_AUTO_INVALID = 0;
 		system = 1;
 		ID = 255;
+	}
+
+}
+
+// ref: PegasusUtil.GetClientStaticAssets
+message GetClientStaticAssets {
+	// ref: PegasusUtil.GetClientStaticAssets/PacketID
+	enum PacketID {
+		PACKETID_AUTO_INVALID = 0;
+		ID = 340;
 	}
 
 }
@@ -1116,6 +1117,29 @@ message GetPurchaseMethod {
 	int32 currency = 3;
 	string device_id = 4;
 	pegasus.pegasusshared.Platform platform = 5;
+}
+
+// ref: PegasusUtil.GetRecruitAFriendData
+message GetRecruitAFriendData {
+	// ref: PegasusUtil.GetRecruitAFriendData/PacketID
+	enum PacketID {
+		PACKETID_AUTO_INVALID = 0;
+		system = 2;
+		ID = 337;
+	}
+
+}
+
+// ref: PegasusUtil.GetRecruitAFriendURL
+message GetRecruitAFriendURL {
+	// ref: PegasusUtil.GetRecruitAFriendURL/PacketID
+	enum PacketID {
+		PACKETID_AUTO_INVALID = 0;
+		system = 2;
+		ID = 335;
+	}
+
+	pegasus.pegasusshared.Platform platform = 1;
 }
 
 // ref: PegasusUtil.GetThirdPartyPurchaseStatus
@@ -1277,6 +1301,22 @@ message NOP {
 
 }
 
+// ref: PegasusUtil.NoticeNotification
+message NoticeNotification {
+	ProfileNotice notice = 1;
+}
+
+// ref: PegasusUtil.NoticeNotifications
+message NoticeNotifications {
+	// ref: PegasusUtil.NoticeNotifications/PacketID
+	enum PacketID {
+		system = 0;
+		ID = 334;
+	}
+
+	repeated NoticeNotification notice_notifications = 1 [packed=false];
+}
+
 // ref: PegasusUtil.NotSoMassiveLoginReply
 message NotSoMassiveLoginReply {
 	// ref: PegasusUtil.NotSoMassiveLoginReply/PacketID
@@ -1287,22 +1327,6 @@ message NotSoMassiveLoginReply {
 
 	repeated SpecialEventTiming special_event_timing = 10 [packed=false];
 	TavernBrawlInfo tavern_brawls = 11;
-}
-
-// ref: PegasusUtil.OneClientTracking
-message OneClientTracking {
-	// ref: PegasusUtil.OneClientTracking/Level
-	enum Level {
-		LEVEL_AUTO_INVALID = 0;
-		L_INFO = 1;
-		L_WARNING = 2;
-		L_ERROR = 3;
-	}
-
-	Level level = 1;
-	int32 what = 2;
-	string message = 3;
-	uint64 timestamp = 4;
 }
 
 // ref: PegasusUtil.OpenBooster
@@ -1345,6 +1369,28 @@ message PlayQueue {
 	}
 
 	pegasus.pegasusshared.PlayQueueInfo queue = 1;
+}
+
+// ref: PegasusUtil.ProcessRecruitAFriend
+message ProcessRecruitAFriend {
+	// ref: PegasusUtil.ProcessRecruitAFriend/PacketID
+	enum PacketID {
+		PACKETID_AUTO_INVALID = 0;
+		system = 2;
+		ID = 339;
+	}
+
+}
+
+// ref: PegasusUtil.ProcessRecruitAFriendResponse
+message ProcessRecruitAFriendResponse {
+	// ref: PegasusUtil.ProcessRecruitAFriendResponse/PacketID
+	enum PacketID {
+		PACKETID_AUTO_INVALID = 0;
+		ID = 342;
+	}
+
+	RAFServiceStatus raf_service_status = 1;
 }
 
 // ref: PegasusUtil.ProfileDeckLimit
@@ -1526,6 +1572,40 @@ message PurchaseWithGoldResponse {
 	int64 gold_used = 2;
 }
 
+// ref: PegasusUtil.RecruitAFriendDataResponse
+message RecruitAFriendDataResponse {
+	// ref: PegasusUtil.RecruitAFriendDataResponse/PacketID
+	enum PacketID {
+		PACKETID_AUTO_INVALID = 0;
+		ID = 338;
+	}
+
+	uint32 total_recruit_count = 1;
+	repeated RecruitData top_recruits = 2 [packed=false];
+}
+
+// ref: PegasusUtil.RecruitAFriendURLResponse
+message RecruitAFriendURLResponse {
+	// ref: PegasusUtil.RecruitAFriendURLResponse/PacketID
+	enum PacketID {
+		PACKETID_AUTO_INVALID = 0;
+		ID = 336;
+	}
+
+	string raf_url = 1;
+	RAFServiceStatus raf_service_status = 2;
+	string raf_url_full = 3;
+}
+
+// ref: PegasusUtil.RecruitData
+message RecruitData {
+	pegasus.pegasusshared.BnetId game_account_id = 1;
+	uint32 progress = 2;
+	pegasus.pegasusshared.RecruitAFriendState recruit_state = 3;
+	pegasus.pegasusshared.Date graduation_date = 4;
+	uint32 recruiter_reward = 5;
+}
+
 // ref: PegasusUtil.RenameDeck
 message RenameDeck {
 	// ref: PegasusUtil.RenameDeck/PacketID
@@ -1556,12 +1636,14 @@ message RewardProgress {
 	int32 max_hero_level = 10;
 	pegasus.pegasusshared.Date next_quest_cancel = 11;
 	float event_timing_mod = 12;
+	int32 friend_week_conceder_max_defense = 13;
 }
 
 // ref: PegasusUtil.RpcHeader
 message RpcHeader {
 	uint64 type = 1;
 	uint64 retry_count = 2;
+	uint64 request_not_handled_count = 3;
 }
 
 // ref: PegasusUtil.RpcMessage
@@ -1829,6 +1911,29 @@ message Unsubscribe {
 		ID = 329;
 	}
 
+}
+
+// ref: PegasusUtil.UpdateAccountLicenses
+message UpdateAccountLicenses {
+	// ref: PegasusUtil.UpdateAccountLicenses/PacketID
+	enum PacketID {
+		PACKETID_AUTO_INVALID = 0;
+		system = 1;
+		ID = 276;
+	}
+
+}
+
+// ref: PegasusUtil.UpdateAccountLicensesResponse
+message UpdateAccountLicensesResponse {
+	// ref: PegasusUtil.UpdateAccountLicensesResponse/PacketID
+	enum PacketID {
+		PACKETID_AUTO_INVALID = 0;
+		ID = 331;
+	}
+
+	bool fixed_license_success = 1;
+	bool consumable_license_success = 2;
 }
 
 // ref: PegasusUtil.UpdateLogin

@@ -107,6 +107,14 @@ enum ErrorCode {
 	ERROR_DECK_RULESET_DECK_CARD_GUID_UNKNOWN = 1002005;
 	ERROR_DECK_VALIDATION_DB_WRITE_ERROR = 1002006;
 	ERROR_DECK_VALIDATION_WRONG_FORMAT = 1002007;
+	ERROR_DECK_RULESET_MUST_BE_SERVER_ONLY = 1002008;
+}
+
+// ref: PegasusShared.FormatType
+enum FormatType {
+	FT_UNKNOWN = 0;
+	FT_WILD = 1;
+	FT_STANDARD = 2;
 }
 
 // ref: PegasusShared.GameType
@@ -123,6 +131,18 @@ enum GameType {
 	GT_TB_1P_VS_AI = 17;
 	GT_TB_2P_COOP = 18;
 	GT_LAST = 19;
+}
+
+// ref: PegasusShared.RecruitAFriendState
+enum RecruitAFriendState {
+	RECRUITAFRIENDSTATE_AUTO_INVALID = 0;
+	RAF_RECRUITABLE = 1;
+	RAF_RECRUITED = 2;
+	RAF_GRADUATED = 3;
+	RAF_VALEDICTORIAN = 4;
+	RAF_NOT_RECRUITABLE_WRONG_REGION = 1000;
+	RAF_NOT_RECRUITABLE_TOO_OLD = 1001;
+	RAF_GRADUATED_WITHOUT_RECRUITER = 1002;
 }
 
 // ref: PegasusShared.RewardTrigger
@@ -271,9 +291,7 @@ message Date {
 // ref: PegasusShared.DeckCardData
 message DeckCardData {
 	CardDef def = 1;
-	int32 handle = 2;
 	int32 qty = 3;
-	int32 prev = 5;
 }
 
 // ref: PegasusShared.DeckInfo
@@ -383,6 +401,14 @@ message Platform {
 	int32 screen = 2;
 	string name = 3;
 	int32 store = 4;
+	string unique_device_identifier = 5;
+}
+
+// ref: PegasusShared.PlayerIdentity
+message PlayerIdentity {
+	int64 player_id = 1;
+	BnetId game_account = 2;
+	BnetId account = 3;
 }
 
 // ref: PegasusShared.PlayQueueInfo
@@ -466,6 +492,7 @@ message ProfileNoticeDisconnectedGameResult {
 	GameResult game_result = 10;
 	PlayerResult your_result = 11;
 	PlayerResult opponent_result = 12;
+	FormatType format_type = 13;
 }
 
 // ref: PegasusShared.ProfileNoticeLevelUp

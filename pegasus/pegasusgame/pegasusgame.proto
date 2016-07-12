@@ -50,7 +50,6 @@ message ClientHistoryMeta {
 	enum Type {
 		INVALID = 0;
 		SHOW_BIG_CARD = 1;
-		EFFECT_TIMING_HINT = 2;
 	}
 
 }
@@ -195,6 +194,8 @@ message HistoryMeta {
 		HEALING = 2;
 		JOUST = 3;
 		CLIENT_HISTORY = 4;
+		SHOW_BIG_CARD = 5;
+		EFFECT_TIMING = 6;
 	}
 
 }
