@@ -15,6 +15,9 @@ enum ProductType {
 	PRODUCT_TYPE_CARD_BACK = 5;
 	PRODUCT_TYPE_HERO = 6;
 	PRODUCT_TYPE_LOE = 7;
+	PRODUCT_TYPE_WING = 8;
+	PRODUCT_TYPE_RANDOM_CARD = 9;
+	PRODUCT_TYPE_HIDDEN_LICENSE = 10;
 }
 
 // ref: PegasusUtil.RAFServiceStatus
@@ -162,12 +165,6 @@ message AckWingProgress {
 
 	int32 wing = 1;
 	int32 ack = 2;
-}
-
-// ref: PegasusUtil.AdventureOptions
-message AdventureOptions {
-	int32 adventure_id = 1;
-	uint64 options = 2;
 }
 
 // ref: PegasusUtil.AdventureProgressResponse
@@ -546,6 +543,7 @@ message CreateDeck {
 	int32 hero_premium = 3;
 	pegasus.pegasusshared.DeckType deck_type = 4;
 	bool tagged_standard = 5;
+	int64 sort_order = 6;
 }
 
 // ref: PegasusUtil.DBAction
@@ -650,6 +648,7 @@ message DeckSetData {
 	pegasus.pegasusshared.CardDef hero = 3;
 	int32 card_back = 4;
 	bool tagged_standard = 5;
+	int64 sort_order = 6;
 }
 
 // ref: PegasusUtil.DeckSetTemplateSource
@@ -928,7 +927,7 @@ message GenericResponse {
 		RESULT_DB_ERROR = 102;
 		RESULT_INVALID_REQUEST = 103;
 		RESULT_LOGIN_LOAD = 104;
-		RESULT_DATA_MIGRATION_ERROR = 105;
+		RESULT_DATA_MIGRATION_OR_PLAYER_ID_ERROR = 105;
 	}
 
 	Result result_code = 1;
@@ -1204,6 +1203,9 @@ message GuardianVars {
 	bool buy_with_gold = 19;
 	bool tavern_brawl = 20;
 	int32 client_options_update_interval_seconds = 21;
+	bool cais_enabled_non_mobile = 22;
+	bool cais_enabled_mobile_china = 23;
+	bool cais_enabled_mobile_south_korea = 24;
 }
 
 // ref: PegasusUtil.HeroXP
@@ -1450,7 +1452,6 @@ message ProfileProgress {
 	int32 best_forge = 2;
 	pegasus.pegasusshared.Date last_forge = 3;
 	int32 display_banner = 4;
-	repeated AdventureOptions adventure_options = 5 [packed=false];
 }
 
 // ref: PegasusUtil.PurchaseError
@@ -1650,17 +1651,6 @@ message RpcHeader {
 message RpcMessage {
 	RpcHeader rpc_header = 1;
 	bytes message_body = 2;
-}
-
-// ref: PegasusUtil.SetAdventureOptions
-message SetAdventureOptions {
-	// ref: PegasusUtil.SetAdventureOptions/PacketID
-	enum PacketID {
-		system = 0;
-		ID = 310;
-	}
-
-	AdventureOptions adventure_options = 1;
 }
 
 // ref: PegasusUtil.SetCardBack

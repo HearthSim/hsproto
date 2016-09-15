@@ -205,6 +205,7 @@ message AdventureProgress {
 		DEFEAT_HEROIC_MISSION_4 = 16;
 		DEFEAT_CLASS_CHALLENGE_MISSION_1 = 256;
 		DEFEAT_CLASS_CHALLENGE_MISSION_2 = 512;
+		DEFEAT_CLASS_CHALLENGE_MISSION_3 = 1024;
 	}
 
 	int32 wing_id = 1;
@@ -242,9 +243,11 @@ message BoosterInfo {
 message CachedCard {
 	int64 card_id = 1;
 	int32 asset_card_id = 2;
-	Date insert_date = 3;
+	int32 unix_timestamp = 3;
 	bool is_seen = 4;
 	int32 premium = 5;
+	int32 insert_source = 6;
+	int64 insert_data = 7;
 }
 
 // ref: PegasusShared.CachedCollection

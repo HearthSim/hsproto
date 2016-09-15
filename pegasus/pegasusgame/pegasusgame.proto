@@ -44,16 +44,6 @@ message ChooseOption {
 	int32 position = 5;
 }
 
-// ref: PegasusGame.ClientHistoryMeta
-message ClientHistoryMeta {
-	// ref: PegasusGame.ClientHistoryMeta/Type
-	enum Type {
-		INVALID = 0;
-		SHOW_BIG_CARD = 1;
-	}
-
-}
-
 // ref: PegasusGame.Concede
 message Concede {
 	// ref: PegasusGame.Concede/PacketID
@@ -85,6 +75,7 @@ message EntitiesChosen {
 
 	ChooseEntities choose_entities = 3;
 	int32 player_id = 4;
+	int32 choice_type = 5;
 }
 
 // ref: PegasusGame.Entity
@@ -193,7 +184,6 @@ message HistoryMeta {
 		DAMAGE = 1;
 		HEALING = 2;
 		JOUST = 3;
-		CLIENT_HISTORY = 4;
 		SHOW_BIG_CARD = 5;
 		EFFECT_TIMING = 6;
 	}
