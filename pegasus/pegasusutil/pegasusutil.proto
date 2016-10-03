@@ -298,6 +298,7 @@ message BoughtSoldCard {
 		WRONG_BUY_PRICE = 6;
 		NO_PERMISSION = 7;
 		EVENT_NOT_ACTIVE = 8;
+		COUNT_MISMATCH = 9;
 	}
 
 	pegasus.pegasusshared.CardDef def = 1;
@@ -307,6 +308,7 @@ message BoughtSoldCard {
 	bool nerfed = 5;
 	int32 unit_sell_price = 6;
 	int32 unit_buy_price = 7;
+	int32 current_collection_count = 8;
 }
 
 // ref: PegasusUtil.Bundle
@@ -343,6 +345,7 @@ message BuySellCard {
 	bool buying = 3;
 	int32 unit_sell_price = 4;
 	int32 unit_buy_price = 5;
+	int32 current_collection_count = 6;
 }
 
 // ref: PegasusUtil.CancelPurchase
