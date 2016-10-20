@@ -18,6 +18,7 @@ enum ProductType {
 	PRODUCT_TYPE_WING = 8;
 	PRODUCT_TYPE_RANDOM_CARD = 9;
 	PRODUCT_TYPE_HIDDEN_LICENSE = 10;
+	PRODUCT_TYPE_TAVERN_BRAWL_TICKET = 11;
 }
 
 // ref: PegasusUtil.RAFServiceStatus
@@ -189,6 +190,34 @@ message ArcaneDustBalance {
 	int64 balance = 1;
 }
 
+// ref: PegasusUtil.ArenaSession
+message ArenaSession {
+	int32 wins = 1;
+	int32 losses = 2;
+}
+
+// ref: PegasusUtil.ArenaSessionRequest
+message ArenaSessionRequest {
+	// ref: PegasusUtil.ArenaSessionRequest/PacketID
+	enum PacketID {
+		system = 0;
+		ID = 346;
+	}
+
+}
+
+// ref: PegasusUtil.ArenaSessionResponse
+message ArenaSessionResponse {
+	// ref: PegasusUtil.ArenaSessionResponse/PacketID
+	enum PacketID {
+		PACKETID_AUTO_INVALID = 0;
+		ID = 351;
+	}
+
+	pegasus.pegasusshared.ErrorCode error_code = 1;
+	ArenaSession session = 2;
+}
+
 // ref: PegasusUtil.AssetResponse
 message AssetResponse {
 	pegasus.pegasusshared.AssetKey requested_key = 1;
@@ -208,6 +237,7 @@ message AssetsVersionResponse {
 	}
 
 	int32 version = 1;
+	ReturningPlayerInfo returning_player_info = 2;
 }
 
 // ref: PegasusUtil.BattlePayConfigResponse
@@ -1209,6 +1239,7 @@ message GuardianVars {
 	bool cais_enabled_non_mobile = 22;
 	bool cais_enabled_mobile_china = 23;
 	bool cais_enabled_mobile_south_korea = 24;
+	bool send_telemetry_presence = 25;
 }
 
 // ref: PegasusUtil.HeroXP
@@ -1430,6 +1461,8 @@ message ProfileNotice {
 	pegasus.pegasusshared.ProfileNoticeAdventureProgress adventure_progress = 18;
 	pegasus.pegasusshared.ProfileNoticeLevelUp level_up = 19;
 	pegasus.pegasusshared.ProfileNoticeAccountLicense account_license = 20;
+	pegasus.pegasusshared.ProfileNoticeTavernBrawlRewards tavern_brawl_rewards = 21;
+	pegasus.pegasusshared.ProfileNoticeTavernBrawlTicket tavern_brawl_ticket = 22;
 }
 
 // ref: PegasusUtil.ProfileNotices
@@ -1620,6 +1653,22 @@ message RenameDeck {
 
 	int64 deck = 1;
 	string name = 2;
+}
+
+// ref: PegasusUtil.ReturningPlayerInfo
+message ReturningPlayerInfo {
+	pegasus.pegasusshared.ReturningPlayerStatus status = 1;
+	uint32 ab_test_group = 2;
+}
+
+// ref: PegasusUtil.ReturningPlayerOptOutRequest
+message ReturningPlayerOptOutRequest {
+	// ref: PegasusUtil.ReturningPlayerOptOutRequest/PacketID
+	enum PacketID {
+		PACKETID_AUTO_INVALID = 0;
+		ID = 349;
+	}
+
 }
 
 // ref: PegasusUtil.RewardProgress
@@ -1821,6 +1870,16 @@ message SubscribeResponse {
 	uint64 request_max_wait_secs = 8;
 }
 
+// ref: PegasusUtil.TavernBrawlAckSessionRewards
+message TavernBrawlAckSessionRewards {
+	// ref: PegasusUtil.TavernBrawlAckSessionRewards/PacketID
+	enum PacketID {
+		system = 0;
+		ID = 345;
+	}
+
+}
+
 // ref: PegasusUtil.TavernBrawlInfo
 message TavernBrawlInfo {
 	// ref: PegasusUtil.TavernBrawlInfo/PacketID
@@ -1842,6 +1901,62 @@ message TavernBrawlPlayerRecordResponse {
 	}
 
 	pegasus.pegasusshared.TavernBrawlPlayerRecord record = 6;
+}
+
+// ref: PegasusUtil.TavernBrawlRequestSessionBegin
+message TavernBrawlRequestSessionBegin {
+	// ref: PegasusUtil.TavernBrawlRequestSessionBegin/PacketID
+	enum PacketID {
+		system = 0;
+		ID = 343;
+	}
+
+}
+
+// ref: PegasusUtil.TavernBrawlRequestSessionBeginResponse
+message TavernBrawlRequestSessionBeginResponse {
+	// ref: PegasusUtil.TavernBrawlRequestSessionBeginResponse/PacketID
+	enum PacketID {
+		PACKETID_AUTO_INVALID = 0;
+		ID = 347;
+	}
+
+	pegasus.pegasusshared.ErrorCode error_code = 1;
+	pegasus.pegasusshared.TavernBrawlPlayerRecord player_record = 2;
+}
+
+// ref: PegasusUtil.TavernBrawlRequestSessionRetire
+message TavernBrawlRequestSessionRetire {
+	// ref: PegasusUtil.TavernBrawlRequestSessionRetire/PacketID
+	enum PacketID {
+		system = 0;
+		ID = 344;
+	}
+
+}
+
+// ref: PegasusUtil.TavernBrawlRequestSessionRetireResponse
+message TavernBrawlRequestSessionRetireResponse {
+	// ref: PegasusUtil.TavernBrawlRequestSessionRetireResponse/PacketID
+	enum PacketID {
+		PACKETID_AUTO_INVALID = 0;
+		ID = 348;
+	}
+
+	pegasus.pegasusshared.ErrorCode error_code = 1;
+	pegasus.pegasusshared.TavernBrawlPlayerRecord player_record = 2;
+	pegasus.pegasusshared.RewardChest chest = 3;
+}
+
+// ref: PegasusUtil.TavernBrawlSessionAckRewardsResponse
+message TavernBrawlSessionAckRewardsResponse {
+	// ref: PegasusUtil.TavernBrawlSessionAckRewardsResponse/PacketID
+	enum PacketID {
+		PACKETID_AUTO_INVALID = 0;
+		ID = 349;
+	}
+
+	pegasus.pegasusshared.ErrorCode error_code = 1;
 }
 
 // ref: PegasusUtil.ThirdPartyPurchaseStatusResponse

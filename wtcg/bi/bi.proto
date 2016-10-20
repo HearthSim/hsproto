@@ -4,6 +4,12 @@ package wtcg.bi;
 // Proto extractor compiled unit - https://github.com/HearthSim/proto-extractor
 
 
+// ref: WTCG.BI.BnetId
+message BnetId {
+	uint64 hi = 1;
+	uint64 lo = 2;
+}
+
 // ref: WTCG.BI.DataOnlyPatching
 message DataOnlyPatching {
 	// ref: WTCG.BI.DataOnlyPatching/BnetRegion
@@ -73,6 +79,22 @@ message DataOnlyPatching {
 	int32 new_build = 7;
 	string session_id = 8;
 	string device_unique_identifier = 9;
+}
+
+// ref: WTCG.BI.PlayerIdentity
+message PlayerIdentity {
+	int64 player_id = 1;
+	BnetId game_account = 2;
+	BnetId account = 3;
+}
+
+// ref: WTCG.BI.PresenceChange
+message PresenceChange {
+	int32 new_status = 1;
+	repeated int32 new_status_parameters = 2 [packed=false];
+	int64 milliseconds_since_previous_status = 3;
+	int32 previous_status = 4;
+	repeated int32 previous_status_parameters = 5 [packed=false];
 }
 
 // ref: WTCG.BI.Telemetry
@@ -160,5 +182,7 @@ message Telemetry {
 	uint64 game_account_id = 13;
 	int64 error_code = 14;
 	string message = 15;
+	PlayerIdentity player_identity = 16;
+	PresenceChange presence_change = 17;
 }
 

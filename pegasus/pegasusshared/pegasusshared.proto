@@ -65,6 +65,7 @@ enum DatabaseResult {
 	DB_E_NOT_FOUND = 4;
 	DB_E_EXCEPTION = 9;
 	DB_E_BAD_PARAM = 11;
+	DB_E_DECK_IS_LOCKED = 12;
 }
 
 // ref: PegasusShared.DeckSourceType
@@ -94,11 +95,21 @@ enum ErrorCode {
 	ERROR_GLOBAL_NO_DATA = 1000002;
 	ERROR_GLOBAL_NOT_YET_IMPLEMENTED = 1000003;
 	ERROR_GLOBAL_DATA_MODIFIED = 1000004;
+	ERROR_GLOBAL_INTERNAL_DB_ERROR = 1000005;
+	ERROR_GLOBAL_DECK_IS_LOCKED = 1000006;
+	ERROR_GLOBAL_FEATURE_DISABLED = 1000007;
 	ERROR_SCENARIO_INCORRECT_NUM_PLAYERS = 1000500;
 	ERROR_SCENARIO_NO_DECK_SPECIFIED = 1000501;
 	ERROR_SCENARIO_MUST_BE_SERVER_ONLY = 1000502;
 	ERROR_TAVERN_BRAWL_SEASON_INCREMENTED = 1001000;
 	ERROR_TAVERN_BRAWL_NOT_ACTIVE = 1001001;
+	ERROR_TAVERN_BRAWL_NO_TICKET = 1001002;
+	ERROR_TAVERN_BRAWL_RETIRE_FIRST = 1001003;
+	ERROR_TAVERN_BRAWL_NOT_IN_SESSION = 1001004;
+	ERROR_TAVERN_BRAWL_NOT_IN_SESSION_BUT_COULD_BE = 1001005;
+	ERROR_TAVERN_BRAWL_FEATURE_DISABLED = 1001006;
+	ERROR_TAVERN_BRAWL_TICKET_NOT_REQUIRED = 1001007;
+	ERROR_TAVERN_BRAWL_FRIENDLY_CHALLENGE_DISABLED = 1001008;
 	ERROR_DECK_RULESET_RULE_UNKNOWN_TYPE = 1002000;
 	ERROR_DECK_RULESET_RULE_DB_READ_ERROR = 1002001;
 	ERROR_DECK_RULESET_RULE_VIOLATION = 1002002;
@@ -108,6 +119,7 @@ enum ErrorCode {
 	ERROR_DECK_VALIDATION_DB_WRITE_ERROR = 1002006;
 	ERROR_DECK_VALIDATION_WRONG_FORMAT = 1002007;
 	ERROR_DECK_RULESET_MUST_BE_SERVER_ONLY = 1002008;
+	ERROR_PLAY_GAME_DECK_MODIFIED = 1003000;
 }
 
 // ref: PegasusShared.FormatType
@@ -145,12 +157,23 @@ enum RecruitAFriendState {
 	RAF_GRADUATED_WITHOUT_RECRUITER = 1002;
 }
 
+// ref: PegasusShared.ReturningPlayerStatus
+enum ReturningPlayerStatus {
+	RPS_UNKNOWN = 0;
+	RPS_NOT_RETURNING_PLAYER = 1;
+	RPS_ACTIVE = 2;
+	RPS_COMPLETE = 3;
+	RPS_ACTIVE_OPTED_OUT_QUEST1 = 4;
+	RPS_ACTIVE_WITH_MANY_LOSSES = 5;
+}
+
 // ref: PegasusShared.RewardTrigger
 enum RewardTrigger {
 	REWARD_TRIGGER_UNKNOWN = 0;
 	REWARD_TRIGGER_NONE = 1;
 	REWARD_TRIGGER_WIN_GAME = 2;
 	REWARD_TRIGGER_FINISH_GAME = 3;
+	REWARD_TRIGGER_FINISH_SESSION = 4;
 }
 
 // ref: PegasusShared.RewardType
@@ -171,6 +194,8 @@ enum RewardType {
 	REWARD_FORGE_TICKETS = 13;
 	REWARD_HERO = 14;
 	REWARD_EXTERNAL_GAME_MOUNT = 15;
+	REWARD_CHEST = 16;
+	REWARD_RETURNING_PLAYER_COMPLETE = 17;
 }
 
 // ref: PegasusShared.RuleType
@@ -178,6 +203,14 @@ enum RuleType {
 	RULE_NONE = 0;
 	RULE_CHOOSE_HERO = 1;
 	RULE_CHOOSE_DECK = 2;
+}
+
+// ref: PegasusShared.TavernBrawlStatus
+enum TavernBrawlStatus {
+	TB_STATUS_INVALID = 0;
+	TB_STATUS_TICKET_REQUIRED = 1;
+	TB_STATUS_ACTIVE = 2;
+	TB_STATUS_IN_REWARDS = 3;
 }
 
 // ref: PegasusShared.AccountLicenseInfo
@@ -312,6 +345,7 @@ message DeckInfo {
 		TAGGED_STANDARD = 128;
 		NEEDS_VALIDATION = 256;
 		NEEDS_NAME = 512;
+		LOCKED_DECK = 1024;
 	}
 
 	int64 id = 1;
@@ -635,6 +669,30 @@ message ProfileNoticeRewardMount {
 	int32 mount_id = 1;
 }
 
+// ref: PegasusShared.ProfileNoticeTavernBrawlRewards
+message ProfileNoticeTavernBrawlRewards {
+	// ref: PegasusShared.ProfileNoticeTavernBrawlRewards/NoticeID
+	enum NoticeID {
+		NOTICEID_AUTO_INVALID = 0;
+		ID = 17;
+	}
+
+	RewardChest reward_chest = 1;
+	int32 num_wins = 2;
+}
+
+// ref: PegasusShared.ProfileNoticeTavernBrawlTicket
+message ProfileNoticeTavernBrawlTicket {
+	// ref: PegasusShared.ProfileNoticeTavernBrawlTicket/NoticeID
+	enum NoticeID {
+		NOTICEID_AUTO_INVALID = 0;
+		ID = 18;
+	}
+
+	int32 ticket_type = 1;
+	int32 quantity = 2;
+}
+
 // ref: PegasusShared.RewardBag
 message RewardBag {
 	ProfileNoticeRewardBooster reward_booster = 1;
@@ -651,6 +709,7 @@ message RewardChest {
 	RewardBag bag3 = 3;
 	RewardBag bag4 = 4;
 	RewardBag bag5 = 5;
+	repeated RewardBag bag = 6 [packed=false];
 }
 
 // ref: PegasusShared.ScenarioDbRecord
@@ -671,8 +730,9 @@ message ScenarioDbRecord {
 	Vector2 tavern_brawl_texture_phone_offset = 14;
 	bool is_coop = 15;
 	int32 deck_ruleset_id = 16;
+	RuleType rule_type = 17;
 	repeated LocalizedString strings = 100 [packed=false];
-	repeated GameSetupRule rules = 101 [packed=false];
+	repeated GameSetupRule deprecated_rules = 101 [packed=false];
 }
 
 // ref: PegasusShared.SubsetCardListDbRecord
@@ -687,6 +747,20 @@ message TavernBrawlPlayerRecord {
 	int32 games_played = 2;
 	int32 games_won = 3;
 	int32 win_streak = 4;
+	TavernBrawlStatus session_status = 5;
+	int32 num_tickets_owned = 6;
+	TavernBrawlPlayerSession session = 7;
+	int32 num_sessions_purchasable = 8;
+}
+
+// ref: PegasusShared.TavernBrawlPlayerSession
+message TavernBrawlPlayerSession {
+	ErrorCode error_code = 1;
+	int32 season_id = 2;
+	int32 wins = 3;
+	int32 losses = 4;
+	RewardChest chest = 5;
+	bool deck_locked = 6;
 }
 
 // ref: PegasusShared.TavernBrawlSpec
@@ -699,7 +773,15 @@ message TavernBrawlSpec {
 	int64 reward_data1 = 6;
 	int64 reward_data2 = 7;
 	RewardTrigger reward_trigger = 8;
+	FormatType format_type = 9;
 	int32 season_id = 11;
+	int32 ticket_type = 12;
+	int32 max_wins = 13;
+	int32 max_losses = 14;
+	uint64 closed_to_new_sessions_seconds_from_now = 15;
+	int32 max_sessions = 16;
+	bool friendly_challenge_disabled = 17;
+	int32 season_end_second_spread_count = 18;
 	repeated AssetRecordInfo additional_assets = 100 [packed=false];
 	TavernBrawlPlayerRecord my_record = 105;
 }
