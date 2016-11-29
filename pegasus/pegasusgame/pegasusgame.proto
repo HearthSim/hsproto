@@ -99,6 +99,7 @@ message EntityChoices {
 	repeated int32 entities = 6;
 	int32 source = 7;
 	int32 player_id = 8;
+	bool hide_chosen = 9;
 }
 
 // ref: PegasusGame.GameCanceled
@@ -186,6 +187,8 @@ message HistoryMeta {
 		JOUST = 3;
 		SHOW_BIG_CARD = 5;
 		EFFECT_TIMING = 6;
+		HISTORY_TARGET = 7;
+		OVERRIDE_HISTORY = 8;
 	}
 
 }

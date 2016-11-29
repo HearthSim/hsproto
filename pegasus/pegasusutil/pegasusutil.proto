@@ -577,6 +577,7 @@ message CreateDeck {
 	pegasus.pegasusshared.DeckType deck_type = 4;
 	bool tagged_standard = 5;
 	int64 sort_order = 6;
+	pegasus.pegasusshared.DeckSourceType source_type = 7;
 }
 
 // ref: PegasusUtil.DBAction
