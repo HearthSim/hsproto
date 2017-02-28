@@ -71,6 +71,7 @@ message AccountLevelInfo {
 	fixed32 default_currency = 4;
 	string country = 5;
 	uint32 preferred_region = 6;
+	bool headless_account = 14;
 }
 
 // ref: bnet.protocol.account.AccountLicense

@@ -410,15 +410,6 @@ message FavoriteHero {
 	CardDef hero = 2;
 }
 
-// ref: PegasusShared.GameSetupRule
-message GameSetupRule {
-	int32 id = 1;
-	RuleType rule_type = 2;
-	int64 data1 = 3;
-	int64 data2 = 4;
-	int64 data3 = 5;
-}
-
 // ref: PegasusShared.LocalizedString
 message LocalizedString {
 	string key = 1;
@@ -733,7 +724,6 @@ message ScenarioDbRecord {
 	int32 deck_ruleset_id = 16;
 	RuleType rule_type = 17;
 	repeated LocalizedString strings = 100 [packed=false];
-	repeated GameSetupRule deprecated_rules = 101 [packed=false];
 }
 
 // ref: PegasusShared.SubsetCardListDbRecord
