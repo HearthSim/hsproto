@@ -81,6 +81,11 @@ message DataOnlyPatching {
 	string device_unique_identifier = 9;
 }
 
+// ref: WTCG.BI.FSGInfo
+message FSGInfo {
+	int64 fsg_id = 1;
+}
+
 // ref: WTCG.BI.PlayerIdentity
 message PlayerIdentity {
 	int64 player_id = 1;
@@ -184,5 +189,6 @@ message Telemetry {
 	string message = 15;
 	PlayerIdentity player_identity = 16;
 	PresenceChange presence_change = 17;
+	FSGInfo fsg_info = 18;
 }
 

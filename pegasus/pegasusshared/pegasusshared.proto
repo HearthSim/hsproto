@@ -23,6 +23,7 @@ enum BattlePayProvider {
 
 // ref: PegasusShared.BnetGameType
 enum BnetGameType {
+	option allow_alias = true;
 	BGT_UNKNOWN = 0;
 	BGT_FRIENDS = 1;
 	BGT_RANKED_STANDARD = 2;
@@ -30,8 +31,8 @@ enum BnetGameType {
 	BGT_VS_AI = 4;
 	BGT_TUTORIAL = 5;
 	BGT_ASYNC = 6;
-	BGT_NEWBIE = 9;
-	BGT_CASUAL_STANDARD = 10;
+	BGT_CASUAL_STANDARD_NEWBIE = 9;
+	BGT_CASUAL_STANDARD_NORMAL = 10;
 	BGT_TEST1 = 11;
 	BGT_TEST2 = 12;
 	BGT_TEST3 = 13;
@@ -40,7 +41,21 @@ enum BnetGameType {
 	BGT_TAVERNBRAWL_2P_COOP = 18;
 	BGT_RANKED_WILD = 30;
 	BGT_CASUAL_WILD = 31;
-	BGT_LAST = 32;
+	BGT_FSG_BRAWL_VS_FRIEND = 40;
+	BGT_FSG_BRAWL_PVP = 41;
+	BGT_FSG_BRAWL_1P_VERSUS_AI = 42;
+	BGT_FSG_BRAWL_2P_COOP = 43;
+	BGT_LAST = 43;
+}
+
+// ref: PegasusShared.BrawlType
+enum BrawlType {
+	option allow_alias = true;
+	BRAWL_TYPE_UNKNOWN = 0;
+	BRAWL_TYPE_TAVERN_BRAWL = 1;
+	BRAWL_TYPE_FIRST = 1;
+	BRAWL_TYPE_FIRESIDE_GATHERING = 2;
+	BRAWL_TYPE_COUNT = 3;
 }
 
 // ref: PegasusShared.DatabaseAction
@@ -79,12 +94,13 @@ enum DeckSourceType {
 
 // ref: PegasusShared.DeckType
 enum DeckType {
-	DECKTYPE_AUTO_INVALID = 0;
+	UNKNOWN_DECK_TYPE = 0;
 	NORMAL_DECK = 1;
 	AI_DECK = 2;
 	DRAFT_DECK = 4;
 	PRECON_DECK = 5;
 	TAVERN_BRAWL_DECK = 6;
+	FSG_BRAWL_DECK = 7;
 	HIDDEN_DECK = 1000;
 }
 
@@ -99,6 +115,10 @@ enum ErrorCode {
 	ERROR_GLOBAL_INTERNAL_DB_ERROR = 1000005;
 	ERROR_GLOBAL_DECK_IS_LOCKED = 1000006;
 	ERROR_GLOBAL_FEATURE_DISABLED = 1000007;
+	ERROR_GLOBAL_HTTP_ERROR = 1000008;
+	ERROR_GLOBAL_JSON_PARSE_ERROR = 1000009;
+	ERROR_GLOBAL_INTERNAL_ERROR = 1000010;
+	ERROR_GLOBAL_FSG_ID_INVALID = 1000011;
 	ERROR_SCENARIO_INCORRECT_NUM_PLAYERS = 1000500;
 	ERROR_SCENARIO_NO_DECK_SPECIFIED = 1000501;
 	ERROR_SCENARIO_MUST_BE_SERVER_ONLY = 1000502;
@@ -121,6 +141,8 @@ enum ErrorCode {
 	ERROR_DECK_VALIDATION_WRONG_FORMAT = 1002007;
 	ERROR_DECK_RULESET_MUST_BE_SERVER_ONLY = 1002008;
 	ERROR_PLAY_GAME_DECK_MODIFIED = 1003000;
+	ERROR_PLAY_GAME_FSG_ID_NOT_MATCHING = 1003002;
+	ERROR_PLAY_GAME_FSG_PATRON_NOT_CHECKED_IN = 1003003;
 }
 
 // ref: PegasusShared.FormatType
@@ -132,6 +154,7 @@ enum FormatType {
 
 // ref: PegasusShared.GameType
 enum GameType {
+	option allow_alias = true;
 	GT_UNKNOWN = 0;
 	GT_VS_AI = 1;
 	GT_VS_FRIEND = 2;
@@ -143,7 +166,11 @@ enum GameType {
 	GT_TAVERNBRAWL = 16;
 	GT_TB_1P_VS_AI = 17;
 	GT_TB_2P_COOP = 18;
-	GT_LAST = 19;
+	GT_FSG_BRAWL_VS_FRIEND = 19;
+	GT_FSG_BRAWL = 20;
+	GT_FSG_BRAWL_1P_VS_AI = 21;
+	GT_FSG_BRAWL_2P_COOP = 22;
+	GT_LAST = 22;
 }
 
 // ref: PegasusShared.RecruitAFriendState
@@ -212,6 +239,12 @@ enum TavernBrawlStatus {
 	TB_STATUS_TICKET_REQUIRED = 1;
 	TB_STATUS_ACTIVE = 2;
 	TB_STATUS_IN_REWARDS = 3;
+}
+
+// ref: PegasusShared.TavernSignType
+enum TavernSignType {
+	TAVERN_SIGN_TYPE_DEFAULT = 0;
+	TAVERN_SIGN_TYPE_CUSTOM = 1;
 }
 
 // ref: PegasusShared.AccountLicenseInfo
@@ -408,6 +441,33 @@ message DeckRulesetViolation {
 message FavoriteHero {
 	int32 class_id = 1;
 	CardDef hero = 2;
+}
+
+// ref: PegasusShared.FSGConfig
+message FSGConfig {
+	int64 fsg_id = 1;
+	int64 unix_start_time_with_slush = 2;
+	int64 unix_end_time_with_slush = 3;
+	string name = 4;
+	TavernSignData sign_data = 5;
+	int64 unix_official_start_time = 6;
+	int64 patron_count = 7;
+	bool is_innkeeper = 8;
+	bool is_setup_complete = 9;
+	int64 unix_official_end_time = 10;
+}
+
+// ref: PegasusShared.FSGPatron
+message FSGPatron {
+	BnetId game_account = 1;
+	BnetId bnet_account = 2;
+}
+
+// ref: PegasusShared.GPSCoords
+message GPSCoords {
+	double latitude = 1;
+	double longitude = 2;
+	double accuracy = 3;
 }
 
 // ref: PegasusShared.LocalizedString
@@ -742,6 +802,7 @@ message TavernBrawlPlayerRecord {
 	int32 num_tickets_owned = 6;
 	TavernBrawlPlayerSession session = 7;
 	int32 num_sessions_purchasable = 8;
+	BrawlType brawl_type = 9;
 }
 
 // ref: PegasusShared.TavernBrawlPlayerSession
@@ -774,7 +835,15 @@ message TavernBrawlSpec {
 	bool friendly_challenge_disabled = 17;
 	int32 season_end_second_spread_count = 18;
 	repeated AssetRecordInfo additional_assets = 100 [packed=false];
-	TavernBrawlPlayerRecord my_record = 105;
+}
+
+// ref: PegasusShared.TavernSignData
+message TavernSignData {
+	int32 sign = 1;
+	int32 background = 2;
+	int32 major = 3;
+	int32 minor = 4;
+	TavernSignType sign_type = 5;
 }
 
 // ref: PegasusShared.Vector2

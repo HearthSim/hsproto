@@ -128,10 +128,12 @@ message GameSetup {
 	}
 
 	int32 board = 1;
-	int32 max_secrets_per_player = 2;
-	int32 max_friendly_minions_per_player = 3;
-	int32 keep_alive_frequency_seconds = 4;
-	int32 disconnect_when_stuck_seconds = 5;
+	int32 max_secret_zone_size_per_player = 2;
+	int32 max_secrets_per_player = 3;
+	int32 max_quests_per_player = 4;
+	int32 max_friendly_minions_per_player = 5;
+	int32 keep_alive_frequency_seconds = 6;
+	int32 disconnect_when_stuck_seconds = 7;
 }
 
 // ref: PegasusGame.GetGameState
@@ -427,13 +429,22 @@ message SpectatorRemoved {
 // ref: PegasusGame.SubOption
 message SubOption {
 	int32 id = 1;
-	repeated int32 targets = 3;
+	repeated TargetOption targets = 3 [packed=false];
+	int32 play_error = 4;
+	int32 play_error_param = 5;
 }
 
 // ref: PegasusGame.Tag
 message Tag {
 	int32 name = 1;
 	int32 value = 2;
+}
+
+// ref: PegasusGame.TargetOption
+message TargetOption {
+	int32 id = 1;
+	int32 play_error = 2;
+	int32 play_error_param = 3;
 }
 
 // ref: PegasusGame.TurnTimer

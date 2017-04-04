@@ -1208,6 +1208,8 @@ message GuardianVars {
 	int32 xp_solo_limit = 30;
 	int32 max_hero_level = 31;
 	float event_timing_mod = 32;
+	bool fsg_enabled = 33;
+	bool fsg_auto_checkin_enabled = 34;
 }
 
 // ref: PegasusUtil.HeroXP
@@ -1245,7 +1247,7 @@ message InitialClientState {
 	ClientOptions client_options = 5;
 	GuardianVars guardian_vars = 6;
 	repeated SpecialEventTiming special_event_timing = 7 [packed=false];
-	TavernBrawlInfo tavern_brawls = 8;
+	repeated TavernBrawlInfo tavern_brawls_list = 8 [packed=false];
 }
 
 // ref: PegasusUtil.MassDisenchantRequest
@@ -1618,6 +1620,30 @@ message RenameDeck {
 	string name = 2;
 }
 
+// ref: PegasusUtil.RequestTavernBrawlInfo
+message RequestTavernBrawlInfo {
+	// ref: PegasusUtil.RequestTavernBrawlInfo/PacketID
+	enum PacketID {
+		system = 0;
+		ID = 352;
+	}
+
+	pegasus.pegasusshared.ErrorCode error_code = 1;
+	pegasus.pegasusshared.BrawlType brawl_type = 2;
+}
+
+// ref: PegasusUtil.RequestTavernBrawlPlayerRecord
+message RequestTavernBrawlPlayerRecord {
+	// ref: PegasusUtil.RequestTavernBrawlPlayerRecord/PacketID
+	enum PacketID {
+		system = 0;
+		ID = 353;
+	}
+
+	pegasus.pegasusshared.ErrorCode error_code = 1;
+	pegasus.pegasusshared.BrawlType brawl_type = 2;
+}
+
 // ref: PegasusUtil.ReturningPlayerInfo
 message ReturningPlayerInfo {
 	pegasus.pegasusshared.ReturningPlayerStatus status = 1;
@@ -1846,6 +1872,8 @@ message TavernBrawlInfo {
 
 	pegasus.pegasusshared.TavernBrawlSpec current_tavern_brawl = 1;
 	uint64 next_start_seconds_from_now = 2;
+	pegasus.pegasusshared.BrawlType brawl_type = 3;
+	pegasus.pegasusshared.TavernBrawlPlayerRecord my_record = 4;
 }
 
 // ref: PegasusUtil.TavernBrawlPlayerRecordResponse
@@ -1955,9 +1983,9 @@ message TriggerEventResponse {
 	bool success = 2;
 }
 
-// ref: PegasusUtil.TriggerLaunchDayEvent
-message TriggerLaunchDayEvent {
-	// ref: PegasusUtil.TriggerLaunchDayEvent/PacketID
+// ref: PegasusUtil.TriggerPlayedNearbyPlayerOnSubnet
+message TriggerPlayedNearbyPlayerOnSubnet {
+	// ref: PegasusUtil.TriggerPlayedNearbyPlayerOnSubnet/PacketID
 	enum PacketID {
 		system = 0;
 		ID = 298;
