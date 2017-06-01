@@ -90,6 +90,7 @@ enum DeckSourceType {
 	DECK_SOURCE_TYPE_TEMPLATE = 2;
 	DECK_SOURCE_TYPE_BASIC_DECK = 3;
 	DECK_SOURCE_TYPE_INNKEEPER_DECK = 4;
+	DECK_SOURCE_TYPE_PASTED_DECK = 5;
 }
 
 // ref: PegasusShared.DeckType
@@ -150,11 +151,28 @@ enum ErrorCode {
 	ERROR_FSG_DUPLICATE_REQUEST_ORIGINAL_DROPPED = 1004002;
 }
 
+// ref: PegasusShared.EventType
+enum EventType {
+	EVT_NONE = 0;
+	EVT_UPDATED = 1;
+	EVT_ADDED = 2;
+	EVT_REMOVED = 3;
+}
+
 // ref: PegasusShared.FormatType
 enum FormatType {
 	FT_UNKNOWN = 0;
 	FT_WILD = 1;
 	FT_STANDARD = 2;
+}
+
+// ref: PegasusShared.GameSaveOwnerType
+enum GameSaveOwnerType {
+	option allow_alias = true;
+	GAME_SAVE_OWNER_TYPE_UNKNOWN = 0;
+	GAME_SAVE_OWNER_TYPE_PLAYER = 1;
+	GAME_SAVE_OWNER_TYPE_FIRST = 1;
+	GAME_SAVE_OWNER_TYPE_COUNT = 2;
 }
 
 // ref: PegasusShared.GameType
@@ -229,6 +247,7 @@ enum RewardType {
 	REWARD_EXTERNAL_GAME_MOUNT = 15;
 	REWARD_CHEST = 16;
 	REWARD_RETURNING_PLAYER_COMPLETE = 17;
+	REWARD_EVENT_NOTICE = 18;
 }
 
 // ref: PegasusShared.RuleType
@@ -401,6 +420,7 @@ message DeckInfo {
 	int64 sort_order = 12;
 	int64 create_date = 13;
 	DeckSourceType source_type = 14;
+	string pasted_deck_hash = 15;
 }
 
 // ref: PegasusShared.DeckRulesetDbRecord
@@ -460,12 +480,39 @@ message FSGConfig {
 	bool is_innkeeper = 8;
 	bool is_setup_complete = 9;
 	int64 unix_official_end_time = 10;
+	BnetId fsg_innkeeper_account_id = 11;
 }
 
 // ref: PegasusShared.FSGPatron
 message FSGPatron {
 	BnetId game_account = 1;
 	BnetId bnet_account = 2;
+}
+
+// ref: PegasusShared.GameSaveDataUpdate
+message GameSaveDataUpdate {
+	EventType event_type = 1;
+	GameSaveOwnerType owner_type = 2;
+	int64 owner_id = 3;
+	repeated GameSaveKey tuple = 4 [packed=false];
+	GameSaveDataValue value = 100;
+}
+
+// ref: PegasusShared.GameSaveDataValue
+message GameSaveDataValue {
+	repeated int64 int_value = 1 [packed=false];
+	repeated double float_value = 2 [packed=false];
+	repeated string string_value = 3 [packed=false];
+	repeated int64 map_keys = 10 [packed=false];
+	repeated GameSaveDataValue map_values = 11 [packed=false];
+	int64 create_date_unix_timestamp = 1000;
+	int64 modify_date_unix_timestamp = 1001;
+}
+
+// ref: PegasusShared.GameSaveKey
+message GameSaveKey {
+	int64 id = 1;
+	string name = 2;
 }
 
 // ref: PegasusShared.GPSCoords
@@ -839,6 +886,8 @@ message TavernBrawlSpec {
 	int32 max_sessions = 16;
 	bool friendly_challenge_disabled = 17;
 	int32 season_end_second_spread_count = 18;
+	int32 first_time_seen_dialog_id = 19;
+	int32 reward_trigger_quota = 20;
 	repeated AssetRecordInfo additional_assets = 100 [packed=false];
 }
 

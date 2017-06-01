@@ -10,6 +10,12 @@ message BnetId {
 	uint64 lo = 2;
 }
 
+// ref: WTCG.BI.CopiedDeckInfo
+message CopiedDeckInfo {
+	int64 deck_id = 1;
+	string deck_hash = 2;
+}
+
 // ref: WTCG.BI.DataOnlyPatching
 message DataOnlyPatching {
 	// ref: WTCG.BI.DataOnlyPatching/BnetRegion
@@ -190,5 +196,6 @@ message Telemetry {
 	PlayerIdentity player_identity = 16;
 	PresenceChange presence_change = 17;
 	FSGInfo fsg_info = 18;
+	CopiedDeckInfo copied_deck_info = 19;
 }
 

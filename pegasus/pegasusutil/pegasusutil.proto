@@ -574,6 +574,7 @@ message CreateDeck {
 	bool tagged_standard = 5;
 	int64 sort_order = 6;
 	pegasus.pegasusshared.DeckSourceType source_type = 7;
+	string pasted_deck_hash = 8;
 }
 
 // ref: PegasusUtil.DBAction
@@ -679,6 +680,7 @@ message DeckSetData {
 	int32 card_back = 4;
 	bool tagged_standard = 5;
 	int64 sort_order = 6;
+	string pasted_deck_hash = 7;
 }
 
 // ref: PegasusUtil.DeckSetTemplateSource
@@ -854,6 +856,28 @@ message DraftMakePick {
 	int32 slot = 2;
 	int32 index = 3;
 	int32 premium = 4;
+}
+
+// ref: PegasusUtil.DraftRemoveGoldensResponse
+message DraftRemoveGoldensResponse {
+	// ref: PegasusUtil.DraftRemoveGoldensResponse/PacketID
+	enum PacketID {
+		PACKETID_AUTO_INVALID = 0;
+		ID = 355;
+	}
+
+	repeated pegasus.pegasusshared.DeckCardData cards = 1 [packed=false];
+	repeated pegasus.pegasusshared.CardDef choice_list = 2 [packed=false];
+}
+
+// ref: PegasusUtil.DraftRequestRemoveGoldens
+message DraftRequestRemoveGoldens {
+	// ref: PegasusUtil.DraftRequestRemoveGoldens/PacketID
+	enum PacketID {
+		system = 0;
+		ID = 354;
+	}
+
 }
 
 // ref: PegasusUtil.DraftRetire
@@ -1210,6 +1234,8 @@ message GuardianVars {
 	float event_timing_mod = 32;
 	bool fsg_enabled = 33;
 	bool fsg_auto_checkin_enabled = 34;
+	int32 friend_week_conceded_game_min_total_turns = 35;
+	bool friend_week_allows_tavern_brawl_record_update = 36;
 }
 
 // ref: PegasusUtil.HeroXP
@@ -1648,16 +1674,28 @@ message RequestTavernBrawlPlayerRecord {
 message ReturningPlayerInfo {
 	pegasus.pegasusshared.ReturningPlayerStatus status = 1;
 	uint32 ab_test_group = 2;
+	int64 notification_suppression_time_days = 3;
 }
 
 // ref: PegasusUtil.ReturningPlayerOptOutRequest
 message ReturningPlayerOptOutRequest {
 	// ref: PegasusUtil.ReturningPlayerOptOutRequest/PacketID
 	enum PacketID {
-		PACKETID_AUTO_INVALID = 0;
+		system = 0;
 		ID = 350;
 	}
 
+}
+
+// ref: PegasusUtil.ReturningPlayerOptOutResponse
+message ReturningPlayerOptOutResponse {
+	// ref: PegasusUtil.ReturningPlayerOptOutResponse/PacketID
+	enum PacketID {
+		PACKETID_AUTO_INVALID = 0;
+		ID = 356;
+	}
+
+	pegasus.pegasusshared.ErrorCode error_code = 1;
 }
 
 // ref: PegasusUtil.RewardProgress
@@ -1786,6 +1824,7 @@ message SpecialEventTiming {
 	string event = 1;
 	uint64 start = 2;
 	uint64 end = 3;
+	string requires_unlock = 4;
 }
 
 // ref: PegasusUtil.StartThirdPartyPurchase
@@ -1813,8 +1852,12 @@ message SubmitThirdPartyReceipt {
 		ID = 293;
 	}
 
-	ThirdPartyReceiptData receipt_data = 1;
-	int64 transaction_id = 2;
+	pegasus.pegasusshared.BattlePayProvider provider = 1;
+	string product_id = 2;
+	int32 quantity = 3;
+	int64 transaction_id = 4;
+	ThirdPartyReceiptData receipt_data = 5;
+	string device_id = 6;
 }
 
 // ref: PegasusUtil.Subscribe

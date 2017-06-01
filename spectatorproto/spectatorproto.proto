@@ -5,6 +5,12 @@ package spectatorproto;
 
 import "pegasus/pegasusshared/pegasusshared.proto";
 
+// ref: SpectatorProto.SecretSource
+enum SecretSource {
+	SECRET_SOURCE_UNKNOWN = 0;
+	SECRET_SOURCE_FIRESIDE_GATHERING = 1;
+}
+
 // ref: SpectatorProto.Invite
 message Invite {
 	pegasus.pegasusshared.BnetId inviter_game_account_id = 1;
@@ -41,5 +47,12 @@ message PartyServerInfo {
 	pegasus.pegasusshared.GameType game_type = 5;
 	int32 mission_id = 6;
 	pegasus.pegasusshared.FormatType format_type = 7;
+}
+
+// ref: SpectatorProto.SecretJoinInfo
+message SecretJoinInfo {
+	SecretSource source = 1;
+	int64 specific_source_identity = 2;
+	bytes encrypted_message = 3;
 }
 
