@@ -166,15 +166,6 @@ enum FormatType {
 	FT_STANDARD = 2;
 }
 
-// ref: PegasusShared.GameSaveOwnerType
-enum GameSaveOwnerType {
-	option allow_alias = true;
-	GAME_SAVE_OWNER_TYPE_UNKNOWN = 0;
-	GAME_SAVE_OWNER_TYPE_PLAYER = 1;
-	GAME_SAVE_OWNER_TYPE_FIRST = 1;
-	GAME_SAVE_OWNER_TYPE_COUNT = 2;
-}
-
 // ref: PegasusShared.GameType
 enum GameType {
 	option allow_alias = true;
@@ -492,10 +483,7 @@ message FSGPatron {
 // ref: PegasusShared.GameSaveDataUpdate
 message GameSaveDataUpdate {
 	EventType event_type = 1;
-	GameSaveOwnerType owner_type = 2;
-	int64 owner_id = 3;
-	repeated GameSaveKey tuple = 4 [packed=false];
-	GameSaveDataValue value = 100;
+	GameSaveDataValue value = 2;
 }
 
 // ref: PegasusShared.GameSaveDataValue
@@ -507,12 +495,6 @@ message GameSaveDataValue {
 	repeated GameSaveDataValue map_values = 11 [packed=false];
 	int64 create_date_unix_timestamp = 1000;
 	int64 modify_date_unix_timestamp = 1001;
-}
-
-// ref: PegasusShared.GameSaveKey
-message GameSaveKey {
-	int64 id = 1;
-	string name = 2;
 }
 
 // ref: PegasusShared.GPSCoords
