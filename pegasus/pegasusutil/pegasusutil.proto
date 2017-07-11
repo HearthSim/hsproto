@@ -19,6 +19,7 @@ enum ProductType {
 	PRODUCT_TYPE_RANDOM_CARD = 9;
 	PRODUCT_TYPE_HIDDEN_LICENSE = 10;
 	PRODUCT_TYPE_TAVERN_BRAWL_TICKET = 11;
+	PRODUCT_TYPE_CURRENCY = 12;
 }
 
 // ref: PegasusUtil.RAFServiceStatus
@@ -278,12 +279,16 @@ message BoosterContent {
 
 // ref: PegasusUtil.BoosterList
 message BoosterList {
-	// ref: PegasusUtil.BoosterList/PacketID
-	enum PacketID {
-		PACKETID_AUTO_INVALID = 0;
-		ID = 224;
-	}
+	repeated pegasus.pegasusshared.BoosterInfo list = 1 [packed=false];
+}
 
+// ref: PegasusUtil.BoosterModifications
+message BoosterModifications {
+	repeated pegasus.pegasusshared.BoosterInfo modifications = 1 [packed=false];
+}
+
+// ref: PegasusUtil.Boosters
+message Boosters {
 	repeated pegasus.pegasusshared.BoosterInfo list = 1 [packed=false];
 }
 
@@ -534,6 +539,7 @@ message ClientStateNotification {
 	NoticeNotifications notice_notifications = 2;
 	CollectionModifications collection_modifications = 3;
 	GameCurrencyStates currency_state = 4;
+	BoosterModifications booster_modifications = 5;
 }
 
 // ref: PegasusUtil.ClientStaticAssetsResponse
@@ -575,6 +581,8 @@ message CreateDeck {
 	int64 sort_order = 6;
 	pegasus.pegasusshared.DeckSourceType source_type = 7;
 	string pasted_deck_hash = 8;
+	int64 fsg_id = 100;
+	bytes fsg_shared_secret_key = 101;
 }
 
 // ref: PegasusUtil.DBAction
@@ -681,6 +689,8 @@ message DeckSetData {
 	bool tagged_standard = 5;
 	int64 sort_order = 6;
 	string pasted_deck_hash = 7;
+	int64 fsg_id = 100;
+	bytes fsg_shared_secret_key = 101;
 }
 
 // ref: PegasusUtil.DeckSetTemplateSource
@@ -717,14 +727,8 @@ message DevBnetIdentify {
 	string name = 1;
 }
 
-// ref: PegasusUtil.Disconnected
-message Disconnected {
-	// ref: PegasusUtil.Disconnected/PacketID
-	enum PacketID {
-		PACKETID_AUTO_INVALID = 0;
-		ID = 289;
-	}
-
+// ref: PegasusUtil.DisconnectedGame
+message DisconnectedGame {
 	string address = 1;
 	int32 game_handle = 2;
 	int64 client_handle = 3;
@@ -732,6 +736,8 @@ message Disconnected {
 	string version = 5;
 	string aurora_password = 6;
 	int32 scenario = 7;
+	pegasus.pegasusshared.GameType game_type = 8;
+	pegasus.pegasusshared.FormatType format_type = 9;
 }
 
 // ref: PegasusUtil.DoPurchase
@@ -777,6 +783,7 @@ message DraftBeginning {
 
 	int64 deck_id = 1;
 	repeated pegasus.pegasusshared.CardDef choice_list = 3 [packed=false];
+	int32 wins = 4;
 }
 
 // ref: PegasusUtil.DraftChoicesAndContents
@@ -832,6 +839,7 @@ message DraftError {
 	}
 
 	ErrorCode error_code = 1;
+	int32 num_tickets_owned = 2;
 }
 
 // ref: PegasusUtil.DraftGetPicksAndContents
@@ -1065,6 +1073,8 @@ message GetAssetRequest {
 
 	repeated pegasus.pegasusshared.AssetKey requests = 1 [packed=false];
 	int32 client_token = 2;
+	int64 fsg_id = 100;
+	bytes fsg_shared_secret_key = 101;
 }
 
 // ref: PegasusUtil.GetAssetResponse
@@ -1236,6 +1246,7 @@ message GuardianVars {
 	bool fsg_auto_checkin_enabled = 34;
 	int32 friend_week_conceded_game_min_total_turns = 35;
 	bool friend_week_allows_tavern_brawl_record_update = 36;
+	bool fsg_show_beta_label = 37;
 }
 
 // ref: PegasusUtil.HeroXP
@@ -1274,6 +1285,8 @@ message InitialClientState {
 	GuardianVars guardian_vars = 6;
 	repeated SpecialEventTiming special_event_timing = 7 [packed=false];
 	repeated TavernBrawlInfo tavern_brawls_list = 8 [packed=false];
+	Boosters boosters = 9;
+	DisconnectedGame disconnected_game = 10;
 }
 
 // ref: PegasusUtil.MassDisenchantRequest
@@ -1654,8 +1667,10 @@ message RequestTavernBrawlInfo {
 		ID = 352;
 	}
 
-	pegasus.pegasusshared.ErrorCode error_code = 1;
+	pegasus.pegasusshared.ErrorCode deprecated_error_code = 1;
 	pegasus.pegasusshared.BrawlType brawl_type = 2;
+	int64 fsg_id = 100;
+	bytes fsg_shared_secret_key = 101;
 }
 
 // ref: PegasusUtil.RequestTavernBrawlPlayerRecord
@@ -1666,8 +1681,10 @@ message RequestTavernBrawlPlayerRecord {
 		ID = 353;
 	}
 
-	pegasus.pegasusshared.ErrorCode error_code = 1;
+	pegasus.pegasusshared.ErrorCode deprecated_error_code = 1;
 	pegasus.pegasusshared.BrawlType brawl_type = 2;
+	int64 fsg_id = 100;
+	bytes fsg_shared_secret_key = 101;
 }
 
 // ref: PegasusUtil.ReturningPlayerInfo
@@ -1824,7 +1841,6 @@ message SpecialEventTiming {
 	string event = 1;
 	uint64 start = 2;
 	uint64 end = 3;
-	string requires_unlock = 4;
 }
 
 // ref: PegasusUtil.StartThirdPartyPurchase

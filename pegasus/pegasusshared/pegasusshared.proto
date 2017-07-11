@@ -23,7 +23,6 @@ enum BattlePayProvider {
 
 // ref: PegasusShared.BnetGameType
 enum BnetGameType {
-	option allow_alias = true;
 	BGT_UNKNOWN = 0;
 	BGT_FRIENDS = 1;
 	BGT_RANKED_STANDARD = 2;
@@ -45,7 +44,7 @@ enum BnetGameType {
 	BGT_FSG_BRAWL_PVP = 41;
 	BGT_FSG_BRAWL_1P_VERSUS_AI = 42;
 	BGT_FSG_BRAWL_2P_COOP = 43;
-	BGT_LAST = 43;
+	BGT_LAST = 44;
 }
 
 // ref: PegasusShared.BrawlType
@@ -166,9 +165,17 @@ enum FormatType {
 	FT_STANDARD = 2;
 }
 
+// ref: PegasusShared.GameSaveOwnerType
+enum GameSaveOwnerType {
+	option allow_alias = true;
+	GAME_SAVE_OWNER_TYPE_UNKNOWN = 0;
+	GAME_SAVE_OWNER_TYPE_PLAYER = 1;
+	GAME_SAVE_OWNER_TYPE_FIRST = 1;
+	GAME_SAVE_OWNER_TYPE_COUNT = 2;
+}
+
 // ref: PegasusShared.GameType
 enum GameType {
-	option allow_alias = true;
 	GT_UNKNOWN = 0;
 	GT_VS_AI = 1;
 	GT_VS_FRIEND = 2;
@@ -184,7 +191,7 @@ enum GameType {
 	GT_FSG_BRAWL = 20;
 	GT_FSG_BRAWL_1P_VS_AI = 21;
 	GT_FSG_BRAWL_2P_COOP = 22;
-	GT_LAST = 22;
+	GT_LAST = 23;
 }
 
 // ref: PegasusShared.RecruitAFriendState
@@ -483,7 +490,10 @@ message FSGPatron {
 // ref: PegasusShared.GameSaveDataUpdate
 message GameSaveDataUpdate {
 	EventType event_type = 1;
-	GameSaveDataValue value = 2;
+	GameSaveOwnerType owner_type = 2;
+	int64 owner_id = 3;
+	repeated GameSaveKey tuple = 4 [packed=false];
+	GameSaveDataValue value = 100;
 }
 
 // ref: PegasusShared.GameSaveDataValue
@@ -495,6 +505,12 @@ message GameSaveDataValue {
 	repeated GameSaveDataValue map_values = 11 [packed=false];
 	int64 create_date_unix_timestamp = 1000;
 	int64 modify_date_unix_timestamp = 1001;
+}
+
+// ref: PegasusShared.GameSaveKey
+message GameSaveKey {
+	int64 id = 1;
+	string name = 2;
 }
 
 // ref: PegasusShared.GPSCoords
