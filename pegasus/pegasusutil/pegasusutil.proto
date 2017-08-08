@@ -204,6 +204,7 @@ message AssetResponse {
 	pegasus.pegasusshared.ScenarioDbRecord scenario_asset = 100;
 	pegasus.pegasusshared.SubsetCardListDbRecord subset_card_list_asset = 101;
 	pegasus.pegasusshared.DeckRulesetDbRecord deck_ruleset_asset = 102;
+	pegasus.pegasusshared.RewardChestDbRecord reward_chest_asset = 103;
 }
 
 // ref: PegasusUtil.AssetsVersionResponse
@@ -1473,6 +1474,7 @@ message ProfileNotice {
 	pegasus.pegasusshared.ProfileNoticeAccountLicense account_license = 20;
 	pegasus.pegasusshared.ProfileNoticeTavernBrawlRewards tavern_brawl_rewards = 21;
 	pegasus.pegasusshared.ProfileNoticeTavernBrawlTicket tavern_brawl_ticket = 22;
+	pegasus.pegasusshared.ProfileNoticeGenericRewardChest generic_reward_chest = 23;
 }
 
 // ref: PegasusUtil.ProfileNotices

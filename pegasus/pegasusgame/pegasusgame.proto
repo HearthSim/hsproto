@@ -191,6 +191,7 @@ message HistoryMeta {
 		EFFECT_TIMING = 6;
 		HISTORY_TARGET = 7;
 		OVERRIDE_HISTORY = 8;
+		HISTORY_TARGET_DONT_DUPLICATE_UNTIL_END = 9;
 	}
 
 }
@@ -309,6 +310,7 @@ message PowerHistoryEntity {
 	int32 entity = 1;
 	string name = 2;
 	repeated Tag tags = 3 [packed=false];
+	repeated Tag def_tags = 4 [packed=false];
 }
 
 // ref: PegasusGame.PowerHistoryHide
@@ -327,10 +329,12 @@ message PowerHistoryMetaData {
 // ref: PegasusGame.PowerHistoryStart
 message PowerHistoryStart {
 	HistoryBlock.Type type = 1;
-	int32 index = 2;
+	int32 sub_option = 2;
 	int32 source = 3;
 	int32 target = 4;
 	string effect_card_id = 5;
+	int32 effect_index = 6;
+	int32 trigger_keyword = 7;
 }
 
 // ref: PegasusGame.PowerHistoryTagChange
@@ -338,6 +342,7 @@ message PowerHistoryTagChange {
 	int32 entity = 1;
 	int32 tag = 2;
 	int32 value = 3;
+	bool change_def = 4;
 }
 
 // ref: PegasusGame.RemoveSpectators

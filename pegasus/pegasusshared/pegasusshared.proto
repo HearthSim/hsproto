@@ -10,6 +10,7 @@ enum AssetType {
 	ASSET_TYPE_SCENARIO = 1;
 	ASSET_TYPE_SUBSET_CARD = 2;
 	ASSET_TYPE_DECK_RULESET = 3;
+	ASSET_TYPE_REWARD_CHEST = 4;
 }
 
 // ref: PegasusShared.BattlePayProvider
@@ -120,6 +121,7 @@ enum ErrorCode {
 	ERROR_GLOBAL_INTERNAL_ERROR = 1000010;
 	ERROR_GLOBAL_FSG_ID_INVALID = 1000011;
 	ERROR_GLOBAL_HTTP_TIMEOUT_OR_ABORTED = 1000012;
+	ERROR_GLOBAL_INVALID_HERO_SPECIFIED = 1000013;
 	ERROR_SCENARIO_INCORRECT_NUM_PLAYERS = 1000500;
 	ERROR_SCENARIO_NO_DECK_SPECIFIED = 1000501;
 	ERROR_SCENARIO_MUST_BE_SERVER_ONLY = 1000502;
@@ -148,6 +150,7 @@ enum ErrorCode {
 	ERROR_FSG_NO_PERMISSION = 1004000;
 	ERROR_FSG_DUPLICATE_REQUEST_IGNORED = 1004001;
 	ERROR_FSG_DUPLICATE_REQUEST_ORIGINAL_DROPPED = 1004002;
+	ERROR_FSG_ALREADY_CHECKED_IN_FETCH_FSG_INFO = 1004003;
 }
 
 // ref: PegasusShared.EventType
@@ -171,7 +174,8 @@ enum GameSaveOwnerType {
 	GAME_SAVE_OWNER_TYPE_UNKNOWN = 0;
 	GAME_SAVE_OWNER_TYPE_PLAYER = 1;
 	GAME_SAVE_OWNER_TYPE_FIRST = 1;
-	GAME_SAVE_OWNER_TYPE_COUNT = 2;
+	GAME_SAVE_OWNER_TYPE_FIRESIDE_GATHERING = 2;
+	GAME_SAVE_OWNER_TYPE_COUNT = 3;
 }
 
 // ref: PegasusShared.GameType
@@ -246,6 +250,7 @@ enum RewardType {
 	REWARD_CHEST = 16;
 	REWARD_RETURNING_PLAYER_COMPLETE = 17;
 	REWARD_EVENT_NOTICE = 18;
+	REWARD_GENERIC_REWARD_CHEST = 19;
 }
 
 // ref: PegasusShared.RuleType
@@ -471,7 +476,7 @@ message FSGConfig {
 	int64 fsg_id = 1;
 	int64 unix_start_time_with_slush = 2;
 	int64 unix_end_time_with_slush = 3;
-	string name = 4;
+	string tavern_name = 4;
 	TavernSignData sign_data = 5;
 	int64 unix_official_start_time = 6;
 	int64 patron_count = 7;
@@ -479,6 +484,8 @@ message FSGConfig {
 	bool is_setup_complete = 9;
 	int64 unix_official_end_time = 10;
 	BnetId fsg_innkeeper_account_id = 11;
+	bool is_large_scale_fsg = 12;
+	string fsg_name = 13;
 }
 
 // ref: PegasusShared.FSGPatron
@@ -632,6 +639,20 @@ message ProfileNoticeDisconnectedGameResult {
 	PlayerResult your_result = 11;
 	PlayerResult opponent_result = 12;
 	FormatType format_type = 13;
+}
+
+// ref: PegasusShared.ProfileNoticeGenericRewardChest
+message ProfileNoticeGenericRewardChest {
+	// ref: PegasusShared.ProfileNoticeGenericRewardChest/NoticeID
+	enum NoticeID {
+		NOTICEID_AUTO_INVALID = 0;
+		ID = 20;
+	}
+
+	int32 reward_chest_asset_id = 1;
+	RewardChest reward_chest = 2;
+	uint32 reward_chest_byte_size = 3;
+	bytes reward_chest_hash = 4;
 }
 
 // ref: PegasusShared.ProfileNoticeLevelUp
@@ -812,6 +833,12 @@ message RewardChest {
 	RewardBag bag4 = 4;
 	RewardBag bag5 = 5;
 	repeated RewardBag bag = 6 [packed=false];
+}
+
+// ref: PegasusShared.RewardChestDbRecord
+message RewardChestDbRecord {
+	int32 id = 1;
+	repeated LocalizedString strings = 100 [packed=false];
 }
 
 // ref: PegasusShared.ScenarioDbRecord

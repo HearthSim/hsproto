@@ -1,0 +1,100 @@
+syntax = "proto3";
+package blizzard.telemetry.wtcg.client;
+
+// Proto extractor compiled unit - https://github.com/HearthSim/proto-extractor
+
+
+// ref: Blizzard.Telemetry.WTCG.Client.DeckCopied
+message DeckCopied {
+	Player player = 1;
+	DeviceInfo device_info = 2;
+	int64 deck_id = 3;
+	string deck_hash = 4;
+}
+
+// ref: Blizzard.Telemetry.WTCG.Client.DeviceInfo
+message DeviceInfo {
+	// ref: Blizzard.Telemetry.WTCG.Client.DeviceInfo/ConnectionType
+	enum ConnectionType {
+		CONNECTIONTYPE_AUTO_INVALID = 0;
+		WIRED = 1;
+		WIFI = 2;
+		CELLULAR = 3;
+		UNKNOWN = 4;
+	}
+
+	// ref: Blizzard.Telemetry.WTCG.Client.DeviceInfo/OSCategory
+	enum OSCategory {
+		OSCATEGORY_AUTO_INVALID = 0;
+		WINDOWS = 1;
+		MAC = 2;
+		IOS = 3;
+		ANDROID = 4;
+	}
+
+	// ref: Blizzard.Telemetry.WTCG.Client.DeviceInfo/ScreenCategory
+	enum ScreenCategory {
+		SCREENCATEGORY_AUTO_INVALID = 0;
+		PHONE = 1;
+		MINI_TABLET = 2;
+		TABLET = 3;
+		PC = 4;
+	}
+
+	OSCategory os = 1;
+	string os_version = 2;
+	string model = 3;
+	ScreenCategory screen = 4;
+	ConnectionType connection_type = 5;
+	string droid_texture_compression = 6;
+}
+
+// ref: Blizzard.Telemetry.WTCG.Client.NetworkError
+message NetworkError {
+	// ref: Blizzard.Telemetry.WTCG.Client.NetworkError/ErrorType
+	enum ErrorType {
+		ERRORTYPE_AUTO_INVALID = 0;
+		PRIVATE_SERVER = 1;
+		SERVICE_UNAVAILABLE = 2;
+		PEER_UNAVAILABLE = 3;
+		TIMEOUT_DEFERRED_RESPONSE = 4;
+		TIMEOUT_NOT_DEFERRED_RESPONSE = 5;
+		REQUEST_ERROR = 6;
+		OTHER_UNKNOWN = 7;
+	}
+
+	DeviceInfo device_info = 1;
+	ErrorType error_type = 2;
+	string description = 3;
+	int32 error_code = 4;
+}
+
+// ref: Blizzard.Telemetry.WTCG.Client.Player
+message Player {
+	int64 battle_net_id_lo = 1;
+	int64 game_account_id = 2;
+	string bnet_region = 3;
+	string locale = 4;
+}
+
+// ref: Blizzard.Telemetry.WTCG.Client.PresenceChanged
+message PresenceChanged {
+	Player player = 1;
+	DeviceInfo device_info = 2;
+	PresenceStatus new_presence_status = 3;
+	PresenceStatus prev_presence_status = 4;
+	int64 milliseconds_since_prev = 5;
+}
+
+// ref: Blizzard.Telemetry.WTCG.Client.PresenceStatus
+message PresenceStatus {
+	int64 presence_id = 1;
+	int64 presence_sub_id = 2;
+}
+
+// ref: Blizzard.Telemetry.WTCG.Client.ReturningPlayerDeckNotCreated
+message ReturningPlayerDeckNotCreated {
+	Player player = 1;
+	uint32 abgroup = 2;
+}
+
