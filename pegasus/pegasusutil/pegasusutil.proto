@@ -168,10 +168,25 @@ message AdventureProgressResponse {
 	repeated pegasus.pegasusshared.AdventureProgress list = 1 [packed=false];
 }
 
+// ref: PegasusUtil.ArenaSeasonInfo
+message ArenaSeasonInfo {
+	pegasus.pegasusshared.ArenaSeasonSpec season = 1;
+	uint64 next_start_seconds_from_now = 2;
+	int32 season_ending_soon_days = 3;
+	string season_ending_soon_prefab = 4;
+	int32 next_season_id = 5;
+	int32 next_season_coming_soon_days = 6;
+	string next_season_coming_soon_prefab = 7;
+	repeated pegasus.pegasusshared.LocalizedString next_season_strings = 8 [packed=false];
+}
+
 // ref: PegasusUtil.ArenaSession
 message ArenaSession {
 	int32 wins = 1;
 	int32 losses = 2;
+	bool is_active = 3;
+	bool is_in_rewards = 4;
+	ArenaSeasonInfo info = 100;
 }
 
 // ref: PegasusUtil.ArenaSessionRequest
@@ -194,6 +209,7 @@ message ArenaSessionResponse {
 
 	pegasus.pegasusshared.ErrorCode error_code = 1;
 	ArenaSession session = 2;
+	ArenaSeasonInfo current_season = 3;
 }
 
 // ref: PegasusUtil.AssetResponse
@@ -541,6 +557,8 @@ message ClientStateNotification {
 	CollectionModifications collection_modifications = 3;
 	GameCurrencyStates currency_state = 4;
 	BoosterModifications booster_modifications = 5;
+	HeroXP hero_xp = 6;
+	PlayerRecords player_records = 7;
 }
 
 // ref: PegasusUtil.ClientStaticAssetsResponse
@@ -784,7 +802,11 @@ message DraftBeginning {
 
 	int64 deck_id = 1;
 	repeated pegasus.pegasusshared.CardDef choice_list = 3 [packed=false];
-	int32 wins = 4;
+	int32 deprecated_wins = 4;
+	int32 max_slot = 5;
+	ArenaSession current_session = 6;
+	pegasus.pegasusshared.DraftSlotType slot_type = 7;
+	repeated pegasus.pegasusshared.DraftSlotType unique_slot_types = 8 [packed=false];
 }
 
 // ref: PegasusUtil.DraftChoicesAndContents
@@ -798,12 +820,17 @@ message DraftChoicesAndContents {
 	int64 deck_id = 1;
 	int32 slot = 2;
 	repeated pegasus.pegasusshared.DeckCardData cards = 5 [packed=false];
-	int32 wins = 6;
-	int32 losses = 7;
+	int32 deprecated_wins = 6;
+	int32 deprecated_losses = 7;
 	pegasus.pegasusshared.RewardChest chest = 8;
 	repeated pegasus.pegasusshared.CardDef choice_list = 9 [packed=false];
 	pegasus.pegasusshared.CardDef hero_def = 10;
 	int32 max_wins = 11;
+	int32 max_slot = 12;
+	ArenaSession current_session = 13;
+	pegasus.pegasusshared.DraftSlotType slot_type = 14;
+	pegasus.pegasusshared.CardDef hero_power_def = 15;
+	repeated pegasus.pegasusshared.DraftSlotType unique_slot_types = 16 [packed=false];
 }
 
 // ref: PegasusUtil.DraftChosen
@@ -816,6 +843,7 @@ message DraftChosen {
 
 	pegasus.pegasusshared.CardDef chosen = 3;
 	repeated pegasus.pegasusshared.CardDef next_choice_list = 4 [packed=false];
+	pegasus.pegasusshared.DraftSlotType slot_type = 5;
 }
 
 // ref: PegasusUtil.DraftError
@@ -831,6 +859,7 @@ message DraftError {
 		DE_BAD_INDEX = 6;
 		DE_NOT_IN_DRAFT_BUT_COULD_BE = 7;
 		DE_FEATURE_DISABLED = 8;
+		DE_SEASON_INCREMENTED = 9;
 	}
 
 	// ref: PegasusUtil.DraftError/PacketID
@@ -843,9 +872,9 @@ message DraftError {
 	int32 num_tickets_owned = 2;
 }
 
-// ref: PegasusUtil.DraftGetPicksAndContents
-message DraftGetPicksAndContents {
-	// ref: PegasusUtil.DraftGetPicksAndContents/PacketID
+// ref: PegasusUtil.DraftGetChoicesAndContents
+message DraftGetChoicesAndContents {
+	// ref: PegasusUtil.DraftGetChoicesAndContents/PacketID
 	enum PacketID {
 		system = 0;
 		ID = 244;
@@ -899,6 +928,7 @@ message DraftRetire {
 
 	int64 deck_id = 1;
 	int32 slot = 2;
+	int32 season_id = 3;
 }
 
 // ref: PegasusUtil.DraftRetired
@@ -1248,6 +1278,8 @@ message GuardianVars {
 	int32 friend_week_conceded_game_min_total_turns = 35;
 	bool friend_week_allows_tavern_brawl_record_update = 36;
 	bool fsg_show_beta_label = 37;
+	int32 fsg_friend_list_patron_count_limit = 38;
+	uint32 arena_closed_to_new_sessions_seconds = 39;
 }
 
 // ref: PegasusUtil.HeroXP
@@ -1288,6 +1320,30 @@ message InitialClientState {
 	repeated TavernBrawlInfo tavern_brawls_list = 8 [packed=false];
 	Boosters boosters = 9;
 	DisconnectedGame disconnected_game = 10;
+	ArenaSessionResponse arena_session = 11;
+}
+
+// ref: PegasusUtil.LocateCheatServerRequest
+message LocateCheatServerRequest {
+	// ref: PegasusUtil.LocateCheatServerRequest/PacketID
+	enum PacketID {
+		PACKETID_AUTO_INVALID = 0;
+		system = 4;
+		ID = 361;
+	}
+
+}
+
+// ref: PegasusUtil.LocateCheatServerResponse
+message LocateCheatServerResponse {
+	// ref: PegasusUtil.LocateCheatServerResponse/PacketID
+	enum PacketID {
+		PACKETID_AUTO_INVALID = 0;
+		ID = 362;
+	}
+
+	string address = 1;
+	int32 port = 2;
 }
 
 // ref: PegasusUtil.MassDisenchantRequest
@@ -1609,6 +1665,7 @@ message PurchaseWithGoldResponse {
 		PR_PRODUCT_NA = 3;
 		PR_FEATURE_NA = 4;
 		PR_INVALID_QUANTITY = 5;
+		PR_PRODUCT_EVENT_HAS_ENDED = 6;
 	}
 
 	PurchaseResult result = 1;
@@ -1669,7 +1726,6 @@ message RequestTavernBrawlInfo {
 		ID = 352;
 	}
 
-	pegasus.pegasusshared.ErrorCode deprecated_error_code = 1;
 	pegasus.pegasusshared.BrawlType brawl_type = 2;
 	int64 fsg_id = 100;
 	bytes fsg_shared_secret_key = 101;
@@ -1683,7 +1739,6 @@ message RequestTavernBrawlPlayerRecord {
 		ID = 353;
 	}
 
-	pegasus.pegasusshared.ErrorCode deprecated_error_code = 1;
 	pegasus.pegasusshared.BrawlType brawl_type = 2;
 	int64 fsg_id = 100;
 	bytes fsg_shared_secret_key = 101;
@@ -1931,7 +1986,7 @@ message TavernBrawlInfo {
 		ID = 316;
 	}
 
-	pegasus.pegasusshared.TavernBrawlSpec current_tavern_brawl = 1;
+	pegasus.pegasusshared.GameContentSeasonSpec current_tavern_brawl = 1;
 	uint64 next_start_seconds_from_now = 2;
 	pegasus.pegasusshared.BrawlType brawl_type = 3;
 	pegasus.pegasusshared.TavernBrawlPlayerRecord my_record = 4;

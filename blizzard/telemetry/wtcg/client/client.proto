@@ -4,12 +4,65 @@ package blizzard.telemetry.wtcg.client;
 // Proto extractor compiled unit - https://github.com/HearthSim/proto-extractor
 
 
+// ref: Blizzard.Telemetry.WTCG.Client.AttackInputMethod
+message AttackInputMethod {
+	DeviceInfo device_info = 1;
+	int64 total_num_attacks = 2;
+	int64 total_click_attacks = 3;
+	int32 percent_click_attacks = 4;
+	int64 total_drag_attacks = 5;
+	int32 percent_drag_attacks = 6;
+}
+
+// ref: Blizzard.Telemetry.WTCG.Client.ChangePackQuantity
+message ChangePackQuantity {
+	int32 booster_id = 1;
+}
+
+// ref: Blizzard.Telemetry.WTCG.Client.ClickRecruitAFriend
+message ClickRecruitAFriend {
+	DeviceInfo device_info = 1;
+}
+
+// ref: Blizzard.Telemetry.WTCG.Client.ClientReset
+message ClientReset {
+	DeviceInfo device_info = 1;
+	bool force_login = 2;
+	bool force_no_account_tutorial = 3;
+}
+
+// ref: Blizzard.Telemetry.WTCG.Client.CollectionLeftRightClick
+message CollectionLeftRightClick {
+	// ref: Blizzard.Telemetry.WTCG.Client.CollectionLeftRightClick/Target
+	enum Target {
+		TARGET_AUTO_INVALID = 0;
+		CARD = 1;
+		HERO_SKIN = 2;
+		CARD_BACK = 3;
+	}
+
+	Target target = 1;
+}
+
 // ref: Blizzard.Telemetry.WTCG.Client.DeckCopied
 message DeckCopied {
 	Player player = 1;
 	DeviceInfo device_info = 2;
 	int64 deck_id = 3;
 	string deck_hash = 4;
+}
+
+// ref: Blizzard.Telemetry.WTCG.Client.DeckPickerToCollection
+message DeckPickerToCollection {
+	// ref: Blizzard.Telemetry.WTCG.Client.DeckPickerToCollection/Path
+	enum Path {
+		PATH_AUTO_INVALID = 0;
+		DECK_PICKER_BUTTON = 1;
+		BACK_TO_BOX = 2;
+	}
+
+	DeviceInfo device_info = 1;
+	Path path = 2;
 }
 
 // ref: Blizzard.Telemetry.WTCG.Client.DeviceInfo
@@ -49,6 +102,45 @@ message DeviceInfo {
 	string droid_texture_compression = 6;
 }
 
+// ref: Blizzard.Telemetry.WTCG.Client.DragDropCancelPlayCard
+message DragDropCancelPlayCard {
+	DeviceInfo device_info = 1;
+	int64 scenario_id = 2;
+	string card_type = 3;
+}
+
+// ref: Blizzard.Telemetry.WTCG.Client.FatalBattleNetError
+message FatalBattleNetError {
+	DeviceInfo device_info = 1;
+	int32 error_code = 2;
+	string description = 3;
+}
+
+// ref: Blizzard.Telemetry.WTCG.Client.FriendsListView
+message FriendsListView {
+	DeviceInfo device_info = 1;
+	string current_scene = 2;
+}
+
+// ref: Blizzard.Telemetry.WTCG.Client.IgnorableBattleNetError
+message IgnorableBattleNetError {
+	DeviceInfo device_info = 1;
+	int32 error_code = 2;
+	string description = 3;
+}
+
+// ref: Blizzard.Telemetry.WTCG.Client.LargeThirdPartyReceiptFound
+message LargeThirdPartyReceiptFound {
+	Player player = 1;
+	DeviceInfo device_info = 2;
+	int64 receipt_size = 3;
+}
+
+// ref: Blizzard.Telemetry.WTCG.Client.ManaFilterToggleOff
+message ManaFilterToggleOff {
+	DeviceInfo device_info = 1;
+}
+
 // ref: Blizzard.Telemetry.WTCG.Client.NetworkError
 message NetworkError {
 	// ref: Blizzard.Telemetry.WTCG.Client.NetworkError/ErrorType
@@ -67,6 +159,19 @@ message NetworkError {
 	ErrorType error_type = 2;
 	string description = 3;
 	int32 error_code = 4;
+}
+
+// ref: Blizzard.Telemetry.WTCG.Client.PackOpenToStore
+message PackOpenToStore {
+	// ref: Blizzard.Telemetry.WTCG.Client.PackOpenToStore/Path
+	enum Path {
+		PATH_AUTO_INVALID = 0;
+		PACK_OPENING_BUTTON = 1;
+		BACK_TO_BOX = 2;
+	}
+
+	DeviceInfo device_info = 1;
+	Path path = 2;
 }
 
 // ref: Blizzard.Telemetry.WTCG.Client.Player
@@ -92,9 +197,173 @@ message PresenceStatus {
 	int64 presence_sub_id = 2;
 }
 
+// ref: Blizzard.Telemetry.WTCG.Client.ReconnectSuccess
+message ReconnectSuccess {
+	Player player = 1;
+	DeviceInfo device_info = 2;
+	float disconnect_duration = 3;
+	float reconnect_duration = 4;
+	string reconnect_type = 5;
+}
+
+// ref: Blizzard.Telemetry.WTCG.Client.ReconnectTimeout
+message ReconnectTimeout {
+	Player player = 1;
+	DeviceInfo device_info = 2;
+	string reconnect_type = 3;
+}
+
 // ref: Blizzard.Telemetry.WTCG.Client.ReturningPlayerDeckNotCreated
 message ReturningPlayerDeckNotCreated {
 	Player player = 1;
 	uint32 abgroup = 2;
+}
+
+// ref: Blizzard.Telemetry.WTCG.Client.ThirdPartyPurchaseCompletedFail
+message ThirdPartyPurchaseCompletedFail {
+	Player player = 1;
+	DeviceInfo device_info = 2;
+	string transaction_id = 3;
+	string product_id = 4;
+	string bpay_provider = 5;
+	string error_info = 6;
+}
+
+// ref: Blizzard.Telemetry.WTCG.Client.ThirdPartyPurchaseCompletedSuccess
+message ThirdPartyPurchaseCompletedSuccess {
+	Player player = 1;
+	DeviceInfo device_info = 2;
+	string transaction_id = 3;
+	string product_id = 4;
+	string bpay_provider = 5;
+}
+
+// ref: Blizzard.Telemetry.WTCG.Client.ThirdPartyPurchaseDanglingReceiptFail
+message ThirdPartyPurchaseDanglingReceiptFail {
+	// ref: Blizzard.Telemetry.WTCG.Client.ThirdPartyPurchaseDanglingReceiptFail/FailureReason
+	enum FailureReason {
+		FAILUREREASON_AUTO_INVALID = 0;
+		INVALID_STATE = 1;
+		NO_THIRD_PARTY_USER_ID = 2;
+	}
+
+	Player player = 1;
+	DeviceInfo device_info = 2;
+	string transaction_id = 3;
+	string product_id = 4;
+	string provider = 5;
+	FailureReason reason = 6;
+	string invalid_data = 7;
+}
+
+// ref: Blizzard.Telemetry.WTCG.Client.ThirdPartyPurchaseDeferred
+message ThirdPartyPurchaseDeferred {
+	Player player = 1;
+	DeviceInfo device_info = 2;
+	string transaction_id = 3;
+	string product_id = 4;
+}
+
+// ref: Blizzard.Telemetry.WTCG.Client.ThirdPartyPurchaseMalformedData
+message ThirdPartyPurchaseMalformedData {
+	Player player = 1;
+	DeviceInfo device_info = 2;
+	string transaction_id = 3;
+}
+
+// ref: Blizzard.Telemetry.WTCG.Client.ThirdPartyPurchaseReceiptFound
+message ThirdPartyPurchaseReceiptFound {
+	Player player = 1;
+	DeviceInfo device_info = 2;
+	string transaction_id = 3;
+	string product_id = 4;
+}
+
+// ref: Blizzard.Telemetry.WTCG.Client.ThirdPartyPurchaseReceiptNotFound
+message ThirdPartyPurchaseReceiptNotFound {
+	Player player = 1;
+	DeviceInfo device_info = 2;
+	string transaction_id = 3;
+	string product_id = 4;
+}
+
+// ref: Blizzard.Telemetry.WTCG.Client.ThirdPartyPurchaseReceiptReceived
+message ThirdPartyPurchaseReceiptReceived {
+	Player player = 1;
+	DeviceInfo device_info = 2;
+	string transaction_id = 3;
+	string product_id = 4;
+}
+
+// ref: Blizzard.Telemetry.WTCG.Client.ThirdPartyPurchaseReceiptRequest
+message ThirdPartyPurchaseReceiptRequest {
+	Player player = 1;
+	DeviceInfo device_info = 2;
+	string transaction_id = 3;
+	string product_id = 4;
+}
+
+// ref: Blizzard.Telemetry.WTCG.Client.ThirdPartyPurchaseReceiptSubmitFail
+message ThirdPartyPurchaseReceiptSubmitFail {
+	// ref: Blizzard.Telemetry.WTCG.Client.ThirdPartyPurchaseReceiptSubmitFail/FailureReason
+	enum FailureReason {
+		FAILUREREASON_AUTO_INVALID = 0;
+		INVALID_STATE = 1;
+		INVALID_PROVIDER = 2;
+		NO_ACTIVE_TRANSACTION = 3;
+		NO_THIRD_PARTY_USER_ID = 4;
+	}
+
+	Player player = 1;
+	DeviceInfo device_info = 2;
+	string transaction_id = 3;
+	string product_id = 4;
+	string provider = 5;
+	FailureReason reason = 6;
+	string invalid_data = 7;
+}
+
+// ref: Blizzard.Telemetry.WTCG.Client.ThirdPartyPurchaseStart
+message ThirdPartyPurchaseStart {
+	Player player = 1;
+	DeviceInfo device_info = 2;
+	string transaction_id = 3;
+	string product_id = 4;
+	string bpay_provider = 5;
+}
+
+// ref: Blizzard.Telemetry.WTCG.Client.ThirdPartyPurchaseSubmitResponseDeviceNotification
+message ThirdPartyPurchaseSubmitResponseDeviceNotification {
+	Player player = 1;
+	DeviceInfo device_info = 2;
+	string transaction_id = 3;
+	bool success = 4;
+}
+
+// ref: Blizzard.Telemetry.WTCG.Client.ThirdPartyReceiptConsumed
+message ThirdPartyReceiptConsumed {
+	Player player = 1;
+	DeviceInfo device_info = 2;
+	string transaction_id = 3;
+}
+
+// ref: Blizzard.Telemetry.WTCG.Client.ThirdPartyUserIdUpdated
+message ThirdPartyUserIdUpdated {
+	Player player = 1;
+	DeviceInfo device_info = 2;
+	bool valid_change = 3;
+}
+
+// ref: Blizzard.Telemetry.WTCG.Client.WebLoginError
+message WebLoginError {
+	Player player = 1;
+	DeviceInfo device_info = 2;
+}
+
+// ref: Blizzard.Telemetry.WTCG.Client.WelcomeQuestsAcknowledged
+message WelcomeQuestsAcknowledged {
+	Player player = 1;
+	DeviceInfo device_info = 2;
+	float quest_ack_duration = 3;
 }
 

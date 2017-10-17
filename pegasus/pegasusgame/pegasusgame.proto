@@ -114,6 +114,8 @@ message GameCanceled {
 	enum Reason {
 		REASON_AUTO_INVALID = 0;
 		OPPONENT_TIMEOUT = 1;
+		PLAYER_LOADING_TIMEOUT = 2;
+		PLAYER_LOADING_DISCONNECTED = 3;
 	}
 
 	Reason reason = 1;
@@ -192,6 +194,9 @@ message HistoryMeta {
 		HISTORY_TARGET = 7;
 		OVERRIDE_HISTORY = 8;
 		HISTORY_TARGET_DONT_DUPLICATE_UNTIL_END = 9;
+		BEGIN_ARTIFICIAL_HISTORY_TILE = 10;
+		BEGIN_ARTIFICIAL_HISTORY_TRIGGER_TILE = 11;
+		END_ARTIFICIAL_HISTORY_TILE = 12;
 	}
 
 }
@@ -413,7 +418,6 @@ message SpectatorNotify {
 	}
 
 	int32 player_id = 1;
-	ChooseOption choose_option = 2;
 	repeated SpectatorChange spectator_change = 4 [packed=false];
 	string spectator_password_update = 5;
 	SpectatorRemoved spectator_removed = 6;

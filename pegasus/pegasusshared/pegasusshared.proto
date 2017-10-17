@@ -105,6 +105,14 @@ enum DeckType {
 	HIDDEN_DECK = 1000;
 }
 
+// ref: PegasusShared.DraftSlotType
+enum DraftSlotType {
+	DRAFT_SLOT_NONE = 0;
+	DRAFT_SLOT_CARD = 1;
+	DRAFT_SLOT_HERO = 2;
+	DRAFT_SLOT_HERO_POWER = 3;
+}
+
 // ref: PegasusShared.ErrorCode
 enum ErrorCode {
 	ERROR_OK = 0;
@@ -122,6 +130,7 @@ enum ErrorCode {
 	ERROR_GLOBAL_FSG_ID_INVALID = 1000011;
 	ERROR_GLOBAL_HTTP_TIMEOUT_OR_ABORTED = 1000012;
 	ERROR_GLOBAL_INVALID_HERO_SPECIFIED = 1000013;
+	ERROR_GLOBAL_PARSE_ERROR_EXPECTED_NUMERIC_STRING = 1000014;
 	ERROR_SCENARIO_INCORRECT_NUM_PLAYERS = 1000500;
 	ERROR_SCENARIO_NO_DECK_SPECIFIED = 1000501;
 	ERROR_SCENARIO_MUST_BE_SERVER_ONLY = 1000502;
@@ -147,10 +156,12 @@ enum ErrorCode {
 	ERROR_PLAY_GAME_FSG_ID_NOT_MATCHING = 1003002;
 	ERROR_PLAY_GAME_FSG_PATRON_NOT_CHECKED_IN = 1003003;
 	ERROR_PLAY_GAME_FSG_NOT_CURRENTLY_PLAYABLE = 1003004;
+	ERROR_PLAY_GAME_SEASON_INCREMENTED = 1003005;
 	ERROR_FSG_NO_PERMISSION = 1004000;
 	ERROR_FSG_DUPLICATE_REQUEST_IGNORED = 1004001;
 	ERROR_FSG_DUPLICATE_REQUEST_ORIGINAL_DROPPED = 1004002;
 	ERROR_FSG_ALREADY_CHECKED_IN_FETCH_FSG_INFO = 1004003;
+	ERROR_FSG_BSSIDS_NOT_VALID = 1004004;
 }
 
 // ref: PegasusShared.EventType
@@ -308,6 +319,14 @@ message AdventureProgress {
 	uint64 flags = 4;
 }
 
+// ref: PegasusShared.ArenaSeasonSpec
+message ArenaSeasonSpec {
+	GameContentSeasonSpec game_content_season = 1;
+	string reward_paper_prefab = 2;
+	string reward_paper_prefab_phone = 3;
+	repeated LocalizedString strings = 100 [packed=false];
+}
+
 // ref: PegasusShared.AssetKey
 message AssetKey {
 	AssetType type = 1;
@@ -331,6 +350,12 @@ message BnetId {
 message BoosterInfo {
 	int32 type = 2;
 	int32 count = 3;
+}
+
+// ref: PegasusShared.BrawlDeckValidity
+message BrawlDeckValidity {
+	int64 brawl_id = 1;
+	bool valid_deck = 2;
 }
 
 // ref: PegasusShared.CachedCard
@@ -486,12 +511,37 @@ message FSGConfig {
 	BnetId fsg_innkeeper_account_id = 11;
 	bool is_large_scale_fsg = 12;
 	string fsg_name = 13;
+	int64 tavern_id = 14;
 }
 
 // ref: PegasusShared.FSGPatron
 message FSGPatron {
 	BnetId game_account = 1;
 	BnetId bnet_account = 2;
+}
+
+// ref: PegasusShared.GameContentSeasonSpec
+message GameContentSeasonSpec {
+	uint64 end_seconds_from_now = 1;
+	int32 scenario_id = 2;
+	uint32 scenario_record_byte_size = 3;
+	bytes scenario_record_hash = 4;
+	RewardType reward_type = 5;
+	int64 reward_data1 = 6;
+	int64 reward_data2 = 7;
+	RewardTrigger reward_trigger = 8;
+	FormatType format_type = 9;
+	int32 season_id = 11;
+	int32 ticket_type = 12;
+	int32 max_wins = 13;
+	int32 max_losses = 14;
+	uint64 closed_to_new_sessions_seconds_from_now = 15;
+	int32 max_sessions = 16;
+	bool friendly_challenge_disabled = 17;
+	int32 season_end_second_spread_count = 18;
+	int32 first_time_seen_dialog_id = 19;
+	int32 reward_trigger_quota = 20;
+	repeated AssetRecordInfo additional_assets = 100 [packed=false];
 }
 
 // ref: PegasusShared.GameSaveDataUpdate
@@ -823,6 +873,7 @@ message RewardBag {
 	ProfileNoticeRewardDust reward_dust = 3;
 	ProfileNoticeRewardGold reward_gold = 4;
 	ProfileNoticeCardBack reward_card_back = 5;
+	ProfileNoticeRewardForge reward_arena_ticket = 6;
 }
 
 // ref: PegasusShared.RewardChest
@@ -890,30 +941,6 @@ message TavernBrawlPlayerSession {
 	int32 losses = 4;
 	RewardChest chest = 5;
 	bool deck_locked = 6;
-}
-
-// ref: PegasusShared.TavernBrawlSpec
-message TavernBrawlSpec {
-	uint64 end_seconds_from_now = 1;
-	int32 scenario_id = 2;
-	uint32 scenario_record_byte_size = 3;
-	bytes scenario_record_hash = 4;
-	RewardType reward_type = 5;
-	int64 reward_data1 = 6;
-	int64 reward_data2 = 7;
-	RewardTrigger reward_trigger = 8;
-	FormatType format_type = 9;
-	int32 season_id = 11;
-	int32 ticket_type = 12;
-	int32 max_wins = 13;
-	int32 max_losses = 14;
-	uint64 closed_to_new_sessions_seconds_from_now = 15;
-	int32 max_sessions = 16;
-	bool friendly_challenge_disabled = 17;
-	int32 season_end_second_spread_count = 18;
-	int32 first_time_seen_dialog_id = 19;
-	int32 reward_trigger_quota = 20;
-	repeated AssetRecordInfo additional_assets = 100 [packed=false];
 }
 
 // ref: PegasusShared.TavernSignData

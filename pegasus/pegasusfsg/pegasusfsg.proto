@@ -17,6 +17,7 @@ message CheckInToFSG {
 	int64 fsg_id = 1;
 	pegasus.pegasusshared.GPSCoords location = 2;
 	repeated string bssids = 3 [packed=false];
+	pegasus.pegasusshared.Platform platform = 4;
 }
 
 // ref: PegasusFSG.CheckInToFSGResponse
@@ -44,6 +45,7 @@ message CheckOutOfFSG {
 	}
 
 	int64 fsg_id = 1;
+	pegasus.pegasusshared.Platform platform = 2;
 }
 
 // ref: PegasusFSG.CheckOutOfFSGResponse
@@ -56,6 +58,20 @@ message CheckOutOfFSGResponse {
 
 	pegasus.pegasusshared.ErrorCode error_code = 1;
 	int64 fsg_id = 2;
+}
+
+// ref: PegasusFSG.DeckValidity
+message DeckValidity {
+	// ref: PegasusFSG.DeckValidity/PacketID
+	enum PacketID {
+		PACKETID_AUTO_INVALID = 0;
+		ID = 513;
+	}
+
+	bool valid_standard_deck = 1;
+	bool valid_wild_deck = 2;
+	repeated pegasus.pegasusshared.BrawlDeckValidity valid_tavern_brawl_deck = 3 [packed=false];
+	repeated pegasus.pegasusshared.BrawlDeckValidity valid_fireside_brawl_deck = 4 [packed=false];
 }
 
 // ref: PegasusFSG.FSGFeatureConfig
@@ -96,6 +112,7 @@ message InnkeeperSetupGathering {
 	pegasus.pegasusshared.GPSCoords location = 1;
 	repeated string bssids = 2 [packed=false];
 	int64 fsg_id = 3;
+	pegasus.pegasusshared.Platform platform = 4;
 }
 
 // ref: PegasusFSG.InnkeeperSetupGatheringResponse
@@ -145,6 +162,7 @@ message RequestNearbyFSGs {
 
 	pegasus.pegasusshared.GPSCoords location = 1;
 	repeated string bssids = 2 [packed=false];
+	pegasus.pegasusshared.Platform platform = 3;
 }
 
 // ref: PegasusFSG.RequestNearbyFSGsResponse
