@@ -244,11 +244,13 @@ message BattlePayConfigResponse {
 	}
 
 	repeated Bundle bundles = 1 [packed=false];
-	int32 currency = 2;
+	int32 currency_deprecated = 2;
 	bool unavailable = 4;
 	int32 secs_before_auto_cancel = 5;
 	repeated GoldCostBooster gold_cost_boosters = 6 [packed=false];
 	int64 gold_cost_arena = 7;
+	string default_currency_code = 8;
+	repeated pegasus.pegasusshared.Currency currencies = 9 [packed=false];
 }
 
 // ref: PegasusUtil.BattlePayStatusResponse
@@ -272,8 +274,9 @@ message BattlePayStatusResponse {
 	bool battle_pay_available = 4;
 	int64 transaction_id = 5;
 	string third_party_id = 6;
-	int32 currency = 7;
+	int32 currency_deprecated = 7;
 	pegasus.pegasusshared.BattlePayProvider provider = 8;
+	string currency_code = 9;
 }
 
 // ref: PegasusUtil.BoosterCard
@@ -345,7 +348,7 @@ message BoughtSoldCard {
 // ref: PegasusUtil.Bundle
 message Bundle {
 	string id = 1;
-	double cost = 2;
+	double deprecated_cost = 2;
 	string apple_id = 3;
 	string google_play_id = 4;
 	repeated BundleItem items = 5 [packed=false];
@@ -354,6 +357,7 @@ message Bundle {
 	string product_event_name = 9;
 	repeated pegasus.pegasusshared.BattlePayProvider exclusive_providers = 10 [packed=false];
 	string real_money_product_event_name = 11;
+	uint64 cost = 12;
 }
 
 // ref: PegasusUtil.BundleItem
@@ -425,7 +429,8 @@ message CancelPurchaseResponse {
 	CancelResult result = 1;
 	int64 transaction_id = 2;
 	string product_id = 3;
-	int32 currency = 4;
+	int32 currency_deprecated = 4;
+	string currency_code = 5;
 }
 
 // ref: PegasusUtil.CancelQuest
@@ -559,6 +564,7 @@ message ClientStateNotification {
 	BoosterModifications booster_modifications = 5;
 	HeroXP hero_xp = 6;
 	PlayerRecords player_records = 7;
+	ArenaSessionResponse arena_session_response = 8;
 }
 
 // ref: PegasusUtil.ClientStaticAssetsResponse
@@ -1186,9 +1192,10 @@ message GetPurchaseMethod {
 
 	string product_id = 1;
 	int32 quantity = 2;
-	int32 currency = 3;
+	int32 currency_deprecated = 3;
 	string device_id = 4;
 	pegasus.pegasusshared.Platform platform = 5;
+	string currency_code = 6;
 }
 
 // ref: PegasusUtil.GetRecruitAFriendData
@@ -1280,6 +1287,7 @@ message GuardianVars {
 	bool fsg_show_beta_label = 37;
 	int32 fsg_friend_list_patron_count_limit = 38;
 	uint32 arena_closed_to_new_sessions_seconds = 39;
+	bool fsg_login_scan_enabled = 40;
 }
 
 // ref: PegasusUtil.HeroXP
@@ -1610,7 +1618,7 @@ message PurchaseMethod {
 
 	string product_id = 1;
 	int32 quantity = 2;
-	int32 currency = 3;
+	int32 currency_deprecated = 3;
 	string wallet_name = 4;
 	bool use_ebalance = 5;
 	PurchaseError error = 6;
@@ -1618,6 +1626,7 @@ message PurchaseMethod {
 	bool is_zero_cost_license = 8;
 	string challenge_id = 9;
 	string challenge_url = 10;
+	string currency_code = 11;
 }
 
 // ref: PegasusUtil.PurchaseResponse
@@ -1632,8 +1641,9 @@ message PurchaseResponse {
 	int64 transaction_id = 2;
 	string product_id = 3;
 	string third_party_id = 4;
-	int32 currency = 5;
+	int32 currency_deprecated = 5;
 	bool is_zero_cost_license = 6;
+	string currency_code = 7;
 }
 
 // ref: PegasusUtil.PurchaseWithGold

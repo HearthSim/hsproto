@@ -388,6 +388,24 @@ message CardStack {
 	int32 num_seen = 4;
 }
 
+// ref: PegasusShared.Currency
+message Currency {
+	// ref: PegasusShared.Currency/Tax
+	enum Tax {
+		TAX_INCLUDED = 0;
+		TAX_ADDED = 1;
+		NO_TAX = 2;
+	}
+
+	string code = 1;
+	int32 currency_id = 2;
+	int32 sub_region_id = 3;
+	string symbol = 4;
+	int32 rounding_exponent = 5;
+	Tax tax_text = 6;
+	int32 changed_version = 9;
+}
+
 // ref: PegasusShared.DatabaseDeckCard
 message DatabaseDeckCard {
 	int32 asset_card_id = 1;
@@ -761,7 +779,8 @@ message ProfileNoticePurchase {
 
 	string product_id = 1;
 	int64 data = 2;
-	int32 currency = 3;
+	int32 currency_deprecated = 3;
+	string currency_code = 4;
 }
 
 // ref: PegasusShared.ProfileNoticeRewardBooster
