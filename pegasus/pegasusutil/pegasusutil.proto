@@ -981,6 +981,31 @@ message GameCurrencyStates {
 	int64 currency_version = 6;
 }
 
+// ref: PegasusUtil.GameSaveDataRequest
+message GameSaveDataRequest {
+	// ref: PegasusUtil.GameSaveDataRequest/PacketID
+	enum PacketID {
+		system = 0;
+		ID = 357;
+	}
+
+	repeated int64 key_ids = 1 [packed=false];
+	int32 client_token = 2;
+}
+
+// ref: PegasusUtil.GameSaveDataResponse
+message GameSaveDataResponse {
+	// ref: PegasusUtil.GameSaveDataResponse/PacketID
+	enum PacketID {
+		PACKETID_AUTO_INVALID = 0;
+		ID = 358;
+	}
+
+	pegasus.pegasusshared.ErrorCode error_code = 1;
+	repeated pegasus.pegasusshared.GameSaveDataUpdate data = 2 [packed=false];
+	int32 client_token = 3;
+}
+
 // ref: PegasusUtil.GamesInfo
 message GamesInfo {
 	// ref: PegasusUtil.GamesInfo/PacketID
@@ -1853,6 +1878,31 @@ message SetFavoriteHeroResponse {
 
 	bool success = 1;
 	pegasus.pegasusshared.FavoriteHero favorite_hero = 2;
+}
+
+// ref: PegasusUtil.SetGameSaveData
+message SetGameSaveData {
+	// ref: PegasusUtil.SetGameSaveData/PacketID
+	enum PacketID {
+		system = 0;
+		ID = 359;
+	}
+
+	repeated pegasus.pegasusshared.GameSaveDataUpdate data = 1 [packed=false];
+	int32 client_token = 2;
+}
+
+// ref: PegasusUtil.SetGameSaveDataResponse
+message SetGameSaveDataResponse {
+	// ref: PegasusUtil.SetGameSaveDataResponse/PacketID
+	enum PacketID {
+		PACKETID_AUTO_INVALID = 0;
+		ID = 360;
+	}
+
+	pegasus.pegasusshared.ErrorCode error_code = 1;
+	repeated pegasus.pegasusshared.GameSaveDataUpdate data = 2 [packed=false];
+	int32 client_token = 3;
 }
 
 // ref: PegasusUtil.SetOptions

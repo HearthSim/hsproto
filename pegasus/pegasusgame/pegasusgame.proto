@@ -177,6 +177,7 @@ message HistoryBlock {
 		PLAY = 7;
 		FATIGUE = 8;
 		RITUAL = 9;
+		REVEAL_CARD = 10;
 	}
 
 }
@@ -197,6 +198,7 @@ message HistoryMeta {
 		BEGIN_ARTIFICIAL_HISTORY_TILE = 10;
 		BEGIN_ARTIFICIAL_HISTORY_TRIGGER_TILE = 11;
 		END_ARTIFICIAL_HISTORY_TILE = 12;
+		START_DRAW = 13;
 	}
 
 }
