@@ -4,6 +4,15 @@ package blizzard.telemetry.wtcg.client;
 // Proto extractor compiled unit - https://github.com/HearthSim/proto-extractor
 
 
+// ref: Blizzard.Telemetry.WTCG.Client.AssetNotFound
+message AssetNotFound {
+	DeviceInfo device_info = 1;
+	string asset_type = 2;
+	string asset_guid = 3;
+	string file_path = 4;
+	string legacy_name = 5;
+}
+
 // ref: Blizzard.Telemetry.WTCG.Client.AttackInputMethod
 message AttackInputMethod {
 	DeviceInfo device_info = 1;
@@ -42,6 +51,27 @@ message CollectionLeftRightClick {
 	}
 
 	Target target = 1;
+}
+
+// ref: Blizzard.Telemetry.WTCG.Client.DataUpdateFailed
+message DataUpdateFailed {
+	DeviceInfo device_info = 1;
+	float duration = 2;
+	int64 real_download_bytes = 3;
+	int64 expected_download_bytes = 4;
+}
+
+// ref: Blizzard.Telemetry.WTCG.Client.DataUpdateFinished
+message DataUpdateFinished {
+	DeviceInfo device_info = 1;
+	float duration = 2;
+	int64 real_download_bytes = 3;
+	int64 expected_download_bytes = 4;
+}
+
+// ref: Blizzard.Telemetry.WTCG.Client.DataUpdateStarted
+message DataUpdateStarted {
+	DeviceInfo device_info = 1;
 }
 
 // ref: Blizzard.Telemetry.WTCG.Client.DeckCopied
@@ -129,11 +159,40 @@ message IgnorableBattleNetError {
 	string description = 3;
 }
 
+// ref: Blizzard.Telemetry.WTCG.Client.LanguageChanged
+message LanguageChanged {
+	DeviceInfo device_info = 1;
+	string previous_language = 2;
+	string next_language = 3;
+}
+
 // ref: Blizzard.Telemetry.WTCG.Client.LargeThirdPartyReceiptFound
 message LargeThirdPartyReceiptFound {
 	Player player = 1;
 	DeviceInfo device_info = 2;
 	int64 receipt_size = 3;
+}
+
+// ref: Blizzard.Telemetry.WTCG.Client.LocaleDataUpdateFailed
+message LocaleDataUpdateFailed {
+	DeviceInfo device_info = 1;
+	float duration = 2;
+	int64 real_download_bytes = 3;
+	int64 expected_download_bytes = 4;
+}
+
+// ref: Blizzard.Telemetry.WTCG.Client.LocaleDataUpdateFinished
+message LocaleDataUpdateFinished {
+	DeviceInfo device_info = 1;
+	float duration = 2;
+	int64 real_download_bytes = 3;
+	int64 expected_download_bytes = 4;
+}
+
+// ref: Blizzard.Telemetry.WTCG.Client.LocaleDataUpdateStarted
+message LocaleDataUpdateStarted {
+	DeviceInfo device_info = 1;
+	string locale = 2;
 }
 
 // ref: Blizzard.Telemetry.WTCG.Client.ManaFilterToggleOff

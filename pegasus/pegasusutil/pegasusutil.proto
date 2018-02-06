@@ -178,6 +178,8 @@ message ArenaSeasonInfo {
 	int32 next_season_coming_soon_days = 6;
 	string next_season_coming_soon_prefab = 7;
 	repeated pegasus.pegasusshared.LocalizedString next_season_strings = 8 [packed=false];
+	string season_ending_soon_prefab_extra = 9;
+	string next_season_coming_soon_prefab_extra = 10;
 }
 
 // ref: PegasusUtil.ArenaSession
@@ -1425,6 +1427,7 @@ message MedalInfoData {
 	int32 legend_rank = 13;
 	int32 best_star_level = 14;
 	bool can_lose_stars = 15;
+	int32 season_games = 16;
 }
 
 // ref: PegasusUtil.NearbyPlayer
@@ -2046,10 +2049,12 @@ message TavernBrawlInfo {
 		ID = 316;
 	}
 
-	pegasus.pegasusshared.GameContentSeasonSpec current_tavern_brawl = 1;
+	pegasus.pegasusshared.TavernBrawlSeasonSpec current_tavern_brawl = 1;
 	uint64 next_start_seconds_from_now = 2;
 	pegasus.pegasusshared.BrawlType brawl_type = 3;
 	pegasus.pegasusshared.TavernBrawlPlayerRecord my_record = 4;
+	string deprecated_store_instruction_prefab = 5;
+	string deprecated_store_instruction_prefab_phone = 6;
 }
 
 // ref: PegasusUtil.TavernBrawlPlayerRecordResponse

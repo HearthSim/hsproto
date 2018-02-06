@@ -175,7 +175,7 @@ message PACKETTYPES {
 	// ref: BobNetProto.PACKETTYPES/BobNetCount
 	enum BobNetCount {
 		BOBNETCOUNT_AUTO_INVALID = 0;
-		COUNT = 600;
+		COUNT = 700;
 	}
 
 }

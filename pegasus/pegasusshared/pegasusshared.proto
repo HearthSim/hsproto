@@ -166,6 +166,7 @@ enum ErrorCode {
 	ERROR_GAME_SAVE_DATA_INVALID_KEY_REQUESTED = 1005000;
 	ERROR_SET_GAME_SAVE_DATA_INVALID_DATA = 1005001;
 	ERROR_SET_GAME_SAVE_DATA_INVALID_SUBKEY = 1005002;
+	ERROR_SAVE_PROGRESS_RESTRICTED_NO_KEYS_UPDATED = 1005003;
 }
 
 // ref: PegasusShared.EventType
@@ -273,6 +274,12 @@ enum RuleType {
 	RULE_NONE = 0;
 	RULE_CHOOSE_HERO = 1;
 	RULE_CHOOSE_DECK = 2;
+}
+
+// ref: PegasusShared.TavernBrawlMode
+enum TavernBrawlMode {
+	TB_MODE_NORMAL = 0;
+	TB_MODE_HEROIC = 1;
 }
 
 // ref: PegasusShared.TavernBrawlStatus
@@ -563,6 +570,7 @@ message GameContentSeasonSpec {
 	int32 season_end_second_spread_count = 18;
 	int32 first_time_seen_dialog_id = 19;
 	int32 reward_trigger_quota = 20;
+	uint32 free_sessions = 21;
 	repeated AssetRecordInfo additional_assets = 100 [packed=false];
 }
 
@@ -912,6 +920,7 @@ message RewardChest {
 // ref: PegasusShared.RewardChestDbRecord
 message RewardChestDbRecord {
 	int32 id = 1;
+	bool show_to_returning_player = 2;
 	repeated LocalizedString strings = 100 [packed=false];
 }
 
@@ -964,6 +973,16 @@ message TavernBrawlPlayerSession {
 	int32 losses = 4;
 	RewardChest chest = 5;
 	bool deck_locked = 6;
+	uint32 session_count = 7;
+}
+
+// ref: PegasusShared.TavernBrawlSeasonSpec
+message TavernBrawlSeasonSpec {
+	GameContentSeasonSpec game_content_season = 1;
+	string store_instruction_prefab = 2;
+	string store_instruction_prefab_phone = 3;
+	TavernBrawlMode brawl_mode = 4;
+	repeated LocalizedString strings = 100 [packed=false];
 }
 
 // ref: PegasusShared.TavernSignData
