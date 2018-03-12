@@ -59,6 +59,7 @@ message DataUpdateFailed {
 	float duration = 2;
 	int64 real_download_bytes = 3;
 	int64 expected_download_bytes = 4;
+	int32 error_code = 5;
 }
 
 // ref: Blizzard.Telemetry.WTCG.Client.DataUpdateFinished
@@ -179,6 +180,7 @@ message LocaleDataUpdateFailed {
 	float duration = 2;
 	int64 real_download_bytes = 3;
 	int64 expected_download_bytes = 4;
+	int32 error_code = 5;
 }
 
 // ref: Blizzard.Telemetry.WTCG.Client.LocaleDataUpdateFinished
