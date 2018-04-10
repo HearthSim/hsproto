@@ -93,6 +93,7 @@ message FSGPatronListUpdate {
 	// ref: PegasusFSG.FSGPatronListUpdate/PacketID
 	enum PacketID {
 		PACKETID_AUTO_INVALID = 0;
+		system = 3;
 		ID = 512;
 	}
 

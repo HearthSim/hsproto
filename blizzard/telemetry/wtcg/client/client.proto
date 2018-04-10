@@ -280,6 +280,12 @@ message ReturningPlayerDeckNotCreated {
 	uint32 abgroup = 2;
 }
 
+// ref: Blizzard.Telemetry.WTCG.Client.TempAccountStoredInCloud
+message TempAccountStoredInCloud {
+	DeviceInfo device_info = 1;
+	bool stored = 2;
+}
+
 // ref: Blizzard.Telemetry.WTCG.Client.ThirdPartyPurchaseCompletedFail
 message ThirdPartyPurchaseCompletedFail {
 	Player player = 1;

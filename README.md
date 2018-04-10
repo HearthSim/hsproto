@@ -7,6 +7,6 @@ game client. Source code for the decompiler available in
 
 ---
 
-Version: 10.4.0.23576
+Version: 11.0.0.23966
 
 http://hearthsim.info

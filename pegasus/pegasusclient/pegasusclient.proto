@@ -11,6 +11,11 @@ enum SessionRecordType {
 	TAVERN_BRAWL = 2;
 }
 
+// ref: PegasusClient.FiresideGatheringInfo
+message FiresideGatheringInfo {
+	int64 fsg_id = 1;
+}
+
 // ref: PegasusClient.SessionRecord
 message SessionRecord {
 	uint32 wins = 1;

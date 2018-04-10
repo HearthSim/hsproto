@@ -1,5 +1,5 @@
 syntax = "proto3";
-package pegasus.pegasusutil;
+package pegasusutil;
 
 // Proto extractor compiled unit - https://github.com/HearthSim/proto-extractor
 
@@ -459,6 +459,16 @@ message CancelQuestResponse {
 	pegasus.pegasusshared.Date next_quest_cancel = 3;
 }
 
+// ref: PegasusUtil.CardBackModification
+message CardBackModification {
+	int32 asset_card_back_id = 1;
+}
+
+// ref: PegasusUtil.CardBackModifications
+message CardBackModifications {
+	repeated CardBackModification card_back_modifications = 1 [packed=false];
+}
+
 // ref: PegasusUtil.CardBacks
 message CardBacks {
 	// ref: PegasusUtil.CardBacks/PacketID
@@ -567,6 +577,7 @@ message ClientStateNotification {
 	HeroXP hero_xp = 6;
 	PlayerRecords player_records = 7;
 	ArenaSessionResponse arena_session_response = 8;
+	CardBackModifications card_back_modifications = 9;
 }
 
 // ref: PegasusUtil.ClientStaticAssetsResponse
@@ -1315,6 +1326,7 @@ message GuardianVars {
 	int32 fsg_friend_list_patron_count_limit = 38;
 	uint32 arena_closed_to_new_sessions_seconds = 39;
 	bool fsg_login_scan_enabled = 40;
+	int32 fsg_max_presence_pubscribed_patron_count = 41;
 }
 
 // ref: PegasusUtil.HeroXP
@@ -1477,6 +1489,7 @@ message OpenBooster {
 	}
 
 	int32 booster_type = 2;
+	int64 fsg_id = 3;
 }
 
 // ref: PegasusUtil.PlayerRecord

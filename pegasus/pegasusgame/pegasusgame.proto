@@ -5,6 +5,45 @@ package pegasus.pegasusgame;
 
 import "pegasus/pegasusshared/pegasusshared.proto";
 
+// ref: PegasusGame.AIContextualValue
+message AIContextualValue {
+	string entity_name = 1;
+	int32 entity_id = 2;
+	int32 contextual_score = 3;
+}
+
+// ref: PegasusGame.AIDebugInformation
+message AIDebugInformation {
+	// ref: PegasusGame.AIDebugInformation/PacketID
+	enum PacketID {
+		PACKETID_AUTO_INVALID = 0;
+		ID = 6;
+	}
+
+	int32 turn_id = 1;
+	int32 move_id = 2;
+	repeated AIEvaluation evaluations = 3 [packed=false];
+}
+
+// ref: PegasusGame.AIEvaluation
+message AIEvaluation {
+	string option_name = 1;
+	int32 entity_id = 2;
+	int32 base_score = 3;
+	int32 bonus_score = 4;
+	bool option_chosen = 5;
+	repeated AITarget target_scores = 6 [packed=false];
+	repeated AIContextualValue contextual_score = 7 [packed=false];
+}
+
+// ref: PegasusGame.AITarget
+message AITarget {
+	string entity_name = 1;
+	int32 entity_id = 2;
+	int32 target_score = 3;
+	bool target_chosen = 4;
+}
+
 // ref: PegasusGame.AllOptions
 message AllOptions {
 	// ref: PegasusGame.AllOptions/PacketID
@@ -178,6 +217,7 @@ message HistoryBlock {
 		FATIGUE = 8;
 		RITUAL = 9;
 		REVEAL_CARD = 10;
+		GAME_RESET = 11;
 	}
 
 }
@@ -199,6 +239,7 @@ message HistoryMeta {
 		BEGIN_ARTIFICIAL_HISTORY_TRIGGER_TILE = 11;
 		END_ARTIFICIAL_HISTORY_TILE = 12;
 		START_DRAW = 13;
+		BURNED_CARD = 14;
 	}
 
 }
@@ -306,6 +347,7 @@ message PowerHistoryData {
 	PowerHistoryEnd power_end = 7;
 	PowerHistoryMetaData meta_data = 8;
 	PowerHistoryEntity change_entity = 9;
+	PowerHistoryResetGame reset_game = 10;
 }
 
 // ref: PegasusGame.PowerHistoryEnd
@@ -331,6 +373,11 @@ message PowerHistoryMetaData {
 	repeated int32 info = 2;
 	HistoryMeta.Type type = 3;
 	int32 data = 4;
+}
+
+// ref: PegasusGame.PowerHistoryResetGame
+message PowerHistoryResetGame {
+	PowerHistoryCreateGame create_game = 1;
 }
 
 // ref: PegasusGame.PowerHistoryStart
