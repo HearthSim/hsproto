@@ -45,7 +45,8 @@ enum BnetGameType {
 	BGT_FSG_BRAWL_PVP = 41;
 	BGT_FSG_BRAWL_1P_VERSUS_AI = 42;
 	BGT_FSG_BRAWL_2P_COOP = 43;
-	BGT_LAST = 44;
+	BGT_TOURNAMENT = 44;
+	BGT_LAST = 45;
 }
 
 // ref: PegasusShared.BrawlType
@@ -103,6 +104,7 @@ enum DeckType {
 	PRECON_DECK = 5;
 	TAVERN_BRAWL_DECK = 6;
 	FSG_BRAWL_DECK = 7;
+	FRIENDLY_TOURNAMENT_DECK = 8;
 	HIDDEN_DECK = 1000;
 }
 
@@ -190,6 +192,8 @@ enum ErrorCode {
 	ERROR_TOURNAMENT_ALREADY_PARTICIPANT = 1006020;
 	ERROR_TOURNAMENT_NOT_READY_YET = 1006021;
 	ERROR_TOURNAMENT_MAX_TOURNAMENT_INVITE = 1006022;
+	ERROR_TOURNAMENT_UNABLE_TO_DELETE_DECKS = 1006023;
+	ERROR_TOURNAMENT_INVITE_LOCKED = 1006024;
 }
 
 // ref: PegasusShared.EventType
@@ -234,7 +238,8 @@ enum GameType {
 	GT_FSG_BRAWL = 20;
 	GT_FSG_BRAWL_1P_VS_AI = 21;
 	GT_FSG_BRAWL_2P_COOP = 22;
-	GT_LAST = 23;
+	GT_TOURNAMENT = 23;
+	GT_LAST = 24;
 }
 
 // ref: PegasusShared.RecruitAFriendState
@@ -290,6 +295,7 @@ enum RewardType {
 	REWARD_RETURNING_PLAYER_COMPLETE = 17;
 	REWARD_EVENT_NOTICE = 18;
 	REWARD_GENERIC_REWARD_CHEST = 19;
+	REWARD_DAILY_QUEST = 20;
 }
 
 // ref: PegasusShared.RuleType
@@ -358,6 +364,9 @@ message ArenaSeasonSpec {
 	GameContentSeasonSpec game_content_season = 1;
 	string reward_paper_prefab = 2;
 	string reward_paper_prefab_phone = 3;
+	string draft_paper_texture = 4;
+	string draft_paper_texture_phone = 5;
+	string draft_paper_text_color = 6;
 	repeated LocalizedString strings = 100 [packed=false];
 }
 
@@ -571,6 +580,19 @@ message FSGConfig {
 message FSGPatron {
 	BnetId game_account = 1;
 	BnetId bnet_account = 2;
+}
+
+// ref: PegasusShared.GameConnectionInfo
+message GameConnectionInfo {
+	string address = 1;
+	int32 game_handle = 2;
+	int64 client_handle = 3;
+	int32 port = 4;
+	string version = 5;
+	string aurora_password = 6;
+	int32 scenario = 7;
+	GameType game_type = 8;
+	FormatType format_type = 9;
 }
 
 // ref: PegasusShared.GameContentSeasonSpec

@@ -765,19 +765,6 @@ message DevBnetIdentify {
 	string name = 1;
 }
 
-// ref: PegasusUtil.DisconnectedGame
-message DisconnectedGame {
-	string address = 1;
-	int32 game_handle = 2;
-	int64 client_handle = 3;
-	int32 port = 4;
-	string version = 5;
-	string aurora_password = 6;
-	int32 scenario = 7;
-	pegasus.pegasusshared.GameType game_type = 8;
-	pegasus.pegasusshared.FormatType format_type = 9;
-}
-
 // ref: PegasusUtil.DoPurchase
 message DoPurchase {
 	// ref: PegasusUtil.DoPurchase/PacketID
@@ -1031,6 +1018,17 @@ message GamesInfo {
 	int32 games_won = 2;
 	int32 games_lost = 3;
 	int32 free_reward_progress = 4;
+}
+
+// ref: PegasusUtil.GameToConnectNotification
+message GameToConnectNotification {
+	// ref: PegasusUtil.GameToConnectNotification/PacketID
+	enum PacketID {
+		PACKETID_AUTO_INVALID = 0;
+		ID = 363;
+	}
+
+	pegasus.pegasusshared.GameConnectionInfo info = 1;
 }
 
 // ref: PegasusUtil.GenericData
@@ -1366,7 +1364,7 @@ message InitialClientState {
 	repeated SpecialEventTiming special_event_timing = 7 [packed=false];
 	repeated TavernBrawlInfo tavern_brawls_list = 8 [packed=false];
 	Boosters boosters = 9;
-	DisconnectedGame disconnected_game = 10;
+	pegasus.pegasusshared.GameConnectionInfo disconnected_game = 10;
 	ArenaSessionResponse arena_session = 11;
 }
 

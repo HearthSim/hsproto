@@ -240,6 +240,7 @@ message HistoryMeta {
 		END_ARTIFICIAL_HISTORY_TILE = 12;
 		START_DRAW = 13;
 		BURNED_CARD = 14;
+		EFFECT_SELECTION = 15;
 	}
 
 }
