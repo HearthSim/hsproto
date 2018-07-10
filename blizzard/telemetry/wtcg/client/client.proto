@@ -133,6 +133,21 @@ message DeviceInfo {
 	string droid_texture_compression = 6;
 }
 
+// ref: Blizzard.Telemetry.WTCG.Client.DeviceMuteChanged
+message DeviceMuteChanged {
+	Player player = 1;
+	DeviceInfo device_info = 2;
+	bool muted = 4;
+}
+
+// ref: Blizzard.Telemetry.WTCG.Client.DeviceVolumeChanged
+message DeviceVolumeChanged {
+	Player player = 1;
+	DeviceInfo device_info = 2;
+	float old_volume = 4;
+	float new_volume = 5;
+}
+
 // ref: Blizzard.Telemetry.WTCG.Client.DragDropCancelPlayCard
 message DragDropCancelPlayCard {
 	DeviceInfo device_info = 1;
@@ -200,6 +215,22 @@ message LocaleDataUpdateStarted {
 // ref: Blizzard.Telemetry.WTCG.Client.ManaFilterToggleOff
 message ManaFilterToggleOff {
 	DeviceInfo device_info = 1;
+}
+
+// ref: Blizzard.Telemetry.WTCG.Client.MasterVolumeChanged
+message MasterVolumeChanged {
+	Player player = 1;
+	DeviceInfo device_info = 2;
+	float old_volume = 4;
+	float new_volume = 5;
+}
+
+// ref: Blizzard.Telemetry.WTCG.Client.MusicVolumeChanged
+message MusicVolumeChanged {
+	Player player = 1;
+	DeviceInfo device_info = 2;
+	float old_volume = 4;
+	float new_volume = 5;
 }
 
 // ref: Blizzard.Telemetry.WTCG.Client.NetworkError
@@ -278,6 +309,29 @@ message ReconnectTimeout {
 message ReturningPlayerDeckNotCreated {
 	Player player = 1;
 	uint32 abgroup = 2;
+}
+
+// ref: Blizzard.Telemetry.WTCG.Client.RuntimeUpdate
+message RuntimeUpdate {
+	// ref: Blizzard.Telemetry.WTCG.Client.RuntimeUpdate/Intention
+	enum Intention {
+		HIGH_RES = 0;
+		UNINITIALIZED = -1;
+		DONE = 100;
+	}
+
+	DeviceInfo device_info = 1;
+	float duration = 2;
+	Intention intention = 3;
+}
+
+// ref: Blizzard.Telemetry.WTCG.Client.StartupAudioSettings
+message StartupAudioSettings {
+	DeviceInfo device_info = 1;
+	bool device_muted = 2;
+	float device_volume = 3;
+	float master_volume = 4;
+	float music_volume = 5;
 }
 
 // ref: Blizzard.Telemetry.WTCG.Client.TempAccountStoredInCloud

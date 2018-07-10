@@ -360,6 +360,7 @@ message Bundle {
 	repeated pegasus.pegasusshared.BattlePayProvider exclusive_providers = 10 [packed=false];
 	string real_money_product_event_name = 11;
 	uint64 cost = 12;
+	bool is_pre_purchase = 13;
 }
 
 // ref: PegasusUtil.BundleItem
@@ -1366,6 +1367,7 @@ message InitialClientState {
 	Boosters boosters = 9;
 	pegasus.pegasusshared.GameConnectionInfo disconnected_game = 10;
 	ArenaSessionResponse arena_session = 11;
+	int32 display_banner = 12;
 }
 
 // ref: PegasusUtil.LocateCheatServerRequest
@@ -1596,7 +1598,6 @@ message ProfileProgress {
 	int64 progress = 1;
 	int32 best_forge = 2;
 	pegasus.pegasusshared.Date last_forge = 3;
-	int32 display_banner = 4;
 }
 
 // ref: PegasusUtil.PurchaseError
