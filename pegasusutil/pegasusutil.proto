@@ -368,6 +368,7 @@ message BundleItem {
 	ProductType product_type = 1;
 	int32 data = 2;
 	int32 quantity = 3;
+	int32 base_quantity = 4;
 }
 
 // ref: PegasusUtil.BuySellCard
@@ -620,6 +621,7 @@ message CreateDeck {
 	int64 sort_order = 6;
 	pegasus.pegasusshared.DeckSourceType source_type = 7;
 	string pasted_deck_hash = 8;
+	int32 brawl_library_item_id = 9;
 	int64 fsg_id = 100;
 	bytes fsg_shared_secret_key = 101;
 }
@@ -728,6 +730,7 @@ message DeckSetData {
 	bool tagged_standard = 5;
 	int64 sort_order = 6;
 	string pasted_deck_hash = 7;
+	pegasus.pegasusshared.CardDef ui_hero_override = 8;
 	int64 fsg_id = 100;
 	bytes fsg_shared_secret_key = 101;
 }
@@ -753,6 +756,7 @@ message DeleteDeck {
 	}
 
 	int64 deck = 1;
+	pegasus.pegasusshared.DeckType deck_type = 2;
 }
 
 // ref: PegasusUtil.DevBnetIdentify
@@ -1326,6 +1330,7 @@ message GuardianVars {
 	uint32 arena_closed_to_new_sessions_seconds = 39;
 	bool fsg_login_scan_enabled = 40;
 	int32 fsg_max_presence_pubscribed_patron_count = 41;
+	bool quick_pack_opening_allowed = 42;
 }
 
 // ref: PegasusUtil.HeroXP

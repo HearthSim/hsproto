@@ -31,6 +31,7 @@ message JoinInfo {
 	repeated pegasus.pegasusshared.BnetId spectated_players = 10 [packed=false];
 	pegasus.pegasusshared.BnetId party_id = 11;
 	pegasus.pegasusshared.FormatType format_type = 12;
+	int32 brawl_library_item_id = 13;
 }
 
 // ref: SpectatorProto.PartyQuestInfo

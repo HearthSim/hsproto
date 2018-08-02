@@ -5,6 +5,13 @@ package pegasus.pegasusfsg;
 
 import "pegasus/pegasusshared/pegasusshared.proto";
 
+// ref: PegasusFSG.BrawlDeckValidity
+message BrawlDeckValidity {
+	int32 season_id = 1;
+	bool valid_deck = 2;
+	int32 brawl_library_item_id = 3;
+}
+
 // ref: PegasusFSG.CheckInToFSG
 message CheckInToFSG {
 	// ref: PegasusFSG.CheckInToFSG/PacketID
@@ -33,6 +40,7 @@ message CheckInToFSGResponse {
 	repeated pegasus.pegasusshared.FSGPatron fsg_attendees = 3 [packed=false];
 	pegasus.pegasusshared.TavernBrawlPlayerRecord player_record = 4;
 	bytes fsg_shared_secret_key = 5;
+	repeated int32 innkeeper_selected_brawl_library_item_id = 6 [packed=false];
 }
 
 // ref: PegasusFSG.CheckOutOfFSG
@@ -70,8 +78,8 @@ message DeckValidity {
 
 	bool valid_standard_deck = 1;
 	bool valid_wild_deck = 2;
-	repeated pegasus.pegasusshared.BrawlDeckValidity valid_tavern_brawl_deck = 3 [packed=false];
-	repeated pegasus.pegasusshared.BrawlDeckValidity valid_fireside_brawl_deck = 4 [packed=false];
+	repeated BrawlDeckValidity valid_tavern_brawl_deck = 3 [packed=false];
+	repeated BrawlDeckValidity valid_fireside_brawl_deck = 4 [packed=false];
 }
 
 // ref: PegasusFSG.FSGFeatureConfig
@@ -179,5 +187,6 @@ message RequestNearbyFSGsResponse {
 	int64 checked_in_fsg_id = 3;
 	repeated pegasus.pegasusshared.FSGPatron fsg_attendees = 4 [packed=false];
 	bytes fsg_shared_secret_key = 5;
+	repeated int32 innkeeper_selected_brawl_library_item_id = 6 [packed=false];
 }
 

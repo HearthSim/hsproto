@@ -296,6 +296,7 @@ enum RewardType {
 	REWARD_EVENT_NOTICE = 18;
 	REWARD_GENERIC_REWARD_CHEST = 19;
 	REWARD_DAILY_QUEST = 20;
+	REWARD_ADVENTURE_OWNERSHIP = 21;
 }
 
 // ref: PegasusShared.RuleType
@@ -393,12 +394,6 @@ message BnetId {
 message BoosterInfo {
 	int32 type = 2;
 	int32 count = 3;
-}
-
-// ref: PegasusShared.BrawlDeckValidity
-message BrawlDeckValidity {
-	int64 brawl_id = 1;
-	bool valid_deck = 2;
 }
 
 // ref: PegasusShared.CachedCard
@@ -510,6 +505,9 @@ message DeckInfo {
 	int64 create_date = 13;
 	DeckSourceType source_type = 14;
 	string pasted_deck_hash = 15;
+	int32 brawl_library_item_id = 16;
+	int32 ui_hero_override = 17;
+	int32 ui_hero_override_premium = 18;
 }
 
 // ref: PegasusShared.DeckRulesetDbRecord
@@ -593,32 +591,61 @@ message GameConnectionInfo {
 	int32 scenario = 7;
 	GameType game_type = 8;
 	FormatType format_type = 9;
+	int32 brawl_library_item_id = 10;
+}
+
+// ref: PegasusShared.GameContentScenario
+message GameContentScenario {
+	int32 library_item_id = 1;
+	bool is_required = 2;
+	bool is_fallback = 3;
+	int32 scenario_id = 4;
+	uint32 scenario_record_byte_size = 5;
+	bytes scenario_record_hash = 6;
+	FormatType format_type = 7;
+	RewardType reward_type = 8;
+	int64 reward_data1 = 9;
+	int64 reward_data2 = 10;
+	RewardTrigger reward_trigger = 11;
+	int32 reward_trigger_quota = 12;
+	TavernBrawlMode brawl_mode = 13;
+	int32 ticket_type = 14;
+	int32 max_wins = 15;
+	int32 max_losses = 16;
+	int32 max_sessions = 17;
+	uint32 free_sessions = 18;
+	uint64 closed_to_new_sessions_seconds_from_now = 19;
+	bool friendly_challenge_disabled = 20;
+	int32 first_time_seen_dialog_id = 21;
+	bool is_prerelease = 22;
+	repeated AssetRecordInfo additional_assets = 100 [packed=false];
 }
 
 // ref: PegasusShared.GameContentSeasonSpec
 message GameContentSeasonSpec {
 	uint64 end_seconds_from_now = 1;
-	int32 scenario_id = 2;
-	uint32 scenario_record_byte_size = 3;
-	bytes scenario_record_hash = 4;
-	RewardType reward_type = 5;
-	int64 reward_data1 = 6;
-	int64 reward_data2 = 7;
-	RewardTrigger reward_trigger = 8;
-	FormatType format_type = 9;
+	int32 deprecated_scenario_id = 2;
+	uint32 deprecated_scenario_record_byte_size = 3;
+	bytes deprecated_scenario_record_hash = 4;
+	RewardType deprecated_reward_type = 5;
+	int64 deprecated_reward_data1 = 6;
+	int64 deprecated_reward_data2 = 7;
+	RewardTrigger deprecated_reward_trigger = 8;
+	FormatType deprecated_format_type = 9;
 	int32 season_id = 11;
-	int32 ticket_type = 12;
-	int32 max_wins = 13;
-	int32 max_losses = 14;
-	uint64 closed_to_new_sessions_seconds_from_now = 15;
-	int32 max_sessions = 16;
-	bool friendly_challenge_disabled = 17;
+	int32 deprecated_ticket_type = 12;
+	int32 deprecated_max_wins = 13;
+	int32 deprecated_max_losses = 14;
+	uint64 deprecated_closed_to_new_sessions_seconds_from_now = 15;
+	int32 deprecated_max_sessions = 16;
+	bool deprecated_friendly_challenge_disabled = 17;
 	int32 season_end_second_spread_count = 18;
-	int32 first_time_seen_dialog_id = 19;
-	int32 reward_trigger_quota = 20;
-	uint32 free_sessions = 21;
-	bool is_prerelease = 22;
-	repeated AssetRecordInfo additional_assets = 100 [packed=false];
+	int32 deprecated_first_time_seen_dialog_id = 19;
+	int32 deprecated_reward_trigger_quota = 20;
+	uint32 deprecated_free_sessions = 21;
+	bool deprecated_is_prerelease = 22;
+	repeated GameContentScenario scenarios = 23 [packed=false];
+	repeated AssetRecordInfo deprecated_additional_assets = 100 [packed=false];
 }
 
 // ref: PegasusShared.GameSaveDataUpdate
@@ -1029,7 +1056,7 @@ message TavernBrawlSeasonSpec {
 	GameContentSeasonSpec game_content_season = 1;
 	string store_instruction_prefab = 2;
 	string store_instruction_prefab_phone = 3;
-	TavernBrawlMode brawl_mode = 4;
+	TavernBrawlMode deprecated_brawl_mode = 4;
 	repeated LocalizedString strings = 100 [packed=false];
 }
 

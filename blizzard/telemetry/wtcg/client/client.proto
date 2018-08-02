@@ -23,6 +23,150 @@ message AttackInputMethod {
 	int32 percent_drag_attacks = 6;
 }
 
+// ref: Blizzard.Telemetry.WTCG.Client.AttributionContentUnlocked
+message AttributionContentUnlocked {
+	string content_id = 5;
+	string application_id = 100;
+	string device_type = 101;
+	uint64 first_install_date = 102;
+	string bundle_id = 103;
+}
+
+// ref: Blizzard.Telemetry.WTCG.Client.AttributionFirstLogin
+message AttributionFirstLogin {
+	string application_id = 100;
+	string device_type = 101;
+	uint64 first_install_date = 102;
+	string bundle_id = 103;
+}
+
+// ref: Blizzard.Telemetry.WTCG.Client.AttributionGameRoundEnd
+message AttributionGameRoundEnd {
+	string game_mode = 1;
+	string result = 2;
+	int32 rank = 3;
+	bool wild = 4;
+	string application_id = 100;
+	string device_type = 101;
+	uint64 first_install_date = 102;
+	string bundle_id = 103;
+}
+
+// ref: Blizzard.Telemetry.WTCG.Client.AttributionGameRoundStart
+message AttributionGameRoundStart {
+	string game_mode = 1;
+	int32 rank = 2;
+	bool wild = 3;
+	string application_id = 100;
+	string device_type = 101;
+	uint64 first_install_date = 102;
+	string bundle_id = 103;
+}
+
+// ref: Blizzard.Telemetry.WTCG.Client.AttributionHeadlessAccountCreated
+message AttributionHeadlessAccountCreated {
+	string application_id = 100;
+	string device_type = 101;
+	uint64 first_install_date = 102;
+	string bundle_id = 103;
+}
+
+// ref: Blizzard.Telemetry.WTCG.Client.AttributionHeadlessAccountHealedUp
+message AttributionHeadlessAccountHealedUp {
+	string temporary_game_account_id = 1;
+	string application_id = 100;
+	string device_type = 101;
+	uint64 first_install_date = 102;
+	string bundle_id = 103;
+}
+
+// ref: Blizzard.Telemetry.WTCG.Client.AttributionInstall
+message AttributionInstall {
+	string application_id = 100;
+	string device_type = 101;
+	uint64 first_install_date = 102;
+	string bundle_id = 103;
+}
+
+// ref: Blizzard.Telemetry.WTCG.Client.AttributionItemTransaction
+message AttributionItemTransaction {
+	string item_id = 1;
+	int32 quantity = 2;
+	string application_id = 100;
+	string device_type = 101;
+	uint64 first_install_date = 102;
+	string bundle_id = 103;
+}
+
+// ref: Blizzard.Telemetry.WTCG.Client.AttributionLaunch
+message AttributionLaunch {
+	int32 counter = 1;
+	string application_id = 100;
+	string device_type = 101;
+	uint64 first_install_date = 102;
+	string bundle_id = 103;
+}
+
+// ref: Blizzard.Telemetry.WTCG.Client.AttributionLogin
+message AttributionLogin {
+	string application_id = 100;
+	string device_type = 101;
+	uint64 first_install_date = 102;
+	string bundle_id = 103;
+}
+
+// ref: Blizzard.Telemetry.WTCG.Client.AttributionPurchase
+message AttributionPurchase {
+	string purchase_type = 1;
+	float amount = 2;
+	string currency = 3;
+	string transaction_id = 4;
+	string application_id = 100;
+	string device_type = 101;
+	uint64 first_install_date = 102;
+	string bundle_id = 103;
+}
+
+// ref: Blizzard.Telemetry.WTCG.Client.AttributionRankChange
+message AttributionRankChange {
+	int32 rank_new = 1;
+	int32 rank_old = 2;
+	bool wild = 3;
+	string application_id = 100;
+	string device_type = 101;
+	uint64 first_install_date = 102;
+	string bundle_id = 103;
+}
+
+// ref: Blizzard.Telemetry.WTCG.Client.AttributionRegistration
+message AttributionRegistration {
+	string application_id = 100;
+	string device_type = 101;
+	uint64 first_install_date = 102;
+	string bundle_id = 103;
+}
+
+// ref: Blizzard.Telemetry.WTCG.Client.AttributionScenarioResult
+message AttributionScenarioResult {
+	int32 scenario_id = 1;
+	string result = 2;
+	int32 boss_id = 3;
+	string application_id = 100;
+	string device_type = 101;
+	uint64 first_install_date = 102;
+	string bundle_id = 103;
+}
+
+// ref: Blizzard.Telemetry.WTCG.Client.AttributionVirtualCurrencyTransaction
+message AttributionVirtualCurrencyTransaction {
+	float amount = 1;
+	string currency = 2;
+	string application_id = 100;
+	string device_type = 101;
+	uint64 first_install_date = 102;
+	string bundle_id = 103;
+}
+
 // ref: Blizzard.Telemetry.WTCG.Client.ChangePackQuantity
 message ChangePackQuantity {
 	int32 booster_id = 1;
@@ -173,6 +317,20 @@ message IgnorableBattleNetError {
 	DeviceInfo device_info = 1;
 	int32 error_code = 2;
 	string description = 3;
+}
+
+// ref: Blizzard.Telemetry.WTCG.Client.InitialClientStateOutOfOrder
+message InitialClientStateOutOfOrder {
+	DeviceInfo device_info = 1;
+	int32 count_notifications_achieve = 2;
+	int32 count_notifications_notice = 3;
+	int32 count_notifications_collection = 4;
+	int32 count_notifications_currency = 5;
+	int32 count_notifications_booster = 6;
+	int32 count_notifications_heroxp = 7;
+	int32 count_notifications_player_record = 8;
+	int32 count_notifications_arena_session = 9;
+	int32 count_notifications_card_back = 10;
 }
 
 // ref: Blizzard.Telemetry.WTCG.Client.LanguageChanged
