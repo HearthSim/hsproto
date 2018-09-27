@@ -71,7 +71,14 @@ message AccountLevelInfo {
 	fixed32 default_currency = 4;
 	string country = 5;
 	uint32 preferred_region = 6;
+	string full_name = 7;
+	string battle_tag = 8;
+	bool muted = 9;
+	bool manual_review = 10;
+	bool account_paid_any = 11;
+	string email = 13;
 	bool headless_account = 14;
+	bool test_account = 15;
 }
 
 // ref: bnet.protocol.account.AccountLicense

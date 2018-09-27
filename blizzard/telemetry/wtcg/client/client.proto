@@ -117,10 +117,19 @@ message AttributionLogin {
 
 // ref: Blizzard.Telemetry.WTCG.Client.AttributionPurchase
 message AttributionPurchase {
+	// ref: Blizzard.Telemetry.WTCG.Client.AttributionPurchase/PaymentInfo
+	message PaymentInfo {
+		string currency_code = 10;
+		bool is_virtual_currency = 20;
+		float amount = 30;
+	}
+
 	string purchase_type = 1;
 	float amount = 2;
 	string currency = 3;
 	string transaction_id = 4;
+	int32 quantity = 5;
+	repeated PaymentInfo payments = 6 [packed=false];
 	string application_id = 100;
 	string device_type = 101;
 	uint64 first_install_date = 102;
@@ -165,6 +174,40 @@ message AttributionVirtualCurrencyTransaction {
 	string device_type = 101;
 	uint64 first_install_date = 102;
 	string bundle_id = 103;
+}
+
+// ref: Blizzard.Telemetry.WTCG.Client.BlizzardCheckoutPurchaseCancel
+message BlizzardCheckoutPurchaseCancel {
+	Player player = 1;
+	DeviceInfo device_info = 2;
+}
+
+// ref: Blizzard.Telemetry.WTCG.Client.BlizzardCheckoutPurchaseCompletedFailure
+message BlizzardCheckoutPurchaseCompletedFailure {
+	Player player = 1;
+	DeviceInfo device_info = 2;
+	string transaction_id = 3;
+	string product_id = 4;
+	string currency = 5;
+	repeated string error_codes = 6 [packed=false];
+}
+
+// ref: Blizzard.Telemetry.WTCG.Client.BlizzardCheckoutPurchaseCompletedSuccess
+message BlizzardCheckoutPurchaseCompletedSuccess {
+	Player player = 1;
+	DeviceInfo device_info = 2;
+	string transaction_id = 3;
+	string product_id = 4;
+	string currency = 5;
+}
+
+// ref: Blizzard.Telemetry.WTCG.Client.BlizzardCheckoutPurchaseStart
+message BlizzardCheckoutPurchaseStart {
+	Player player = 1;
+	DeviceInfo device_info = 2;
+	string transaction_id = 3;
+	string product_id = 4;
+	string currency = 5;
 }
 
 // ref: Blizzard.Telemetry.WTCG.Client.ChangePackQuantity
@@ -312,11 +355,37 @@ message FriendsListView {
 	string current_scene = 2;
 }
 
+// ref: Blizzard.Telemetry.WTCG.Client.GameRoundStartAudioSettings
+message GameRoundStartAudioSettings {
+	DeviceInfo device_info = 1;
+	Player player = 2;
+	bool device_muted = 3;
+	float device_volume = 4;
+	float master_volume = 5;
+	float music_volume = 6;
+}
+
 // ref: Blizzard.Telemetry.WTCG.Client.IgnorableBattleNetError
 message IgnorableBattleNetError {
 	DeviceInfo device_info = 1;
 	int32 error_code = 2;
 	string description = 3;
+}
+
+// ref: Blizzard.Telemetry.WTCG.Client.IKSClicked
+message IKSClicked {
+	Player player = 1;
+	DeviceInfo device_info = 2;
+	string iks_campaign_name = 3;
+	string iks_media_url = 4;
+}
+
+// ref: Blizzard.Telemetry.WTCG.Client.IKSIgnored
+message IKSIgnored {
+	Player player = 1;
+	DeviceInfo device_info = 2;
+	string iks_campaign_name = 3;
+	string iks_media_url = 4;
 }
 
 // ref: Blizzard.Telemetry.WTCG.Client.InitialClientStateOutOfOrder
@@ -383,6 +452,13 @@ message MasterVolumeChanged {
 	float new_volume = 5;
 }
 
+// ref: Blizzard.Telemetry.WTCG.Client.MissingAssetError
+message MissingAssetError {
+	DeviceInfo device_info = 1;
+	string missing_asset_path = 2;
+	string asset_context = 3;
+}
+
 // ref: Blizzard.Telemetry.WTCG.Client.MusicVolumeChanged
 message MusicVolumeChanged {
 	Player player = 1;
@@ -445,6 +521,20 @@ message PresenceChanged {
 message PresenceStatus {
 	int64 presence_id = 1;
 	int64 presence_sub_id = 2;
+}
+
+// ref: Blizzard.Telemetry.WTCG.Client.PurchaseCancelClicked
+message PurchaseCancelClicked {
+	Player player = 1;
+	DeviceInfo device_info = 2;
+	string product_id = 3;
+}
+
+// ref: Blizzard.Telemetry.WTCG.Client.PurchasePayNowClicked
+message PurchasePayNowClicked {
+	Player player = 1;
+	DeviceInfo device_info = 2;
+	string product_id = 3;
 }
 
 // ref: Blizzard.Telemetry.WTCG.Client.ReconnectSuccess

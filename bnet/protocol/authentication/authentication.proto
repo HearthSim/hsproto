@@ -32,6 +32,16 @@ message GenerateSSOTokenResponse {
 	bytes sso_secret = 2;
 }
 
+// ref: bnet.protocol.authentication.GenerateWebCredentialsRequest
+message GenerateWebCredentialsRequest {
+	fixed32 program = 1;
+}
+
+// ref: bnet.protocol.authentication.GenerateWebCredentialsResponse
+message GenerateWebCredentialsResponse {
+	bytes web_credentials = 1;
+}
+
 // ref: bnet.protocol.authentication.LogonQueueUpdateRequest
 message LogonQueueUpdateRequest {
 	uint32 position = 1;

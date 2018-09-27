@@ -1,5 +1,5 @@
 syntax = "proto3";
-package pegasusutil;
+package pegasus.pegasusutil;
 
 // Proto extractor compiled unit - https://github.com/HearthSim/proto-extractor
 
@@ -361,6 +361,7 @@ message Bundle {
 	string real_money_product_event_name = 11;
 	uint64 cost = 12;
 	bool is_pre_purchase = 13;
+	int64 pmt_product_id = 14;
 }
 
 // ref: PegasusUtil.BundleItem
@@ -1079,6 +1080,7 @@ message GenericResponse {
 		RESULT_INVALID_REQUEST = 103;
 		RESULT_LOGIN_LOAD = 104;
 		RESULT_DATA_MIGRATION_OR_PLAYER_ID_ERROR = 105;
+		RESULT_INTERNAL_RPC_ERROR = 106;
 	}
 
 	Result result_code = 1;
@@ -1262,6 +1264,28 @@ message GetRecruitAFriendURL {
 	pegasus.pegasusshared.Platform platform = 1;
 }
 
+// ref: PegasusUtil.GetServerTimeRequest
+message GetServerTimeRequest {
+	// ref: PegasusUtil.GetServerTimeRequest/PacketID
+	enum PacketID {
+		system = 0;
+		ID = 364;
+	}
+
+	int64 client_unix_time = 1;
+}
+
+// ref: PegasusUtil.GetServerTimeResponse
+message GetServerTimeResponse {
+	// ref: PegasusUtil.GetServerTimeResponse/PacketID
+	enum PacketID {
+		PACKETID_AUTO_INVALID = 0;
+		ID = 365;
+	}
+
+	int64 server_unix_time = 1;
+}
+
 // ref: PegasusUtil.GetThirdPartyPurchaseStatus
 message GetThirdPartyPurchaseStatus {
 	// ref: PegasusUtil.GetThirdPartyPurchaseStatus/PacketID
@@ -1331,6 +1355,8 @@ message GuardianVars {
 	bool fsg_login_scan_enabled = 40;
 	int32 fsg_max_presence_pubscribed_patron_count = 41;
 	bool quick_pack_opening_allowed = 42;
+	bool allow_ios_highres = 43;
+	bool simple_checkout = 44;
 }
 
 // ref: PegasusUtil.HeroXP
@@ -1373,6 +1399,29 @@ message InitialClientState {
 	pegasus.pegasusshared.GameConnectionInfo disconnected_game = 10;
 	ArenaSessionResponse arena_session = 11;
 	int32 display_banner = 12;
+	repeated pegasus.pegasusshared.DeckInfo decks = 13 [packed=false];
+	MedalInfo medal_info = 14;
+}
+
+// ref: PegasusUtil.LeaguePromoteSelfRequest
+message LeaguePromoteSelfRequest {
+	// ref: PegasusUtil.LeaguePromoteSelfRequest/PacketID
+	enum PacketID {
+		system = 0;
+		ID = 367;
+	}
+
+}
+
+// ref: PegasusUtil.LeaguePromoteSelfResponse
+message LeaguePromoteSelfResponse {
+	// ref: PegasusUtil.LeaguePromoteSelfResponse/PacketID
+	enum PacketID {
+		PACKETID_AUTO_INVALID = 0;
+		ID = 368;
+	}
+
+	pegasus.pegasusshared.ErrorCode error_code = 1;
 }
 
 // ref: PegasusUtil.LocateCheatServerRequest
@@ -1438,13 +1487,14 @@ message MedalInfoData {
 	int32 stars = 6;
 	int32 streak = 7;
 	int32 star_level = 8;
-	int32 level_start = 9;
-	int32 level_end = 10;
-	bool can_lose_level = 11;
+	int32 level_start_deprecated = 9;
+	int32 level_end_deprecated = 10;
+	bool can_lose_level_deprecated = 11;
 	int32 legend_rank = 13;
 	int32 best_star_level = 14;
-	bool can_lose_stars = 15;
+	bool can_lose_stars_deprecated = 15;
 	int32 season_games = 16;
+	int32 league_id = 17;
 }
 
 // ref: PegasusUtil.NearbyPlayer
@@ -1585,6 +1635,7 @@ message ProfileNotice {
 	pegasus.pegasusshared.ProfileNoticeTavernBrawlRewards tavern_brawl_rewards = 21;
 	pegasus.pegasusshared.ProfileNoticeTavernBrawlTicket tavern_brawl_ticket = 22;
 	pegasus.pegasusshared.ProfileNoticeGenericRewardChest generic_reward_chest = 23;
+	pegasus.pegasusshared.ProfileNoticeLeaguePromotionRewards league_promotion_rewards = 24;
 }
 
 // ref: PegasusUtil.ProfileNotices
@@ -1771,6 +1822,23 @@ message RenameDeck {
 
 	int64 deck = 1;
 	string name = 2;
+}
+
+// ref: PegasusUtil.ReportBlizzardCheckoutStatus
+message ReportBlizzardCheckoutStatus {
+	// ref: PegasusUtil.ReportBlizzardCheckoutStatus/PacketID
+	enum PacketID {
+		PACKETID_AUTO_INVALID = 0;
+		system = 1;
+		ID = 366;
+	}
+
+	pegasus.pegasusshared.BlizzardCheckoutStatus status = 1;
+	string transaction_id = 2;
+	string product_id = 3;
+	string legacy_product_id = 4;
+	string currency = 5;
+	int64 client_unix_time = 6;
 }
 
 // ref: PegasusUtil.RequestTavernBrawlInfo
