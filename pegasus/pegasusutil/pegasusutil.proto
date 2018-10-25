@@ -1567,17 +1567,6 @@ message PlayerRecords {
 	repeated PlayerRecord records = 1 [packed=false];
 }
 
-// ref: PegasusUtil.PlayQueue
-message PlayQueue {
-	// ref: PegasusUtil.PlayQueue/PacketID
-	enum PacketID {
-		PACKETID_AUTO_INVALID = 0;
-		ID = 286;
-	}
-
-	pegasus.pegasusshared.PlayQueueInfo queue = 1;
-}
-
 // ref: PegasusUtil.ProcessRecruitAFriend
 message ProcessRecruitAFriend {
 	// ref: PegasusUtil.ProcessRecruitAFriend/PacketID

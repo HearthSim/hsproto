@@ -86,6 +86,9 @@ message AttributionInstall {
 	string device_type = 101;
 	uint64 first_install_date = 102;
 	string bundle_id = 103;
+	string referrer = 200;
+	string apple_search_ads_json = 300;
+	int32 apple_search_ads_error_code = 301;
 }
 
 // ref: Blizzard.Telemetry.WTCG.Client.AttributionItemTransaction
