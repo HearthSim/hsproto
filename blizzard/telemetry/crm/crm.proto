@@ -1,0 +1,68 @@
+syntax = "proto3";
+package blizzard.telemetry.crm;
+
+// Proto extractor compiled unit - https://github.com/HearthSim/proto-extractor
+
+
+// ref: Blizzard.Telemetry.CRM.CrmEvent
+message CrmEvent {
+	string event_name = 10;
+	string event_payload = 20;
+	string application_id = 30;
+}
+
+// ref: Blizzard.Telemetry.CRM.PushEvent
+message PushEvent {
+	string campaign_id = 10;
+	string event_payload = 20;
+	string application_id = 30;
+}
+
+// ref: Blizzard.Telemetry.CRM.PushRegistration
+message PushRegistration {
+	string push_id = 10;
+	int32 utc_offset = 20;
+	string timezone = 30;
+	string application_id = 40;
+	string language = 50;
+	string os = 60;
+	string os_version = 70;
+	string device_height = 80;
+	string device_width = 90;
+	string device_dpi = 100;
+}
+
+// ref: Blizzard.Telemetry.CRM.RealMoneyTransaction
+message RealMoneyTransaction {
+	string application_id = 10;
+	string app_store = 20;
+	string receipt = 30;
+	string receipt_signature = 40;
+	string product_id = 50;
+	string item_cost = 60;
+	string item_quantity = 70;
+	string local_currency = 80;
+	string transaction_id = 900;
+}
+
+// ref: Blizzard.Telemetry.CRM.SessionEnd
+message SessionEnd {
+	string application_id = 30;
+}
+
+// ref: Blizzard.Telemetry.CRM.SessionStart
+message SessionStart {
+	string event_payload = 20;
+	string application_id = 30;
+}
+
+// ref: Blizzard.Telemetry.CRM.VirtualCurrencyTransaction
+message VirtualCurrencyTransaction {
+	string application_id = 10;
+	string item_id = 20;
+	string item_cost = 30;
+	string item_quantity = 40;
+	string currency = 50;
+	string payload = 60;
+}
+

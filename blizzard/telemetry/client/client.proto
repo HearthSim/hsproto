@@ -1,5 +1,5 @@
 syntax = "proto3";
-package blizzard.telemetry.wtcg.client;
+package blizzard.telemetry.client;
 
 // Proto extractor compiled unit - https://github.com/HearthSim/proto-extractor
 
@@ -566,8 +566,9 @@ message ReturningPlayerDeckNotCreated {
 message RuntimeUpdate {
 	// ref: Blizzard.Telemetry.WTCG.Client.RuntimeUpdate/Intention
 	enum Intention {
-		HIGH_RES = 0;
+		GOLDEN_ANIMATIONS = 0;
 		UNINITIALIZED = -1;
+		HIGH_RES = 1;
 		DONE = 100;
 	}
 

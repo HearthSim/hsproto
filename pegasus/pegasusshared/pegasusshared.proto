@@ -807,6 +807,7 @@ message ProfileNoticeMedal {
 	RewardChest chest = 4;
 	MedalType medal_type = 5;
 	int32 league_id = 6;
+	bool was_limited_by_best_ever_star_level = 7;
 }
 
 // ref: PegasusShared.ProfileNoticePreconDeck
